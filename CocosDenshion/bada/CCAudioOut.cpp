@@ -558,7 +558,7 @@ result CCAudioOut::Reset(void)
 	AudioOutState state = __pAudioOut->GetState();
 	result r = E_SUCCESS;
 
-	if(state == AUDIOOUT_STATE_PLAYING || state == AUDIOOUT_STATE_STOPPED)
+	if(state == AUDIOOUT_STATE_PLAYING)
 	{
 		AppLog("reset ...");
 		r = __pAudioOut->Reset();
@@ -566,10 +566,8 @@ result CCAudioOut::Reset(void)
 		{
 			AppLog("[Error] AudioOut Reset is failed");
 		}
-
+		ReWriteBuffer();
 	}
-
-	ReWriteBuffer();
 
 	return r;
 }
