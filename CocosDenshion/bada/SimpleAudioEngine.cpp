@@ -441,6 +441,14 @@ void SimpleAudioEngine::stopEffect(unsigned int nSoundId)
 	}
 }
 
+void SimpleAudioEngine::stopAllEffects()
+{
+	for (EffectList::iterator it = s_List.begin(); it != s_List.end(); ++it)
+	{
+		it->second->Reset();
+	}
+}
+
 void SimpleAudioEngine::preloadEffect(const char* pszFilePath)
 {
 	int nRet = 0;

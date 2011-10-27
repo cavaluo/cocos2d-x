@@ -36,7 +36,7 @@
 									<listOptionValue builtIn="false" value="_DEBUG"/>
 									<listOptionValue builtIn="false" value="CC_BADA_2_0"/>
 								</option>
-								<option id="osp.gnu.target.cpp.compiler.debug.so.option.include.paths.716302668" superClass="osp.gnu.target.cpp.compiler.debug.so.option.include.paths" valueType="includePath">
+								<option id="osp.gnu.target.cpp.compiler.debug.so.option.include.paths.716302668" name="Include paths (-I)" superClass="osp.gnu.target.cpp.compiler.debug.so.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${SDKROOT}/include&quot;"/>
 									<listOptionValue builtIn="false" value="../../../include"/>
 								</option>
@@ -513,7 +513,7 @@
 									<listOptionValue builtIn="false" value="SHP"/>
 									<listOptionValue builtIn="false" value="CC_BADA_2_0"/>
 								</option>
-								<option id="osp.gnu.target.cpp.compiler.release.so.option.include.paths.620428582" superClass="osp.gnu.target.cpp.compiler.release.so.option.include.paths" valueType="includePath">
+								<option id="osp.gnu.target.cpp.compiler.release.so.option.include.paths.620428582" name="Include paths (-I)" superClass="osp.gnu.target.cpp.compiler.release.so.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${SDKROOT}/include&quot;"/>
 									<listOptionValue builtIn="false" value="../../../include"/>
 								</option>
