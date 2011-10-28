@@ -115,8 +115,6 @@ public:
 	virtual void OnKeyLongPressed(const Osp::Ui::Control& source, Osp::Ui::KeyCode keyCode){}
 	virtual void OnLowMemory(void);
 	virtual void OnBatteryLevelChanged(Osp::System::BatteryLevel batteryLevel);
-	virtual void OnScreenOn (void);
-	virtual void OnScreenOff (void);
 	virtual void OnTimerExpired(Osp::Base::Runtime::Timer& timer);
 protected:
 	Osp::Base::Runtime::Timer* m_pTimer;

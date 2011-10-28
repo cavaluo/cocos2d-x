@@ -147,7 +147,7 @@ int CCAudioOut::DecodeOgg(const char *infile)
             done += ret/size;
             if((double)done/(double)length * 200. > (double)percent) {
                 percent = (double)done/(double)length *200;
-                AppLog("\r\t[%5.1f%%]", (double)percent/2.);
+//                AppLog("[%5.1f%%]", (double)percent/2.);
             }
         }
     }

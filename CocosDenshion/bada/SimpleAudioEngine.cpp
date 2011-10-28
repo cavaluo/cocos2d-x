@@ -274,7 +274,7 @@ void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop)
 
 	setBackgroundMusicVolume(s_fBackgroundMusicVolume);
 
-    if (bRet && s_fBackgroundMusicVolume > 0.0f)
+    if (bRet)
     {
     	r = s_pBackPlayer->Play();
     }
