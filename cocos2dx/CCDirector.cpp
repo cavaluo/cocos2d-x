@@ -236,7 +236,7 @@ void CCDirector::drawScene(void)
 #endif
 	if (m_bDisplayFPS)
 	{
-//cjh		showFPS();
+		showFPS();
 	}
 
 #if CC_ENABLE_PROFILERS
