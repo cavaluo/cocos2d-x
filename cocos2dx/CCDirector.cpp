@@ -66,7 +66,11 @@ namespace  cocos2d
 // singleton stuff
 static CCDisplayLinkDirector s_sharedDirector;
 static bool s_bFirstRun = true;
-
+#if CC_ENABLE_PROFILERS
+static CCProfilingTimer* m_profilingTimerMainloop = NULL;
+static CCProfilingTimer* m_profilingTimerReleaseObj = NULL;
+static CCProfilingTimer* m_profilingTimerSwapBuffer = NULL;
+#endif
 #define kDefaultFPS		60  // 60 frames per second
 extern const char* cocos2dVersion(void);
 
@@ -125,7 +129,13 @@ bool CCDirector::init(void)
 
 	// create autorelease pool
 	CCPoolManager::getInstance()->push();
-
+#if CC_ENABLE_PROFILERS
+	m_profilingTimerTick = CCProfiler::timerWithName("Tick", this);
+	m_profilingTimerDraw = CCProfiler::timerWithName("Draw", this);
+	m_profilingTimerMainloop = CCProfiler::timerWithName("Mainloop", this);
+	m_profilingTimerReleaseObj = CCProfiler::timerWithName("releaseObj", this);
+	m_profilingTimerSwapBuffer = CCProfiler::timerWithName("Swapbuffer", this);
+#endif
 	return true;
 }
 	
@@ -183,7 +193,13 @@ void CCDirector::drawScene(void)
 	//tick before glClear: issue #533
 	if (! m_bPaused)
 	{
+#if CC_ENABLE_PROFILERS
+		CCProfilingBeginTimingBlock(m_profilingTimerTick);
+#endif
 		CCScheduler::sharedScheduler()->tick(m_fDeltaTime);
+#if CC_ENABLE_PROFILERS
+		CCProfilingEndTimingBlock(m_profilingTimerTick);
+#endif
 	}
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -201,7 +217,9 @@ void CCDirector::drawScene(void)
 
 	// By default enable VertexArray, ColorArray, TextureCoordArray and Texture2D
 	CC_ENABLE_DEFAULT_GL_STATES();
-
+#if CC_ENABLE_PROFILERS
+	CCProfilingBeginTimingBlock(m_profilingTimerDraw);
+#endif
 	// draw the scene
     if (m_pRunningScene)
     {
@@ -213,10 +231,12 @@ void CCDirector::drawScene(void)
 	{
 		m_pNotificationNode->visit();
 	}
-
+#if CC_ENABLE_PROFILERS
+	CCProfilingEndTimingBlock(m_profilingTimerDraw);
+#endif
 	if (m_bDisplayFPS)
 	{
-		showFPS();
+//cjh		showFPS();
 	}
 
 #if CC_ENABLE_PROFILERS
@@ -232,7 +252,13 @@ void CCDirector::drawScene(void)
 	// swap buffers
 	if (m_pobOpenGLView)
     {
+#if CC_ENABLE_PROFILERS
+		CCProfilingBeginTimingBlock(m_profilingTimerSwapBuffer);
+#endif
         m_pobOpenGLView->swapBuffers();
+#if CC_ENABLE_PROFILERS
+		CCProfilingEndTimingBlock(m_profilingTimerSwapBuffer);
+#endif
     }
 }
 
@@ -878,6 +904,9 @@ void CCDisplayLinkDirector::startAnimation(void)
 
 void CCDisplayLinkDirector::mainLoop(void)
 {
+#if CC_ENABLE_PROFILERS
+	CCProfilingBeginTimingBlock(m_profilingTimerMainloop);
+#endif
 	if (m_bPurgeDirecotorInNextLoop)
 	{
 		purgeDirector();
@@ -886,10 +915,18 @@ void CCDisplayLinkDirector::mainLoop(void)
 	else if (! m_bInvalid)
  	{
  		drawScene();
-	 
+#if CC_ENABLE_PROFILERS
+		CCProfilingBeginTimingBlock(m_profilingTimerReleaseObj);
+#endif
  		// release the objects
- 		CCPoolManager::getInstance()->pop();		
+ 		CCPoolManager::getInstance()->pop();
+#if CC_ENABLE_PROFILERS
+		CCProfilingEndTimingBlock(m_profilingTimerReleaseObj);
+#endif
  	}
+#if CC_ENABLE_PROFILERS
+	CCProfilingEndTimingBlock(m_profilingTimerMainloop);
+#endif
 }
 
 void CCDisplayLinkDirector::stopAnimation(void)

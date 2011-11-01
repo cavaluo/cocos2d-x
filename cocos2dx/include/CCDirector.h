@@ -36,8 +36,11 @@ THE SOFTWARE.
 #include "CCEGLView.h"
 #include "CCGL.h"
 
-namespace   cocos2d {
 
+namespace   cocos2d {
+#if CC_ENABLE_PROFILERS
+	class CCProfilingTimer;
+#endif // CC_ENABLE_PROFILERS
 /** @typedef ccDirectorProjection
  Possible OpenGL projections used by director
  */
@@ -469,6 +472,8 @@ protected:
 	
 #if CC_ENABLE_PROFILERS
 	ccTime m_fAccumDtForProfiler;
+	CCProfilingTimer* m_profilingTimerTick;
+	CCProfilingTimer* m_profilingTimerDraw;
 #endif
 };
 

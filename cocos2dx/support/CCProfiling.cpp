@@ -126,7 +126,7 @@ namespace cocos2d
 		CCTime::timersubCocos2d(&currentTime, pTimer->getStartTime(), &currentTime);
 		double duration = currentTime.tv_sec * 1000.0 + currentTime.tv_usec / 1000.0;
 
-		// return in milliseconds
+		// return in milliseconds 
 		pTimer->setAverageTime((pTimer->getAverageTime() + duration) / 2.0f);
 	}
 
