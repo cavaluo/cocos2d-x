@@ -98,7 +98,7 @@ public:
     bool equals(const CCRect& rect) const;   
     bool containsPoint(const CCPoint& point) const;
     bool intersectsRect(const CCRect& rect) const;
-    
+    CCRect getIntersectRect(const CCRect& rect) const;
 public:
     /** @deprecated use CCRect::equals(const CCRect&) instead, like r1.equals(r2) */
     CC_DEPRECATED_ATTRIBUTE static bool CCRectEqualToRect(const CCRect& rect1, const CCRect& rect2);

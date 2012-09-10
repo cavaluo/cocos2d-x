@@ -780,3 +780,5 @@ unsigned int CCTexture2D::bitsPerPixelForFormat()
 
 
 NS_CC_END
+
+

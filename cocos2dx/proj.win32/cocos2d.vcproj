@@ -924,6 +924,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\textures\CCTexture2DBlock.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\textures\CCTexture2DBlock.h"
+				>
+			</File>
+			<File
 				RelativePath="..\textures\CCTextureAtlas.cpp"
 				>
 			</File>

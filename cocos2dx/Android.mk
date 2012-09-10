@@ -116,6 +116,7 @@ support/zip_support/unzip.cpp \
 text_input_node/CCIMEDispatcher.cpp \
 text_input_node/CCTextFieldTTF.cpp \
 textures/CCTexture2D.cpp \
+textures/CCTexture2DBlock.cpp \
 textures/CCTextureAtlas.cpp \
 textures/CCTextureCache.cpp \
 textures/CCTexturePVR.cpp \

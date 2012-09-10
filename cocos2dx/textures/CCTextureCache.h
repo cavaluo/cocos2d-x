@@ -30,6 +30,7 @@ THE SOFTWARE.
 #include "cocoa/CCObject.h"
 #include "cocoa/CCDictionary.h"
 #include "textures/CCTexture2D.h"
+#include "textures/CCTexture2DBlock.h"
 #include <string>
 
 
@@ -171,6 +172,10 @@ public:
     It's only useful when the value of CC_ENABLE_CACHE_TEXTURE_DATA is 1
     */
     static void reloadAllTextures();
+
+    // add by kunlun
+    cocos2d::CCTexture2DBlock* addTextureBlock(const char* file,CCPoint origin,CCSize textSize,const char* name);
+    cocos2d::CCTexture2DBlock* addTextureBlock(CCImage* image,CCPoint origin,CCSize textSize,const char* file,const char* name);
 };
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA

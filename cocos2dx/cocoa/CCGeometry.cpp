@@ -218,6 +218,20 @@ bool CCRect::intersectsRect(const CCRect& rect) const
              rect.getMaxY() <      getMinY());
 }
 
+CCRect CCRect::getIntersectRect(const CCRect& rect) const
+{
+    CCRect ret;
+    if (intersectsRect(rect))
+    {
+        ret.origin.x = MAX(this->origin.x, rect.origin.x);
+        ret.origin.y = MAX(this->origin.y, rect.origin.y);
+        ret.size.width = MIN(this->origin.x + this->size.width, rect.origin.x+rect.size.width) - ret.origin.x;
+        ret.size.height = MIN(this->origin.y + this->size.height, rect.origin.y+rect.size.height) - ret.origin.y;
+    }
+    
+    return ret;
+}
+
 bool CCRect::CCRectEqualToRect(const CCRect& rect1, const CCRect& rect2)
 {
     return rect1.equals(rect2);
