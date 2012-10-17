@@ -336,7 +336,10 @@ LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam, BOOL* pProcessed)
             CCEGLView::sharedOpenGLView()->resize((int)s_startupWidth / 2, (int)s_startupHeight / 2);
             CCEGLView::sharedOpenGLView()->centerWindow();
             break;
-
+        case ID_VIEW_ZOOMOUT_25:
+            CCEGLView::sharedOpenGLView()->resize((int)s_startupWidth / 4, (int)s_startupHeight / 4);
+            CCEGLView::sharedOpenGLView()->centerWindow();
+            break;
         case IDM_EXIT:
             DestroyWindow(s_hWnd);
             break;

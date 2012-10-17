@@ -6,7 +6,7 @@
 #define kDesignResolution_1024x768   1
 #define kDesignResolution_2048x1536  2
 
-#define kTargetDesignResolutionSize  kDesignResolution_2048x1536
+#define kTargetDesignResolutionSize  kDesignResolution_480x320
 
 #if (kTargetDesignResolutionSize == kDesignResolution_480x320)
 #define kDesignResolutionSize_width   480.0f

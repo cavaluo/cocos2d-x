@@ -130,6 +130,10 @@
   <ItemGroup>
     <ResourceCompile Include="LuaHostWin32.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="LuaHostWin32.ico" />
+    <None Include="small.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

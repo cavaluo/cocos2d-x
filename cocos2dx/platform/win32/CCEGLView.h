@@ -63,7 +63,7 @@ public:
     HWND getHWnd();
     void resize(int width, int height);
     void centerWindow();
-
+    virtual void setViewPortInPoints(float x , float y , float w , float h);
     typedef void (*LPFN_ACCELEROMETER_KEYHOOK)( UINT message,WPARAM wParam, LPARAM lParam );
     void setAccelerometerKeyHook( LPFN_ACCELEROMETER_KEYHOOK lpfnAccelerometerKeyHook );
 

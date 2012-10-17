@@ -40,4 +40,8 @@
       <Filter>win32</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="LuaHostWin32.ico" />
+    <None Include="small.ico" />
+  </ItemGroup>
 </Project>

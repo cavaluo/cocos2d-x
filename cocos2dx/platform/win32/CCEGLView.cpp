@@ -642,6 +642,8 @@ void CCEGLView::resize(int width, int height)
     // change width and height
     SetWindowPos(m_hWnd, 0, 0, 0, width + ptDiff.x, height + ptDiff.y,
                  SWP_NOCOPYBITS | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+
+    CCDirector::sharedDirector()->setProjection(CCDirector::sharedDirector()->getProjection());
 }
 
 void CCEGLView::setFrameSize(float width, float height)
@@ -682,6 +684,14 @@ void CCEGLView::centerWindow()
     offsetY = (offsetY > 0) ? offsetY : rcDesktop.top;
 
     SetWindowPos(m_hWnd, 0, offsetX, offsetY, 0, 0, SWP_NOCOPYBITS | SWP_NOSIZE | SWP_NOOWNERZORDER | SWP_NOZORDER);
+}
+
+void CCEGLView::setViewPortInPoints(float x , float y , float w , float h)
+{
+    glViewport((GLint)(x * m_fScaleX / m_windowTouchScaleX + m_obViewPortRect.origin.x / m_windowTouchScaleX),
+        (GLint)(y * m_fScaleY  / m_windowTouchScaleY + m_obViewPortRect.origin.y / m_windowTouchScaleY),
+        (GLsizei)(w * m_fScaleX / m_windowTouchScaleX),
+        (GLsizei)(h * m_fScaleY / m_windowTouchScaleY));
 }
 
 CCEGLView* CCEGLView::sharedOpenGLView()
