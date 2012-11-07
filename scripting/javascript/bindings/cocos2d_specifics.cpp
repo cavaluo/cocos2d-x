@@ -294,9 +294,9 @@ JSBool js_cocos2dx_CCMenuItemImage_create(JSContext *cx, uint32_t argc, jsval *v
 {
 	if (argc >= 2 && argc <= 5) {
 		jsval *argv = JS_ARGV(cx, vp);
-		const char *arg0; do { JSString *tmp = JS_ValueToString(cx, argv[0]); arg0 = JS_EncodeString(cx, tmp); } while (0);
-		const char *arg1; do { JSString *tmp = JS_ValueToString(cx, argv[1]); arg1 = JS_EncodeString(cx, tmp); } while (0);
-		const char *arg2 = NULL;
+        const char* arg0 = jsval_to_c_string(cx, argv[0]);
+		const char* arg1 = jsval_to_c_string(cx, argv[1]);
+		const char* arg2 = NULL;
 
 		JSBool thirdArgIsString = JS_TRUE;
 
@@ -307,7 +307,7 @@ JSBool js_cocos2dx_CCMenuItemImage_create(JSContext *cx, uint32_t argc, jsval *v
 		if (argc >= 3) {
 			thirdArgIsString = JSVAL_IS_STRING(argv[2]);
 			if (thirdArgIsString) {
-				do { JSString *tmp = JS_ValueToString(cx, argv[2]); arg2 = JS_EncodeString(cx, tmp); } while (0);
+                arg2 = jsval_to_c_string(cx, argv[2]);
 				last = 3;
 			}
 		}
@@ -364,8 +364,9 @@ JSBool js_cocos2dx_CCMenuItemAtlasFont_create(JSContext *cx, uint32_t argc, jsva
 {
 	if (argc >= 5) {
 		jsval *argv = JS_ARGV(cx, vp);
-		const char *arg0; do { JSString *tmp = JS_ValueToString(cx, argv[0]); arg0 = JS_EncodeString(cx, tmp); } while (0);
-		const char *arg1; do { JSString *tmp = JS_ValueToString(cx, argv[1]); arg1 = JS_EncodeString(cx, tmp); } while (0);
+		const char *arg0 = jsval_to_c_string(cx, argv[0]);
+		const char *arg1 = jsval_to_c_string(cx, argv[1]);
+
 		int arg2; if (!JS_ValueToInt32(cx, argv[2], &arg2)) return JS_FALSE;
 		int arg3; if (!JS_ValueToInt32(cx, argv[3], &arg3)) return JS_FALSE;
 		int arg4; if (!JS_ValueToInt32(cx, argv[4], &arg4)) return JS_FALSE;
@@ -383,7 +384,7 @@ JSBool js_cocos2dx_CCMenuItemFont_create(JSContext *cx, uint32_t argc, jsval *vp
 {
 	if (argc >= 1 && argc <= 3) {
 		jsval *argv = JS_ARGV(cx, vp);
-		const char *arg0; do { JSString *tmp = JS_ValueToString(cx, argv[0]); arg0 = JS_EncodeString(cx, tmp); } while (0);
+		const char *arg0 = jsval_to_c_string(cx, argv[0]);
 		cocos2d::CCMenuItemFont* ret = cocos2d::CCMenuItemFont::create(arg0);
 		JSObject *obj = bind_menu_item<cocos2d::CCMenuItemFont>(cx, ret, (argc >= 2 ? argv[1] : JSVAL_VOID), (argc == 3 ? argv[2] : JSVAL_VOID));
 		JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(obj));
@@ -401,7 +402,7 @@ JSBool js_cocos2dx_CCMenuItemToggle_create(JSContext *cx, uint32_t argc, jsval *
     cocos2d::CCMenuItemToggle* ret = cocos2d::CCMenuItemToggle::create();
         
         
-    for (int i=0; i < argc; i++) {
+    for (uint32_t i=0; i < argc; i++) {
       js_proxy_t *proxy;
       JSObject *tmpObj = JSVAL_TO_OBJECT(argv[i]);
       JS_GET_NATIVE_PROXY(proxy, tmpObj);

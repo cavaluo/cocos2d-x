@@ -337,8 +337,9 @@ void ScriptingCore::string_report(jsval val) {
         if (NULL == str) {
             LOGD("val : return string is NULL");
         } else {
-            LOGD("val : return string =\n%s\n",
-                 JS_EncodeString(this->getGlobalContext(), str));
+            char* cstr = JS_EncodeString(this->getGlobalContext(), str);
+            LOGD("val : return string =\n%s\n",cstr);
+            JS_free(this->getGlobalContext(), (void*)cstr);
         }
     } else if (JSVAL_IS_NUMBER(val)) {
         double number;
@@ -491,6 +492,7 @@ JSBool ScriptingCore::log(JSContext* cx, uint32_t argc, jsval *vp)
         if (string) {
             char *cstr = JS_EncodeString(cx, string);
             js_log(cstr);
+            JS_free(cx, (void*)cstr);
         }
     }
     return JS_TRUE;
@@ -532,6 +534,8 @@ JSBool ScriptingCore::executeScript(JSContext *cx, uint32_t argc, jsval *vp)
                 JS_free(cx, (void*)name);
                 res = ScriptingCore::getInstance()->runScript(path, rootedGlobal->get());
             } else {
+                JS_free(cx, (void*)path);
+                JS_free(cx, (void*)name);
                 JS_ReportError(cx, "Invalid global object: %s", name);
                 return JS_FALSE;
             }
@@ -897,7 +901,10 @@ std::string jsval_to_std_string(JSContext *cx, jsval v) {
 
 const char* jsval_to_c_string(JSContext *cx, jsval v) {
     JSString *tmp = JS_ValueToString(cx, v);
-    return JS_EncodeString(cx, tmp);
+    char* cstr = JS_EncodeString(cx, tmp);
+    CCString* pRet = CCString::create(cstr);
+    JS_free(cx, (void*)cstr);
+    return pRet->getCString();
 }
 
 CCPoint jsval_to_ccpoint(JSContext *cx, jsval v) {
@@ -1246,7 +1253,7 @@ JSBool jsNewGlobal(JSContext* cx, unsigned argc, jsval* vp)
     if (argc == 1) {
         jsval *argv = JS_ARGV(cx, vp);
         JSString *jsstr = JS_ValueToString(cx, argv[0]);
-        std::string key = JS_EncodeString(cx, jsstr);
+        char* key = JS_EncodeString(cx, jsstr);
         js::RootedObject *global = globals[key];
         if (!global) {
             JSObject* g = NewGlobalObject(cx);
@@ -1260,6 +1267,7 @@ JSBool jsNewGlobal(JSContext* cx, unsigned argc, jsval* vp)
                 callback(cx, g);
             }
         }
+        JS_free(cx, (void*)key);
         JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(*global));
         return JS_TRUE;
     }
