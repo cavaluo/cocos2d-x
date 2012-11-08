@@ -234,8 +234,8 @@ CCFiniteTimeAction* CCSequence::create(CCArray* arrayOfActions)
 
 bool CCSequence::initWithTwoActions(CCFiniteTimeAction *pActionOne, CCFiniteTimeAction *pActionTwo)
 {
-    CCAssert(pActionOne != NULL, "");
-    CCAssert(pActionTwo != NULL, "");
+    CCAssert(pActionOne != NULL, "Sequence: arguments must be non-NULL");
+    CCAssert(pActionTwo != NULL, "Sequence: arguments must be non-NULL");
 
     float d = pActionOne->getDuration() + pActionTwo->getDuration();
     CCActionInterval::initWithDuration(d);
@@ -776,7 +776,33 @@ bool CCRotateTo::initWithDuration(float duration, float fDeltaAngle)
 {
     if (CCActionInterval::initWithDuration(duration))
     {
-        m_fDstAngle = fDeltaAngle;
+        m_fDstAngleX = m_fDstAngleY = fDeltaAngle;
+        return true;
+    }
+
+    return false;
+}
+
+CCRotateTo* CCRotateTo::create(float t, float angleX, float angleY)
+{
+    CCRotateTo* pRet = new CCRotateTo();
+    if (pRet && pRet->initWithDuration(t, angleX, angleY))
+    {
+        pRet->autorelease();
+    }
+    else
+    {
+        CC_SAFE_DELETE(pRet);
+    }
+    return pRet;
+}
+
+bool CCRotateTo::initWithDuration(float t, float angleX, float angleY)
+{
+    if (CCActionInterval::initWithDuration(t))
+    {
+        m_fDstAngleX = angleX;
+        m_fDstAngleY = angleY;
         return true;
     }
 
@@ -800,7 +826,7 @@ CCObject* CCRotateTo::copyWithZone(CCZone *pZone)
 
     CCActionInterval::copyWithZone(pZone);
 
-    pCopy->initWithDuration(m_fDuration, m_fDstAngle);
+    pCopy->initWithDuration(m_fDuration, m_fDstAngleX, m_fDstAngleY);
 
     //Action *copy = [[[self class] allocWithZone: zone] initWithDuration:[self duration] angle: angle];
     CC_SAFE_DELETE(pNewZone);
@@ -811,26 +837,40 @@ void CCRotateTo::startWithTarget(CCNode *pTarget)
 {
     CCActionInterval::startWithTarget(pTarget);
 
-    m_fStartAngle = pTarget->getRotation();
+  //Calculate X
+    m_fStartAngleX = pTarget->getRotationX();
 
-    if (m_fStartAngle > 0)
+    m_fDiffAngleX = m_fDstAngleX - m_fStartAngleX;
+    if (m_fDiffAngleX > 180)
     {
-        m_fStartAngle = fmodf(m_fStartAngle, 360.0f);
+        m_fDiffAngleX -= 360;
+    }
+
+    if (m_fDiffAngleX < -180)
+    {
+        m_fDiffAngleX += 360;
+    }
+
+  //Calculate Y
+    m_fStartAngleY = pTarget->getRotationY();
+    if (m_fStartAngleY > 0)
+    {
+        m_fStartAngleY = fmodf(m_fStartAngleY, 360.0f);
     }
     else
     {
-        m_fStartAngle = fmodf(m_fStartAngle, -360.0f);
+        m_fStartAngleY = fmodf(m_fStartAngleY, -360.0f);
     }
 
-    m_fDiffAngle = m_fDstAngle - m_fStartAngle;
-    if (m_fDiffAngle > 180)
+    m_fDiffAngleY = m_fDstAngleY - m_fStartAngleY;
+    if (m_fDiffAngleY > 180)
     {
-        m_fDiffAngle -= 360;
+        m_fDiffAngleY -= 360;
     }
 
-    if (m_fDiffAngle < -180)
+    if (m_fDiffAngleY < -180)
     {
-        m_fDiffAngle += 360;
+        m_fDiffAngleY += 360;
     }
 }
 
@@ -838,7 +878,8 @@ void CCRotateTo::update(float time)
 {
     if (m_pTarget)
     {
-        m_pTarget->setRotation(m_fStartAngle + m_fDiffAngle * time);
+        m_pTarget->setRotationX(m_fStartAngleX + m_fDiffAngleX * time);
+        m_pTarget->setRotationY(m_fStartAngleY + m_fDiffAngleY * time);
     }
 }
 
@@ -863,10 +904,34 @@ bool CCRotateBy::initWithDuration(float duration, float fDeltaAngle)
 {
     if (CCActionInterval::initWithDuration(duration))
     {
-        m_fAngle = fDeltaAngle;
+        m_fAngleX = m_fAngleY = fDeltaAngle;
         return true;
     }
 
+    return false;
+}
+
+CCRotateBy* CCRotateBy::create(float t, float angleX, float angleY)
+{
+    CCRotateBy* pRet = new CCRotateBy();
+    if (pRet && pRet->initWithDuration(t, angleX, angleY))
+    {
+        pRet->autorelease();
+    }
+    else
+    {
+        CC_SAFE_DELETE(pRet);
+    }
+    return pRet;
+}
+
+bool CCRotateBy::initWithDuration(float t, float angleX, float angleY)
+{
+    if( CCActionInterval::initWithDuration(t) ){
+        m_fAngleX = angleX;
+        m_fAngleY = angleY;
+        return true;
+    }
     return false;
 }
 
@@ -887,7 +952,7 @@ CCObject* CCRotateBy::copyWithZone(CCZone *pZone)
 
     CCActionInterval::copyWithZone(pZone);
 
-    pCopy->initWithDuration(m_fDuration, m_fAngle);
+    pCopy->initWithDuration(m_fDuration, m_fAngleX, m_fAngleY);
 
     CC_SAFE_DELETE(pNewZone);
     return pCopy;
@@ -896,7 +961,8 @@ CCObject* CCRotateBy::copyWithZone(CCZone *pZone)
 void CCRotateBy::startWithTarget(CCNode *pTarget)
 {
     CCActionInterval::startWithTarget(pTarget);
-    m_fStartAngle = pTarget->getRotation();
+    m_fStartAngleX = pTarget->getRotationX();
+    m_fStartAngleY = pTarget->getRotationY();
 }
 
 void CCRotateBy::update(float time)
@@ -904,13 +970,14 @@ void CCRotateBy::update(float time)
     // XXX: shall I add % 360
     if (m_pTarget)
     {
-        m_pTarget->setRotation(m_fStartAngle + m_fAngle * time);
+        m_pTarget->setRotationX(m_fStartAngleX + m_fAngleX * time);
+        m_pTarget->setRotationY(m_fStartAngleY + m_fAngleY * time);
     }
 }
 
 CCActionInterval* CCRotateBy::reverse(void)
 {
-    return CCRotateBy::create(m_fDuration, -m_fAngle);
+    return CCRotateBy::create(m_fDuration, -m_fAngleX, -m_fAngleY);
 }
 
 //
@@ -1472,6 +1539,16 @@ CCBezierTo* CCBezierTo::create(float t, const ccBezierConfig& c)
     return pBezierTo;
 }
 
+bool CCBezierTo::initWithDuration(float t, const ccBezierConfig& c)
+{
+    if (CCActionInterval::initWithDuration(t))
+    {
+        m_sToConfig = c;
+        return true;
+    }
+
+    return false;
+}
 
 CCObject* CCBezierTo::copyWithZone(CCZone *pZone)
 {
@@ -1499,9 +1576,9 @@ CCObject* CCBezierTo::copyWithZone(CCZone *pZone)
 void CCBezierTo::startWithTarget(CCNode *pTarget)
 {
     CCBezierBy::startWithTarget(pTarget);
-    m_sConfig.controlPoint_1 = ccpSub(m_sConfig.controlPoint_1, m_startPosition);
-    m_sConfig.controlPoint_2 = ccpSub(m_sConfig.controlPoint_2, m_startPosition);
-    m_sConfig.endPosition = ccpSub(m_sConfig.endPosition, m_startPosition);
+    m_sConfig.controlPoint_1 = ccpSub(m_sToConfig.controlPoint_1, m_startPosition);
+    m_sConfig.controlPoint_2 = ccpSub(m_sToConfig.controlPoint_2, m_startPosition);
+    m_sConfig.endPosition = ccpSub(m_sToConfig.endPosition, m_startPosition);
 }
 
 //
@@ -1722,6 +1799,12 @@ CCObject* CCBlink::copyWithZone(CCZone *pZone)
     return pCopy;
 }
 
+void CCBlink::startWithTarget(CCNode *pTarget)
+{
+    CCActionInterval::startWithTarget(pTarget);
+    m_bOriginalState = pTarget->isVisible();
+}
+
 void CCBlink::update(float time)
 {
     if (m_pTarget && ! isDone())
@@ -1730,6 +1813,15 @@ void CCBlink::update(float time)
         float m = fmodf(time, slice);
         m_pTarget->setVisible(m > slice / 2 ? true : false);
     }
+}
+
+void CCBlink::stop(void)
+{
+    if (m_pTarget)
+    {
+        m_pTarget->setVisible(m_bOriginalState);
+    }
+    CCActionInterval::stop();
 }
 
 CCActionInterval* CCBlink::reverse(void)
@@ -2467,14 +2559,14 @@ CCObject* CCTargetedAction::copyWithZone(CCZone* pZone)
     }
     CCActionInterval::copyWithZone(pZone);
     // win32 : use the m_pOther's copy object.
-    pRet->initWithTarget(m_pTarget, (CCFiniteTimeAction*)m_pAction->copy()->autorelease()); 
+    pRet->initWithTarget(m_pForcedTarget, (CCFiniteTimeAction*)m_pAction->copy()->autorelease()); 
     CC_SAFE_DELETE(pNewZone);
     return pRet;
 }
 
 void CCTargetedAction::startWithTarget(CCNode *pTarget)
 {
-    CCActionInterval::startWithTarget(m_pForcedTarget);
+    CCActionInterval::startWithTarget(m_pTarget);
     m_pAction->startWithTarget(m_pForcedTarget);
 }
 

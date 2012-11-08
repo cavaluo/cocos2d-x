@@ -302,10 +302,19 @@ public:
     CC_DEPRECATED_ATTRIBUTE static CCRotateTo* actionWithDuration(float duration, float fDeltaAngle);
     /** creates the action */
     static CCRotateTo* create(float duration, float fDeltaAngle);
+
+    /** creates the action with separate rotation angles */
+    static CCRotateTo* create(float t, float angleX, float angleY);
+    bool initWithDuration(float t, float angleX, float angleY);
+
 protected:
-    float m_fDstAngle;
-    float m_fStartAngle;
-    float m_fDiffAngle;
+    float m_fDstAngleX;
+    float m_fStartAngleX;
+    float m_fDiffAngleX;
+
+    float m_fDstAngleY;
+    float m_fStartAngleY;
+    float m_fDiffAngleY;
 };
 
 /** @brief Rotates a CCNode object clockwise a number of degrees by modifying it's rotation attribute.
@@ -315,6 +324,7 @@ class CC_DLL CCRotateBy : public CCActionInterval
 public:
     /** initializes the action */
     bool initWithDuration(float duration, float fDeltaAngle);
+    bool initWithDuration(float t, float angleX, float angleY);
 
     virtual CCObject* copyWithZone(CCZone* pZone);
     virtual void startWithTarget(CCNode *pTarget);
@@ -328,9 +338,17 @@ public:
     CC_DEPRECATED_ATTRIBUTE static CCRotateBy* actionWithDuration(float duration, float fDeltaAngle);
     /** creates the action */
     static CCRotateBy* create(float duration, float fDeltaAngle);
+
+    /** creates the action with separate rotation angles */
+    static CCRotateBy* create(float t, float angleX, float angleY);
+    
+
 protected:
-    float m_fAngle;
-    float m_fStartAngle;
+    float m_fAngleX;
+    float m_fStartAngleX;
+
+    float m_fAngleY;
+    float m_fStartAngleY;
 };
 
 /** @brief Moves a CCNode object to the position x,y. x and y are absolute coordinates by modifying it's position attribute.
@@ -388,6 +406,7 @@ class CC_DLL CCSkewTo : public CCActionInterval
 {
 public:
     CCSkewTo();
+    /** initializes the action with duration, skew X and skew Y */
     virtual bool initWithDuration(float t, float sx, float sy);
     virtual CCObject* copyWithZone(CCZone* pZone);
     virtual void startWithTarget(CCNode *pTarget);
@@ -418,6 +437,7 @@ protected:
 class CC_DLL CCSkewBy : public CCSkewTo
 {
 public:
+    /** initializes the action with duration, skew X and skew Y */
     virtual bool initWithDuration(float t, float sx, float sy);
     virtual void startWithTarget(CCNode *pTarget);
     virtual CCActionInterval* reverse(void);
@@ -517,6 +537,7 @@ protected:
 class CC_DLL CCBezierTo : public CCBezierBy
 {
 public:
+    bool initWithDuration(float t, const ccBezierConfig& c);
     virtual void startWithTarget(CCNode *pTarget);
     virtual CCObject* copyWithZone(CCZone* pZone);
 
@@ -528,6 +549,8 @@ public:
 
     /** creates the action with a duration and a bezier configuration */
     static CCBezierTo* create(float t, const ccBezierConfig& c);
+protected:
+    ccBezierConfig m_sToConfig;
 };
 
 /** @brief Scales a CCNode object to a zoom factor by modifying it's scale attribute.
@@ -608,8 +631,10 @@ public:
     /** initializes the action */
     bool initWithDuration(float duration, unsigned int uBlinks);
 
+    virtual void startWithTarget(CCNode *pTarget);
     virtual CCObject* copyWithZone(CCZone* pZone);
     virtual void update(float time);
+    virtual void stop(void);
     virtual CCActionInterval* reverse(void);
 
 public:
@@ -621,6 +646,7 @@ public:
     static CCBlink* create(float duration, unsigned int uBlinks);
 protected:
     unsigned int m_nTimes;
+    bool m_bOriginalState;
 };
 
 /** @brief Fades In an object that implements the CCRGBAProtocol protocol. It modifies the opacity from 0 to 255.
@@ -821,12 +847,13 @@ public:
     CC_DEPRECATED_ATTRIBUTE static CCAnimate* actionWithAnimation(CCAnimation *pAnimation);
     /** creates the action with an Animation and will restore the original frame when the animation is over */
     static CCAnimate* create(CCAnimation *pAnimation);
+    /** animation used for the image */
     CC_SYNTHESIZE_RETAIN(CCAnimation*, m_pAnimation, Animation)
 protected:
     std::vector<float>* m_pSplitTimes;
     int                m_nNextFrame;
     CCSpriteFrame*  m_pOrigFrame;
-       unsigned int    m_uExecutedLoops;
+    unsigned int    m_uExecutedLoops;
 };
 
 /** Overrides the target of an action so that it always runs on the target
