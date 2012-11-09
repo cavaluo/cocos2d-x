@@ -8,7 +8,7 @@ namespace cocos2d { namespace plugin {
 class AnalyticsFlurry : public Analytics
 {
 public:
-	const char* getAgentVersion();
+	int  getAgentVersion();
 	void setVersionName(const char* versionName);
 	void setAge(int age);
 	void setGender(char gender);
