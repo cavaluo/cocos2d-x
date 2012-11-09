@@ -10,10 +10,10 @@ class AnalyticsUmeng : public Analytics
 public:
 	enum ReportPolicy
 	{
-		BATCH_AT_LAUNCH = 0,
-		REALTIME,
-		DAILY,
-		WIFIONLY
+		REALTIME = 0,
+		BATCH_AT_LAUNCH = 1,
+		DAILY = 4,
+		WIFIONLY = 5
 	}
 	const char* getConfigParams(const char* key);
 	void setDefaultReportPolicy(ReportPolicy ePolicy);
