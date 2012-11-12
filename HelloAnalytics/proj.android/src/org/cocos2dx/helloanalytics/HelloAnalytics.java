@@ -24,6 +24,9 @@ THE SOFTWARE.
 package org.cocos2dx.helloanalytics;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
+import org.cocos2dx.plugin.AnalyticsUmeng;
+import org.cocos2dx.plugin.AnalyticsWrapper;
+import org.cocos2dx.plugin.IAnalytics;
 
 import android.os.Bundle;
 
@@ -31,6 +34,9 @@ public class HelloAnalytics extends Cocos2dxActivity{
 
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		IAnalytics analyticsInstance = new AnalyticsUmeng(this);
+		//analyticsInstance.setDebugMode(true);
+		AnalyticsWrapper.init(analyticsInstance, this);
 	}
 	
     static {

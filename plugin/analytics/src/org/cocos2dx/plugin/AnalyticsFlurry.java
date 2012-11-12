@@ -27,7 +27,7 @@ public class AnalyticsFlurry implements IAnalytics {
 	}
 
 	@Override
-	public void setSessionContinueMillis(long millis) {
+	public void setSessionContinueMillis(int millis) {
 		// TODO Auto-generated method stub
 		FlurryAgent.setContinueSessionMillis(millis);
 	}
@@ -67,13 +67,6 @@ public class AnalyticsFlurry implements IAnalytics {
 	public void logTimedEventBegin(String eventId) {
 		// TODO Auto-generated method stub
 		FlurryAgent.logEvent(eventId, true);
-	}
-
-	@Override
-	public void logTimedEventBegin(String eventId,
-			Hashtable<String, String> paramMap) {
-		// TODO Auto-generated method stub
-		FlurryAgent.logEvent(eventId, paramMap, true);
 	}
 
 	@Override

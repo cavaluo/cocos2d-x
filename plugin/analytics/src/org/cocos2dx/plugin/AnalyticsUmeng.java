@@ -32,7 +32,7 @@ public class AnalyticsUmeng implements IAnalytics{
 	}
 
 	@Override
-	public void setSessionContinueMillis(long millis) {
+	public void setSessionContinueMillis(int millis) {
 		// TODO Auto-generated method stub
 		MobclickAgent.setSessionContinueMillis(millis);
 	}
@@ -77,46 +77,64 @@ public class AnalyticsUmeng implements IAnalytics{
 	}
 
 	@Override
-	public void logTimedEventBegin(String eventId,
-			Hashtable<String, String> paramMap) {
-		// TODO Auto-generated method stub
-		MobclickAgent.onKVEventBegin(mContext, eventId, paramMap, eventId);
-	}
-
-	@Override
 	public void logTimedEventEnd(String eventId) {
 		// TODO Auto-generated method stub
-		MobclickAgent.onKVEventEnd(mContext, eventId, eventId);
+		MobclickAgent.onEventEnd(mContext, eventId);
 	}
 
-	static String getConfigParams(String key) {
+	protected static String getConfigParams(String key) {
 		if (!isValid()) return null;
-		return MobclickAgent.getConfigParams(sThisObj.mContext, key);
+		String ret = MobclickAgent.getConfigParams(sThisObj.mContext, key);
+		return ret;
 	}
 	
-	static void setDefaultReportPolicy(int policy) {
+	protected static void updateOnlineConfig() {
+		if (!isValid()) return;
+		MobclickAgent.updateOnlineConfig(sThisObj.mContext);
+	}
+	
+	protected static void setDefaultReportPolicy(int policy) {
 		if (!isValid()) return;
 		MobclickAgent.setDefaultReportPolicy(sThisObj.mContext, policy);
 	}
 	
-	static void logEventWithLabel(String eventId, String label) {
+	protected static void logEventWithLabel(String eventId, String label) {
 		if (!isValid()) return;
 		MobclickAgent.onEvent(sThisObj.mContext, eventId, label);
 	}
 	
-	static void logEventWithDuration(String eventId, long duration) {
+	protected static void logEventWithDuration(String eventId, int duration) {
 		if (!isValid()) return;
 		MobclickAgent.onEventDuration(sThisObj.mContext, eventId, duration);
 	}
 	
-	static void logEventWithDuration(String eventId, long duration, String label) {
+	protected static void logEventWithDuration(String eventId, int duration, String label) {
 		if (!isValid()) return;
 	    MobclickAgent.onEventDuration(sThisObj.mContext, eventId, label, duration);
 	}
 	
-	static void logEventWithDuration(String eventId, long duration, Hashtable<String, String> paramMap) {
+	protected static void logEventWithDuration(String eventId, int duration, Hashtable<String, String> paramMap) {
 		if (!isValid()) return;
 		MobclickAgent.onEventDuration(sThisObj.mContext, eventId, paramMap, duration);
 	}
 	
+	protected static void logTimedEventWithLabelBegin(String eventId, String label) {
+		if (!isValid()) return;
+		MobclickAgent.onEventBegin(sThisObj.mContext, eventId, label);
+	}
+	
+	protected static void logTimedEventWithLabelEnd(String eventId, String label) {
+		if (!isValid()) return;
+		MobclickAgent.onEventEnd(sThisObj.mContext, eventId, label);
+	}
+	
+	protected static void logTimedKVEventBegin(String eventId, String label, Hashtable<String, String> paramMap) {
+		if (!isValid()) return;
+		MobclickAgent.onKVEventBegin(sThisObj.mContext, eventId, paramMap, label);
+	}
+	
+	protected static void logTimedKVEventEnd(String eventId, String label) {
+		if (!isValid()) return;
+		MobclickAgent.onKVEventEnd(sThisObj.mContext, eventId, label);
+	}
 }

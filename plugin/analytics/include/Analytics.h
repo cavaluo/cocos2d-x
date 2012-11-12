@@ -6,13 +6,11 @@
 
 namespace cocos2d { namespace plugin {
 
+typedef std::pair< std::string, std::string >   LogEventParamPair;
+typedef std::map< std::string, std::string >    LogEventParamMap;
+
 class AnalyticsProtocol
 {
-public:
-	typedef std::pair< std::string, std::string >   EventParamPair;
-	typedef std::map< std::string, std::string >    EventParamMap;
-
-	virtual ~AnalyticsProtocol();
 public:
 	/** Begin a new session. */
 	virtual void beginSession(const char* appKey);
@@ -25,14 +23,18 @@ public:
 	/** Set whether needs to output logs to console.*/
 	virtual void setDebugMode(bool isDebugMode);
 	/** log an error */
-	virtual void logError(const char* errorId, const char* message, const EventParamMap* pParams = NULL);
+	virtual void logError(const char* errorId, const char* message, const LogEventParamMap* pParams = NULL);
 	/** log an event. */
-	virtual void logEvent(const char* eventId, const EventParamMap* pParams = NULL);
+	virtual void logEvent(const char* eventId, const LogEventParamMap* pParams = NULL);
 	/** begin to log a timed event */
-	virtual void logTimedEventBegin(const char* eventId, const EventParamMap* pParams = NULL);
+	virtual void logTimedEventBegin(const char* eventId);
 	/** end a timed event */
 	virtual void logTimedEventEnd(const char* eventId);
 
+protected:
+	AnalyticsProtocol();
+public:
+	virtual ~AnalyticsProtocol();
 };
 
 }} // namespace cocos2d { namespace plugin {
