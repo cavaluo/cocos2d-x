@@ -12,7 +12,7 @@
 
         <activity android:name=".HelloAnalytics"
                   android:label="@string/app_name"
-                  android:screenOrientation="landscape"
+                  android:screenOrientation="portrait"
                   android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
                   android:configChanges="orientation">
             <intent-filter>
@@ -20,9 +20,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- Caution! Do not change this app key. It is only for demo usage.  -->
+		<meta-data android:value="509b76db5270150885000013" android:name="UMENG_APPKEY"></meta-data>
+
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>
+           
+        <service
+            android:name="com.umeng.common.net.DownloadingService"
+            android:exported="true"
+            android:process=":DownloadingService" >
+        </service>
+        
     </application>
     <supports-screens android:largeScreens="true"
                       android:smallScreens="true"
                       android:anyDensity="true"
                       android:normalScreens="true"/>
+    
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!-- Permission for Unit Test -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
 </manifest> 

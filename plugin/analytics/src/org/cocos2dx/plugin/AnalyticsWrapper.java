@@ -12,16 +12,16 @@ public class AnalyticsWrapper {
 	protected static boolean sIsDebug = false;
 	protected static IAnalytics sAnalytics = null;
 	protected static Context sContext = null;
-	protected static GLSurfaceView mGLSurfaceView = null; 
+	protected static GLSurfaceView sGLSurfaceView = null; 
 	protected static Handler sMainThreadHander = null;
 	
 	public static void LogD(String tag, String msg) { if (sIsDebug) Log.d(tag, msg); }
 	
-	public static void init(IAnalytics analyticsInstance, Context context, GLSurfaceView view)
+	public static void init(IAnalytics analyticsInstance, Context context)
 	{
 		sAnalytics = analyticsInstance;
 		sContext = context;
-		mGLSurfaceView = view;
+		//mGLSurfaceView = view;
 		if (null == sMainThreadHander) {
 			sMainThreadHander = new Handler();
 		}
@@ -48,7 +48,7 @@ public class AnalyticsWrapper {
 		sAnalytics.endSession();
 	}
 	
-	public static void setSessionContinueMillis(long millis)
+	public static void setSessionContinueMillis(int millis)
 	{
 		if (!isValid()) return;
 		sAnalytics.setSessionContinueMillis(millis);
@@ -90,12 +90,6 @@ public class AnalyticsWrapper {
 		sAnalytics.logTimedEventBegin(eventId);
 	}
 	
-	public static void logTimedEventBegin(String eventId, Hashtable<String, String> paramMap)
-	{
-		if (!isValid()) return;
-		sAnalytics.logTimedEventBegin(eventId, paramMap);
-	}
-	
 	public static void logTimedEventEnd(String eventId)
 	{
 		if (!isValid()) return;
@@ -104,8 +98,8 @@ public class AnalyticsWrapper {
 	
 	
 	public static void runOnGLThread(Runnable r) {
-		if (null == mGLSurfaceView) LogD("runOnGLThread", "getCocos2dxGLSurfaceView null!!!");
-		mGLSurfaceView.queueEvent(r);
+		if (null == sGLSurfaceView) LogD("runOnGLThread", "getCocos2dxGLSurfaceView null!!!");
+		sGLSurfaceView.queueEvent(r);
 	}
 
 	public static void runOnMainThread(Runnable r) {

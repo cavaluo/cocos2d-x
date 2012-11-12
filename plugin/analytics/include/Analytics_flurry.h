@@ -5,7 +5,7 @@
 
 namespace cocos2d { namespace plugin {
 
-class AnalyticsFlurry : public Analytics
+class AnalyticsFlurry : public AnalyticsProtocol
 {
 public:
 	int  getAgentVersion();
@@ -14,7 +14,8 @@ public:
 	void setGender(char gender);
 	void setUserId(const char* userId);
 	void setUseHttps(bool isUseHttps);
-	
+
+	void logTimedEventBegin(const char* eventId, const LogEventParamMap* pParams);
 };
 
 }} // namespace cocos2d { namespace plugin {

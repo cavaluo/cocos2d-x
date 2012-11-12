@@ -6,7 +6,7 @@ LOCAL_MODULE := analytics_static
 
 LOCAL_MODULE_FILENAME := libanalytics_static
 
-LOCAL_SRC_FILES := Analytics.cpp 
+LOCAL_SRC_FILES := Analytics.cpp Analytics_umeng.cpp Analytics_flurry.cpp 
 
 LOCAL_CFLAGS := 
 
@@ -19,5 +19,8 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../include
 LOCAL_LDLIBS := -landroid
 LOCAL_LDLIBS += -llog
 
+LOCAL_WHOLE_STATIC_LIBRARIES := cocos2dx_static
+
 include $(BUILD_STATIC_LIBRARY)
 
+$(call import-module,cocos2dx)
