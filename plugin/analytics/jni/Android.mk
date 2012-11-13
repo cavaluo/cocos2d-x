@@ -6,7 +6,7 @@ LOCAL_MODULE := analytics_static
 
 LOCAL_MODULE_FILENAME := libanalytics_static
 
-LOCAL_SRC_FILES := AnalyticsProtocol.cpp Analytics_umeng.cpp Analytics_flurry.cpp AnalyticsUtils.cpp  
+LOCAL_SRC_FILES := AnalyticsProtocol.cpp Analytics_umeng.cpp Analytics_flurry.cpp AnalyticsUtils.cpp AnalyticsManager.cpp 
 
 LOCAL_CFLAGS := 
 
