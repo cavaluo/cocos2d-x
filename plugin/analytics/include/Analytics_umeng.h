@@ -1,7 +1,7 @@
 #ifndef __CCX_ANALYTICS_UMENG_H__
 #define __CCX_ANALYTICS_UMENG_H__
 
-#include "Analytics.h"
+#include "AnalyticsProtocol.h"
 
 namespace cocos2d { namespace plugin {
 
@@ -15,7 +15,7 @@ public:
 		DAILY = 4,
 		WIFIONLY = 5
 	};
-
+	AnalyticsUmeng();
 	void updateOnlineConfig();
 	const char* getConfigParams(const char* key);
 	void setDefaultReportPolicy(ReportPolicy ePolicy);

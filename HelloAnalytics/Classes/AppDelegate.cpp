@@ -1,13 +1,9 @@
 #include "AppDelegate.h"
-
 #include "cocos2d.h"
 #include "HelloWorldScene.h"
-#include "Analytics_umeng.h"
+#include "GameAnalytics.h"
 
 USING_NS_CC;
-using namespace cocos2d::plugin;
-
-AnalyticsUmeng* g_pAnalytics = NULL;
 
 AppDelegate::AppDelegate()
 {
@@ -16,17 +12,21 @@ AppDelegate::AppDelegate()
 
 AppDelegate::~AppDelegate()
 {
-    CC_SAFE_DELETE(g_pAnalytics);
+    GameAnalytics::destory();
 }
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
-    g_pAnalytics = new AnalyticsUmeng();
-    g_pAnalytics->setDebugMode(true);
-    g_pAnalytics->updateOnlineConfig();
-    g_pAnalytics->setCaptureUncaughtException(true);
-    g_pAnalytics->setDefaultReportPolicy(AnalyticsUmeng::REALTIME);
-    g_pAnalytics->beginSession("509b76db5270150885000013");
+    GameAnalytics::getAnalytics()->setDebugMode(true);
+    GameAnalytics::getAnalytics()->setCaptureUncaughtException(true);
+#if (TARGET_ANALYTICS == ANALYTICS_UMENG)
+    GameAnalytics::getAnalytics()->updateOnlineConfig();
+    GameAnalytics::getAnalytics()->setDefaultReportPolicy(AnalyticsUmeng::REALTIME);
+    GameAnalytics::getAnalytics()->startSession("509b76db5270150885000013");
+#elif (TARGET_ANALYTICS == ANALYTICS_FLURRY)
+    GameAnalytics::getAnalytics()->stopSession("W8N2JXRQGTGVSG2T3PC8");
+#endif
+    
     // initialize director
     CCDirector *pDirector = CCDirector::sharedDirector();
     pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
@@ -53,15 +53,19 @@ void AppDelegate::applicationDidEnterBackground()
 
     // if you use SimpleAudioEngine, it must be pause
     // SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
-    g_pAnalytics->endSession();
+    GameAnalytics::getAnalytics()->stopSession();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground()
 {
     CCDirector::sharedDirector()->resume();
-    CCLog("AppDelegate::applicationWillEnterForeground");
-    g_pAnalytics->beginSession("509b76db5270150885000013");
+
+#if (TARGET_ANALYTICS == ANALYTICS_UMENG)
+    GameAnalytics::getAnalytics()->startSession("509b76db5270150885000013");
+#elif (TARGET_ANALYTICS == ANALYTICS_FLURRY)
+    GameAnalytics::getAnalytics()->startSession("W8N2JXRQGTGVSG2T3PC8");
+#endif
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
 }

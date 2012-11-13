@@ -1,12 +1,9 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "Analytics_umeng.h"
+#include "GameAnalytics.h"
 
-using namespace cocos2d::plugin;
 using namespace cocos2d;
 using namespace CocosDenshion;
-
-extern AnalyticsUmeng* g_pAnalytics;
 
 enum {
     TAG_LOG_EVENT_ID = 0,
@@ -94,8 +91,8 @@ void HelloWorld::eventMenuCallback(CCObject* pSender)
     {
     case TAG_LOG_EVENT_ID:
         {
-            g_pAnalytics->logEvent("click");
-            g_pAnalytics->logEvent("music");
+            GameAnalytics::getAnalytics()->logEvent("click");
+            GameAnalytics::getAnalytics()->logEvent("music");
         }
         break;
     case TAG_LOG_EVENT_ID_KV:
@@ -103,39 +100,52 @@ void HelloWorld::eventMenuCallback(CCObject* pSender)
             LogEventParamMap paramMap;
             paramMap.insert(LogEventParamPair("type", "popular"));
             paramMap.insert(LogEventParamPair("artist", "JJLin"));
-            g_pAnalytics->logEvent("music", &paramMap);
+            GameAnalytics::getAnalytics()->logEvent("music", &paramMap);
         }
         break;
     case TAG_LOG_ONLINE_CONFIG:
         {
-            CCLog("Online config = %s", g_pAnalytics->getConfigParams("abc"));
+#if (TARGET_ANALYTICS == ANALYTICS_UMENG)
+            CCLog("Online config = %s", GameAnalytics::getAnalytics()->getConfigParams("abc"));
+#endif            
         }
         break;
     case TAG_LOG_EVENT_ID_DURATION:
         {
-            g_pAnalytics->logEventWithDuration("book", 12000);
-            g_pAnalytics->logEventWithDuration("book", 23000, "chapter1");
+#if (TARGET_ANALYTICS == ANALYTICS_UMENG)
+            GameAnalytics::getAnalytics()->logEventWithDuration("book", 12000);
+            GameAnalytics::getAnalytics()->logEventWithDuration("book", 23000, "chapter1");
             LogEventParamMap paramMap;
             paramMap.insert(LogEventParamPair("type", "popular"));
             paramMap.insert(LogEventParamPair("artist", "JJLin"));
-            g_pAnalytics->logEventWithDuration("music", 2330000, &paramMap);
+            GameAnalytics::getAnalytics()->logEventWithDuration("music", 2330000, &paramMap);
+#endif            
         }
         break;
     case TAG_LOG_EVENT_BEGIN:
         {
-            g_pAnalytics->logTimedEventBegin("music");
-            g_pAnalytics->logTimedEventWithLabelBegin("music", "one");
+            GameAnalytics::getAnalytics()->logTimedEventBegin("music");
+
             LogEventParamMap paramMap;
             paramMap.insert(LogEventParamPair("type", "popular"));
             paramMap.insert(LogEventParamPair("artist", "JJLin"));
-            g_pAnalytics->logTimedKVEventBegin("music", "flag0", &paramMap);
+#if (TARGET_ANALYTICS == ANALYTICS_UMENG)
+            GameAnalytics::getAnalytics()->logTimedEventWithLabelBegin("music", "one");
+            GameAnalytics::getAnalytics()->logTimedKVEventBegin("music", "flag0", &paramMap);
+#elif (TARGET_ANALYTICS == ANALYTICS_FLURRY)
+            GameAnalytics::getAnalytics()->logTimedEventBegin("music-kv", &paramMap);
+#endif
         }
         break;
     case TAG_LOG_EVENT_END:
         {
-            g_pAnalytics->logTimedEventEnd("music");
-            g_pAnalytics->logTimedEventWithLabelEnd("music", "one");
-            g_pAnalytics->logTimedKVEventEnd("music", "flag0");
+            GameAnalytics::getAnalytics()->logTimedEventEnd("music");
+#if (TARGET_ANALYTICS == ANALYTICS_UMENG)            
+            GameAnalytics::getAnalytics()->logTimedEventWithLabelEnd("music", "one");
+            GameAnalytics::getAnalytics()->logTimedKVEventEnd("music", "flag0");
+#elif (TARGET_ANALYTICS == ANALYTICS_FLURRY)
+            GameAnalytics::getAnalytics()->logTimedEventEnd("music-kv");
+#endif
         }
         break;
     case TAG_MAKE_ME_CRASH:

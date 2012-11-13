@@ -1,11 +1,11 @@
 #ifndef __CCX_ANALYTICS_APPARK_H__
 #define __CCX_ANALYTICS_APPARK_H__
 
-#include "Analytics.h"
+#include "AnalyticsProtocol.h"
 
 namespace cocos2d { namespace plugin {
 
-class AnalyticsAppark : public Analytics
+class AnalyticsAppark : public AnalyticsProtocol
 {
 public:
 	

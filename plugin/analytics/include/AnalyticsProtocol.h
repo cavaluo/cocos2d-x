@@ -1,5 +1,5 @@
-#ifndef __CCX_ANALYTICS_H__
-#define __CCX_ANALYTICS_H__
+#ifndef __CCX_ANALYTICS_PROTOCOL_H__
+#define __CCX_ANALYTICS_PROTOCOL_H__
 
 #include <map>
 #include <string>
@@ -13,9 +13,9 @@ class AnalyticsProtocol
 {
 public:
 	/** Begin a new session. */
-	virtual void beginSession(const char* appKey);
+	virtual void startSession(const char* appKey);
 	/** End a session. */
-	virtual void endSession();
+	virtual void stopSession();
 	/** Set the timeout for expiring a session. */
 	virtual void setSessionContinueMillis(long millis);
 	/** Whether to catch uncaught exceptions to server.*/
@@ -40,4 +40,4 @@ public:
 }} // namespace cocos2d { namespace plugin {
 
 
-#endif /* __CCX_ANALYTICS_H__ */
+#endif /* __CCX_ANALYTICS_PROTOCOL_H__ */
