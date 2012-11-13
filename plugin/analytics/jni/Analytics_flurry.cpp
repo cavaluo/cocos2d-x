@@ -38,6 +38,19 @@ void AnalyticsFlurry::setReportLocation(bool enabled)
 	}
 }
 
+void AnalyticsFlurry::logPageView()
+{
+	JniMethodInfo t; 
+	if (JniHelper::getStaticMethodInfo(t
+		, "org/cocos2dx/plugin/AnalyticsFlurry"
+		, "logPageView"
+		, "()V"))
+	{
+		t.env->CallStaticVoidMethod(t.classID, t.methodID);
+		t.env->DeleteLocalRef(t.classID);
+	}
+}
+
 int  AnalyticsFlurry::getAgentVersion()
 {
 	int ret = 0;
@@ -88,9 +101,9 @@ void AnalyticsFlurry::setGender(Gender gender)
 	if (JniHelper::getStaticMethodInfo(t
 		, "org/cocos2dx/plugin/AnalyticsFlurry"
 		, "setGender"
-		, "(I)V"))
+		, "(B)V"))
 	{
-		t.env->CallStaticVoidMethod(t.classID, t.methodID, (jint)gender);
+		t.env->CallStaticVoidMethod(t.classID, t.methodID, (jbyte)gender);
 		t.env->DeleteLocalRef(t.classID);
 	}
 }
