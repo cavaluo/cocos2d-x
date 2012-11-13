@@ -1,9 +1,14 @@
 #include "AppDelegate.h"
 #include "cocos2d.h"
 #include "HelloWorldScene.h"
-#include "GameAnalytics.h"
+#include "AnalyticsManager.h"
 
+using namespace cocos2d::plugin;
 USING_NS_CC;
+
+// The app key of flurry
+#define FLURRY_KEY "W8N2JXRQGTGVSG2T3PC8"
+// The app key of umeng must be set in AndroidManifest.xml
 
 AppDelegate::AppDelegate()
 {
@@ -12,29 +17,43 @@ AppDelegate::AppDelegate()
 
 AppDelegate::~AppDelegate()
 {
-    GameAnalytics::destory();
+    AnalyticsManager::destory();
 }
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
-    GameAnalytics::getAnalytics()->setDebugMode(true);
-    GameAnalytics::getAnalytics()->setCaptureUncaughtException(true);
-#if (TARGET_ANALYTICS == ANALYTICS_UMENG)
-    GameAnalytics::getAnalytics()->updateOnlineConfig();
-    GameAnalytics::getAnalytics()->setDefaultReportPolicy(AnalyticsUmeng::REALTIME);
-    GameAnalytics::getAnalytics()->startSession("509b76db5270150885000013");
-#elif (TARGET_ANALYTICS == ANALYTICS_FLURRY)
-    GameAnalytics::getAnalytics()->setReportLocation(true);
-    GameAnalytics::getAnalytics()->logPageView();
-    int sdkVersion = GameAnalytics::getAnalytics()->getAgentVersion();
-    CCLog("Flurry sdk version = %d", sdkVersion);
-    GameAnalytics::getAnalytics()->setVersionName("1.1");
-    GameAnalytics::getAnalytics()->setAge(20);
-    GameAnalytics::getAnalytics()->setGender(AnalyticsFlurry::MALE);
-    GameAnalytics::getAnalytics()->setUserId("123456");
-    GameAnalytics::getAnalytics()->setUseHttps(false);
-    GameAnalytics::getAnalytics()->startSession("W8N2JXRQGTGVSG2T3PC8");
-#endif
+    // Please change the type of analytics here.
+    AnalyticsManager::setAnalyticsType(kAnalyticsType_Umeng);
+    //AnalyticsManager::setAnalyticsType(kAnalyticsType_Flurry);
+
+    AnalyticsProtocol* pAnalyticsInstance = AnalyticsManager::getAnalytics();
+    AnalyticsUmeng* pUmeng = dynamic_cast<AnalyticsUmeng*>(pAnalyticsInstance);
+    AnalyticsFlurry* pFlurry = dynamic_cast<AnalyticsFlurry*>(pAnalyticsInstance);
+
+    pAnalyticsInstance->setDebugMode(true);
+    pAnalyticsInstance->setCaptureUncaughtException(true);
+
+    if (pUmeng != NULL)
+    {
+        pUmeng->updateOnlineConfig();
+        pUmeng->setDefaultReportPolicy(AnalyticsUmeng::REALTIME);
+        // The app key of umeng must be set in AndroidManifest.xml, so you don't need to set it here.
+        pUmeng->startSession("");
+    }
+
+    if (pFlurry != NULL)
+    {
+        pFlurry->setReportLocation(true);
+        pFlurry->logPageView();
+        int sdkVersion = pFlurry->getAgentVersion();
+        CCLog("Flurry sdk version = %d", sdkVersion);
+        pFlurry->setVersionName("1.1");
+        pFlurry->setAge(20);
+        pFlurry->setGender(AnalyticsFlurry::MALE);
+        pFlurry->setUserId("123456");
+        pFlurry->setUseHttps(false);
+        pFlurry->startSession(FLURRY_KEY);
+    }
     
     // initialize director
     CCDirector *pDirector = CCDirector::sharedDirector();
@@ -62,7 +81,7 @@ void AppDelegate::applicationDidEnterBackground()
 
     // if you use SimpleAudioEngine, it must be pause
     // SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
-    GameAnalytics::getAnalytics()->stopSession();
+    AnalyticsManager::getAnalytics()->stopSession();
 }
 
 // this function will be called when the app is active again
@@ -70,11 +89,16 @@ void AppDelegate::applicationWillEnterForeground()
 {
     CCDirector::sharedDirector()->resume();
 
-#if (TARGET_ANALYTICS == ANALYTICS_UMENG)
-    GameAnalytics::getAnalytics()->startSession("509b76db5270150885000013");
-#elif (TARGET_ANALYTICS == ANALYTICS_FLURRY)
-    GameAnalytics::getAnalytics()->startSession("W8N2JXRQGTGVSG2T3PC8");
-#endif
+    AnalyticsType type = AnalyticsManager::getAnalyticsType();
+    if (type == kAnalyticsType_Umeng)
+    {
+        AnalyticsManager::getAnalytics()->startSession("");
+    }
+    else if (type == kAnalyticsType_Flurry)
+    {
+        AnalyticsManager::getAnalytics()->startSession(FLURRY_KEY);
+    }
+
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
 }

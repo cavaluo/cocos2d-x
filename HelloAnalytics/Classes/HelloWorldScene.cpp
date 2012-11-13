@@ -1,9 +1,10 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "GameAnalytics.h"
+#include "AnalyticsManager.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
+using namespace cocos2d::plugin;
 
 enum {
     TAG_LOG_EVENT_ID = 0,
@@ -86,13 +87,17 @@ bool HelloWorld::init()
 
 void HelloWorld::eventMenuCallback(CCObject* pSender)
 {
+    AnalyticsProtocol* pAnalyticsInstance = AnalyticsManager::getAnalytics();
+    AnalyticsUmeng* pUmeng = dynamic_cast<AnalyticsUmeng*>(pAnalyticsInstance);
+    AnalyticsFlurry* pFlurry = dynamic_cast<AnalyticsFlurry*>(pAnalyticsInstance);
+
     CCMenuItemLabel* pMenuItem = (CCMenuItemLabel*)pSender;
     switch (pMenuItem->getTag())
     {
     case TAG_LOG_EVENT_ID:
         {
-            GameAnalytics::getAnalytics()->logEvent("click");
-            GameAnalytics::getAnalytics()->logEvent("music");
+            pAnalyticsInstance->logEvent("click");
+            pAnalyticsInstance->logEvent("music");
         }
         break;
     case TAG_LOG_EVENT_ID_KV:
@@ -100,52 +105,60 @@ void HelloWorld::eventMenuCallback(CCObject* pSender)
             LogEventParamMap paramMap;
             paramMap.insert(LogEventParamPair("type", "popular"));
             paramMap.insert(LogEventParamPair("artist", "JJLin"));
-            GameAnalytics::getAnalytics()->logEvent("music", &paramMap);
+            pAnalyticsInstance->logEvent("music", &paramMap);
         }
         break;
     case TAG_LOG_ONLINE_CONFIG:
         {
-#if (TARGET_ANALYTICS == ANALYTICS_UMENG)
-            CCLog("Online config = %s", GameAnalytics::getAnalytics()->getConfigParams("abc"));
-#endif            
+            if (pUmeng != NULL)
+            {
+                CCLog("Online config = %s", pUmeng->getConfigParams("abc"));           
+            }
         }
         break;
     case TAG_LOG_EVENT_ID_DURATION:
         {
-#if (TARGET_ANALYTICS == ANALYTICS_UMENG)
-            GameAnalytics::getAnalytics()->logEventWithDuration("book", 12000);
-            GameAnalytics::getAnalytics()->logEventWithDuration("book", 23000, "chapter1");
-            LogEventParamMap paramMap;
-            paramMap.insert(LogEventParamPair("type", "popular"));
-            paramMap.insert(LogEventParamPair("artist", "JJLin"));
-            GameAnalytics::getAnalytics()->logEventWithDuration("music", 2330000, &paramMap);
-#endif            
+            if (pUmeng != NULL)
+            {
+                pUmeng->logEventWithDuration("book", 12000);
+                pUmeng->logEventWithDuration("book", 23000, "chapter1");
+                LogEventParamMap paramMap;
+                paramMap.insert(LogEventParamPair("type", "popular"));
+                paramMap.insert(LogEventParamPair("artist", "JJLin"));
+                pUmeng->logEventWithDuration("music", 2330000, &paramMap);
+            }            
         }
         break;
     case TAG_LOG_EVENT_BEGIN:
         {
-            GameAnalytics::getAnalytics()->logTimedEventBegin("music");
+            pAnalyticsInstance->logTimedEventBegin("music");
 
             LogEventParamMap paramMap;
             paramMap.insert(LogEventParamPair("type", "popular"));
             paramMap.insert(LogEventParamPair("artist", "JJLin"));
-#if (TARGET_ANALYTICS == ANALYTICS_UMENG)
-            GameAnalytics::getAnalytics()->logTimedEventWithLabelBegin("music", "one");
-            GameAnalytics::getAnalytics()->logTimedKVEventBegin("music", "flag0", &paramMap);
-#elif (TARGET_ANALYTICS == ANALYTICS_FLURRY)
-            GameAnalytics::getAnalytics()->logTimedEventBegin("music-kv", &paramMap);
-#endif
+            if (pUmeng != NULL)
+            {
+                pUmeng->logTimedEventWithLabelBegin("music", "one");
+                pUmeng->logTimedKVEventBegin("music", "flag0", &paramMap);
+            }
+            else if (pFlurry != NULL)
+            {
+                pFlurry->logTimedEventBegin("music-kv", &paramMap);
+            }
         }
         break;
     case TAG_LOG_EVENT_END:
         {
-            GameAnalytics::getAnalytics()->logTimedEventEnd("music");
-#if (TARGET_ANALYTICS == ANALYTICS_UMENG)            
-            GameAnalytics::getAnalytics()->logTimedEventWithLabelEnd("music", "one");
-            GameAnalytics::getAnalytics()->logTimedKVEventEnd("music", "flag0");
-#elif (TARGET_ANALYTICS == ANALYTICS_FLURRY)
-            GameAnalytics::getAnalytics()->logTimedEventEnd("music-kv");
-#endif
+            pAnalyticsInstance->logTimedEventEnd("music");
+            if (pUmeng != NULL)
+            {          
+                pUmeng->logTimedEventWithLabelEnd("music", "one");
+                pUmeng->logTimedKVEventEnd("music", "flag0");
+            }
+            else if (pFlurry != NULL)
+            {
+                pFlurry->logTimedEventEnd("music-kv");
+            }
         }
         break;
     case TAG_MAKE_ME_CRASH:
