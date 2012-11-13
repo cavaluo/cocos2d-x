@@ -14,6 +14,17 @@ public class AnalyticsFlurry implements IAnalytics {
 
 	private Context mContext = null;
 	
+	protected static String TAG = "AnalyticsFlurry";
+	public static void LogD(String tag, String msg){ 
+		if (AnalyticsWrapper.isDebugMode()) {
+			Log.d(tag, msg);
+		}
+	}
+	
+	protected static void LogE(String msg, Exception e) {
+		Log.e(TAG, msg, e);
+	}
+	
 	public AnalyticsFlurry(Context context) {
 		mContext = context;
 	}
@@ -84,39 +95,77 @@ public class AnalyticsFlurry implements IAnalytics {
 	}
 
 	protected static void logTimedEventBegin(String eventId, Hashtable<String, String> paramMap) {
-		FlurryAgent.logEvent(eventId, paramMap, true);
+		try{
+			FlurryAgent.logEvent(eventId, paramMap, true);
+		} catch(Exception e){
+			LogE("Exception in logTimedEventBegin", e);
+		}
 	}
 	
 	protected static void setReportLocation(boolean enabled) {
-		FlurryAgent.setReportLocation(enabled);
+		try{
+			FlurryAgent.setReportLocation(enabled);
+		} catch(Exception e){
+			LogE("Exception in setReportLocation", e);
+		}
 	}
 	
 	protected static void  logPageView() {
-		FlurryAgent.onPageView();
+		try{
+			FlurryAgent.onPageView();
+		} catch(Exception e){
+			LogE("Exception in logPageView", e);
+		}
 	}
 	
 	protected static int getAgentVersion() {
-		return FlurryAgent.getAgentVersion();
+		int ret = 0;
+		try {
+			ret = FlurryAgent.getAgentVersion();
+		} catch(Exception e){
+			LogE("Exception in getAgentVersion", e);
+		}
+		return ret;
 	}
 	
 	protected static void setVersionName(String versionName) {
-		FlurryAgent.setVersionName(versionName);
+		try {
+			FlurryAgent.setVersionName(versionName);
+		} catch(Exception e){
+			LogE("Exception in setVersionName", e);
+		}
 	}
 	
 	protected static void setAge(int age) {
-		FlurryAgent.setAge(age);
+		try {
+			FlurryAgent.setAge(age);
+		} catch(Exception e){
+			LogE("Exception in setAge", e);
+		}
 	}
 	
 	protected static void setGender(byte gender) {
-		FlurryAgent.setGender(gender);
+		try {
+			FlurryAgent.setGender(gender);
+		} catch(Exception e){
+			LogE("Exception in setGender", e);
+		}
 	}
 	
 	protected static void setUserId(String userId) {
-		FlurryAgent.setUserId(userId);
+		try {
+			FlurryAgent.setUserId(userId);
+		} catch(Exception e){
+			LogE("Exception in setUserId", e);
+		}
 	}
 	
 	protected static void setUseHttps(boolean useHttps) {
-		FlurryAgent.setUseHttps(useHttps);
+		try {
+			FlurryAgent.setUseHttps(useHttps);
+		} catch(Exception e){
+			LogE("Exception in setUseHttps", e);
+		}
 	}
 	
 	protected static void init() {

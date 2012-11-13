@@ -33,6 +33,10 @@ public class AnalyticsWrapper {
 		}
 	}
 	
+	public static boolean isDebugMode() {
+		return sIsDebugged;
+	}
+	
 	public static Context getContext() {
 		return sContext;
 	}
@@ -96,6 +100,7 @@ public class AnalyticsWrapper {
 		if (!isValid()) return;
 		try{
 			sAnalytics.setDebugMode(isDebugMode);
+			sIsDebugged = isDebugMode;
 		} catch(Exception e){
 			LogE("Exception in setDebugMode", e);
 		}
