@@ -1,13 +1,14 @@
 package org.cocos2dx.plugin;
 
 import java.util.Hashtable;
-
 import android.content.Context;
+import android.util.Log;
 
 import com.umeng.analytics.MobclickAgent;
 
 public class AnalyticsUmeng implements IAnalytics{
 
+	private static boolean sIsInitialized = false;
 	private Context mContext = null;
 	private static AnalyticsUmeng sThisObj = null;
 	
@@ -20,13 +21,13 @@ public class AnalyticsUmeng implements IAnalytics{
 		return (sThisObj != null) && (sThisObj.mContext != null);
 	}
 	@Override
-	public void beginSession(String appKey) {
+	public void startSession(String appKey) {
 		// TODO Auto-generated method stub
 		MobclickAgent.onResume(mContext);
 	}
 
 	@Override
-	public void endSession() {
+	public void stopSession() {
 		// TODO Auto-generated method stub
 		MobclickAgent.onPause(mContext);
 	}
@@ -136,5 +137,17 @@ public class AnalyticsUmeng implements IAnalytics{
 	protected static void logTimedKVEventEnd(String eventId, String label) {
 		if (!isValid()) return;
 		MobclickAgent.onKVEventEnd(sThisObj.mContext, eventId, label);
+	}
+	
+	protected static void init() {
+		if (!sIsInitialized) {
+			sIsInitialized = true;
+			Context ctx = AnalyticsWrapper.getContext();
+			if (ctx != null) {
+				AnalyticsWrapper.setAnalytics(new AnalyticsUmeng(ctx));
+			} else {
+				Log.e("AnalyticsUmeng", "AnalyticsWrapper wasn't initialized.");
+			}
+		}
 	}
 }

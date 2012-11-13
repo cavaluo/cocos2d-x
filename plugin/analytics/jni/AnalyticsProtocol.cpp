@@ -1,6 +1,7 @@
-#include "Analytics.h"
+#include "AnalyticsProtocol.h"
 #include "jni/JniHelper.h"
 #include <android/log.h>
+#include "AnalyticsUtils.h"
 
 #if 1
 #define  LOG_TAG    "AnalyticsProtocol"
@@ -10,23 +11,6 @@
 #endif
 
 namespace cocos2d { namespace plugin {
-
-#define return_if_fails(cond) if (!(cond)) return; 
-
-static jobject createJavaMapObject(JniMethodInfo&t, const LogEventParamMap* pParamMap)
-{
-	jclass class_Hashtable = t.env->FindClass("java/util/Hashtable"); 
-	jmethodID construct_method = t.env->GetMethodID( class_Hashtable, "<init>","()V"); 
-	jobject obj_Map = t.env->NewObject( class_Hashtable, construct_method, ""); 
-	jmethodID add_method= t.env->GetMethodID( class_Hashtable,"put","(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"); 
-	for (LogEventParamMap::const_iterator it = pParamMap->begin(); it != pParamMap->end(); ++it)
-	{
-		t.env->CallObjectMethod(obj_Map, add_method, t.env->NewStringUTF(it->first.c_str()), t.env->NewStringUTF(it->second.c_str()));  
-	}
-
-    t.env->DeleteLocalRef(class_Hashtable);
-    return obj_Map;
-}
 
 static void callJavaFunctionWithName_string_map(const char* funcName, const char* keyParam, const LogEventParamMap* pParamMap)
 {
@@ -88,17 +72,17 @@ AnalyticsProtocol::~AnalyticsProtocol()
 {
 }
 
-void AnalyticsProtocol::beginSession(const char* appKey)
+void AnalyticsProtocol::startSession(const char* appKey)
 {
-	callJavaFunctionWithName_string_map("beginSession", appKey, NULL);
+	callJavaFunctionWithName_string_map("startSession", appKey, NULL);
 }
 
-void AnalyticsProtocol::endSession()
+void AnalyticsProtocol::stopSession()
 {
     JniMethodInfo t;
     if (JniHelper::getStaticMethodInfo(t
         , "org/cocos2dx/plugin/AnalyticsWrapper"
-        , "endSession"
+        , "stopSession"
         , "()V"))
     {
         t.env->CallStaticVoidMethod(t.classID, t.methodID);

@@ -1,7 +1,7 @@
 #include "Analytics_umeng.h"
 #include "jni/JniHelper.h"
 #include <android/log.h>
-
+#include "AnalyticsUtils.h"
 #if 1
 #define  LOG_TAG    "AnalyticsUmeng"
 #define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
@@ -11,22 +11,17 @@
 
 namespace cocos2d { namespace plugin {
 
-#define return_if_fails(cond) if (!(cond)) return; 
-#define return_val_if_fails(cond, ret) if(!(cond)) return (ret);
-
-static jobject createJavaMapObject(JniMethodInfo&t, const LogEventParamMap* pParamMap)
+AnalyticsUmeng::AnalyticsUmeng()
 {
-	jclass class_Hashtable = t.env->FindClass("java/util/Hashtable"); 
-	jmethodID construct_method = t.env->GetMethodID( class_Hashtable, "<init>","()V"); 
-	jobject obj_Map = t.env->NewObject( class_Hashtable, construct_method, ""); 
-	jmethodID add_method= t.env->GetMethodID( class_Hashtable,"put","(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"); 
-	for (LogEventParamMap::const_iterator it = pParamMap->begin(); it != pParamMap->end(); ++it)
+	JniMethodInfo t; 
+	if (JniHelper::getStaticMethodInfo(t
+		, "org/cocos2dx/plugin/AnalyticsUmeng"
+		, "init"
+		, "()V"))
 	{
-		t.env->CallObjectMethod(obj_Map, add_method, t.env->NewStringUTF(it->first.c_str()), t.env->NewStringUTF(it->second.c_str()));  
+		t.env->CallStaticVoidMethod(t.classID, t.methodID);
+		t.env->DeleteLocalRef(t.classID);
 	}
-
-    t.env->DeleteLocalRef(class_Hashtable);
-    return obj_Map;
 }
 
 void AnalyticsUmeng::updateOnlineConfig()
@@ -179,6 +174,8 @@ void AnalyticsUmeng::logTimedEventWithLabelBegin(const char* eventId, const char
 
 void AnalyticsUmeng::logTimedEventWithLabelEnd(const char* eventId, const char* label)
 {
+	return_if_fails(eventId != NULL && strlen(eventId) > 0);
+	return_if_fails(label != NULL && strlen(label) > 0);
 	JniMethodInfo t;
 	if (JniHelper::getStaticMethodInfo(t
 		, "org/cocos2dx/plugin/AnalyticsUmeng"
@@ -196,6 +193,9 @@ void AnalyticsUmeng::logTimedEventWithLabelEnd(const char* eventId, const char* 
 
 void AnalyticsUmeng::logTimedKVEventBegin(const char* eventId, const char* label, const LogEventParamMap* pParamMap)
 {
+	return_if_fails(eventId != NULL && strlen(eventId) > 0);
+	return_if_fails(label != NULL && strlen(label) > 0);
+
 	JniMethodInfo t;
 	if (JniHelper::getStaticMethodInfo(t
 		, "org/cocos2dx/plugin/AnalyticsUmeng"
@@ -215,6 +215,9 @@ void AnalyticsUmeng::logTimedKVEventBegin(const char* eventId, const char* label
 
 void AnalyticsUmeng::logTimedKVEventEnd(const char* eventId, const char* label)
 {
+	return_if_fails(eventId != NULL && strlen(eventId) > 0);
+	return_if_fails(label != NULL && strlen(label) > 0);
+	
 	JniMethodInfo t;
 	if (JniHelper::getStaticMethodInfo(t
 		, "org/cocos2dx/plugin/AnalyticsUmeng"

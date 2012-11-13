@@ -4,8 +4,8 @@ import java.util.Hashtable;
 
 public interface IAnalytics {
 
-	public void beginSession(String appKey);
-	public void endSession();
+	public void startSession(String appKey);
+	public void stopSession();
 	public void setSessionContinueMillis(int millis);
 	public void setCaptureUncaughtException(boolean isEnabled);
 	public void setDebugMode(boolean isDebugMode);
