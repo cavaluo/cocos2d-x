@@ -12,9 +12,9 @@ typedef std::map< std::string, std::string >    LogEventParamMap;
 class AnalyticsProtocol
 {
 public:
-	/** Begin a new session. */
+	/** Start a new session. */
 	virtual void startSession(const char* appKey);
-	/** End a session. */
+	/** Stop a session. */
 	virtual void stopSession();
 	/** Set the timeout for expiring a session. */
 	virtual void setSessionContinueMillis(long millis);

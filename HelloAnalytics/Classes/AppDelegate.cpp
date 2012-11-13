@@ -24,7 +24,16 @@ bool AppDelegate::applicationDidFinishLaunching()
     GameAnalytics::getAnalytics()->setDefaultReportPolicy(AnalyticsUmeng::REALTIME);
     GameAnalytics::getAnalytics()->startSession("509b76db5270150885000013");
 #elif (TARGET_ANALYTICS == ANALYTICS_FLURRY)
-    GameAnalytics::getAnalytics()->stopSession("W8N2JXRQGTGVSG2T3PC8");
+    GameAnalytics::getAnalytics()->setReportLocation(true);
+    GameAnalytics::getAnalytics()->logPageView();
+    int sdkVersion = GameAnalytics::getAnalytics()->getAgentVersion();
+    CCLog("Flurry sdk version = %d", sdkVersion);
+    GameAnalytics::getAnalytics()->setVersionName("1.1");
+    GameAnalytics::getAnalytics()->setAge(20);
+    GameAnalytics::getAnalytics()->setGender(AnalyticsFlurry::MALE);
+    GameAnalytics::getAnalytics()->setUserId("123456");
+    GameAnalytics::getAnalytics()->setUseHttps(false);
+    GameAnalytics::getAnalytics()->startSession("W8N2JXRQGTGVSG2T3PC8");
 #endif
     
     // initialize director

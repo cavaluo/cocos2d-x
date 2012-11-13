@@ -14,7 +14,7 @@ public:
 	};
 	AnalyticsFlurry();
 	/** @brief Enable or disable detailed location reporting.
-	 *  @note It must be invoked before calling beginSession.
+	 *  @note It must be invoked before calling startSession.
 	 */
 	void setReportLocation(bool enabled);
 	/** Log a page view. */
