@@ -1,7 +1,9 @@
 #include "AppDelegate.h"
 #include "cocos2d.h"
 #include "HelloWorldScene.h"
-#include "AnalyticsManager.h"
+#include "PluginManager.h"
+#include "AnalyticsFlurry.h"
+#include "AnalyticsUmeng.h"
 
 using namespace cocos2d::plugin;
 USING_NS_CC;
@@ -10,6 +12,10 @@ USING_NS_CC;
 #define FLURRY_KEY "W8N2JXRQGTGVSG2T3PC8"
 // The app key of umeng must be set in AndroidManifest.xml
 
+AnalyticsProtocol* g_pAnalyticsInstance = NULL;
+AnalyticsUmeng* g_pUmeng = NULL;
+AnalyticsFlurry* g_pFlurry = NULL;
+
 AppDelegate::AppDelegate()
 {
 
@@ -17,42 +23,39 @@ AppDelegate::AppDelegate()
 
 AppDelegate::~AppDelegate()
 {
-    AnalyticsManager::destory();
+
 }
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
-    // Please change the type of analytics here.
-    AnalyticsManager::setAnalyticsType(kAnalyticsType_Umeng);
-    //AnalyticsManager::setAnalyticsType(kAnalyticsType_Flurry);
+    IPlugin* pPlugin = PluginManager::getInstance()->getPlugin("AnalyticsUmeng");
+    g_pAnalyticsInstance = dynamic_cast<AnalyticsProtocol*>(pPlugin);
+    g_pUmeng = dynamic_cast<AnalyticsUmeng*>(pPlugin);
+    g_pFlurry = dynamic_cast<AnalyticsFlurry*>(pPlugin);
 
-    AnalyticsProtocol* pAnalyticsInstance = AnalyticsManager::getAnalytics();
-    AnalyticsUmeng* pUmeng = dynamic_cast<AnalyticsUmeng*>(pAnalyticsInstance);
-    AnalyticsFlurry* pFlurry = dynamic_cast<AnalyticsFlurry*>(pAnalyticsInstance);
+    g_pAnalyticsInstance->setDebugMode(true);
+    g_pAnalyticsInstance->setCaptureUncaughtException(true);
 
-    pAnalyticsInstance->setDebugMode(true);
-    pAnalyticsInstance->setCaptureUncaughtException(true);
-
-    if (pUmeng != NULL)
+    if (g_pUmeng != NULL)
     {
-        pUmeng->updateOnlineConfig();
-        pUmeng->setDefaultReportPolicy(AnalyticsUmeng::REALTIME);
+        g_pUmeng->updateOnlineConfig();
+        g_pUmeng->setDefaultReportPolicy(AnalyticsUmeng::REALTIME);
         // The app key of umeng must be set in AndroidManifest.xml, so you don't need to set it here.
-        pUmeng->startSession("");
+        g_pUmeng->startSession("");
     }
 
-    if (pFlurry != NULL)
+    if (g_pFlurry != NULL)
     {
-        pFlurry->setReportLocation(true);
-        pFlurry->logPageView();
-        int sdkVersion = pFlurry->getAgentVersion();
+        g_pFlurry->setReportLocation(true);
+        g_pFlurry->logPageView();
+        int sdkVersion = g_pFlurry->getAgentVersion();
         CCLog("Flurry sdk version = %d", sdkVersion);
-        pFlurry->setVersionName("1.1");
-        pFlurry->setAge(20);
-        pFlurry->setGender(AnalyticsFlurry::MALE);
-        pFlurry->setUserId("123456");
-        pFlurry->setUseHttps(false);
-        pFlurry->startSession(FLURRY_KEY);
+        g_pFlurry->setVersionName("1.1");
+        g_pFlurry->setAge(20);
+        g_pFlurry->setGender(AnalyticsFlurry::MALE);
+        g_pFlurry->setUserId("123456");
+        g_pFlurry->setUseHttps(false);
+        g_pFlurry->startSession(FLURRY_KEY);
     }
     
     // initialize director
@@ -81,7 +84,7 @@ void AppDelegate::applicationDidEnterBackground()
 
     // if you use SimpleAudioEngine, it must be pause
     // SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
-    AnalyticsManager::getAnalytics()->stopSession();
+    g_pAnalyticsInstance->stopSession();
 }
 
 // this function will be called when the app is active again
@@ -89,14 +92,13 @@ void AppDelegate::applicationWillEnterForeground()
 {
     CCDirector::sharedDirector()->resume();
 
-    AnalyticsType type = AnalyticsManager::getAnalyticsType();
-    if (type == kAnalyticsType_Umeng)
+    if (g_pUmeng != NULL)
     {
-        AnalyticsManager::getAnalytics()->startSession("");
+        g_pUmeng->startSession("");
     }
-    else if (type == kAnalyticsType_Flurry)
+    else if (g_pFlurry != NULL)
     {
-        AnalyticsManager::getAnalytics()->startSession(FLURRY_KEY);
+        g_pFlurry->startSession(FLURRY_KEY);
     }
 
     // if you use SimpleAudioEngine, it must resume here

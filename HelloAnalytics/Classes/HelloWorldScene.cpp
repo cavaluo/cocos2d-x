@@ -1,10 +1,16 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
-#include "AnalyticsManager.h"
+#include "PluginManager.h"
+#include "AnalyticsFlurry.h"
+#include "AnalyticsUmeng.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
 using namespace cocos2d::plugin;
+
+extern AnalyticsProtocol* g_pAnalyticsInstance;
+extern AnalyticsUmeng* g_pUmeng;
+extern AnalyticsFlurry* g_pFlurry;
 
 enum {
     TAG_LOG_EVENT_ID = 0,
@@ -87,17 +93,13 @@ bool HelloWorld::init()
 
 void HelloWorld::eventMenuCallback(CCObject* pSender)
 {
-    AnalyticsProtocol* pAnalyticsInstance = AnalyticsManager::getAnalytics();
-    AnalyticsUmeng* pUmeng = dynamic_cast<AnalyticsUmeng*>(pAnalyticsInstance);
-    AnalyticsFlurry* pFlurry = dynamic_cast<AnalyticsFlurry*>(pAnalyticsInstance);
-
     CCMenuItemLabel* pMenuItem = (CCMenuItemLabel*)pSender;
     switch (pMenuItem->getTag())
     {
     case TAG_LOG_EVENT_ID:
         {
-            pAnalyticsInstance->logEvent("click");
-            pAnalyticsInstance->logEvent("music");
+            g_pAnalyticsInstance->logEvent("click");
+            g_pAnalyticsInstance->logEvent("music");
         }
         break;
     case TAG_LOG_EVENT_ID_KV:
@@ -105,59 +107,59 @@ void HelloWorld::eventMenuCallback(CCObject* pSender)
             LogEventParamMap paramMap;
             paramMap.insert(LogEventParamPair("type", "popular"));
             paramMap.insert(LogEventParamPair("artist", "JJLin"));
-            pAnalyticsInstance->logEvent("music", &paramMap);
+            g_pAnalyticsInstance->logEvent("music", &paramMap);
         }
         break;
     case TAG_LOG_ONLINE_CONFIG:
         {
-            if (pUmeng != NULL)
+            if (g_pUmeng != NULL)
             {
-                CCLog("Online config = %s", pUmeng->getConfigParams("abc"));           
+                CCLog("Online config = %s", g_pUmeng->getConfigParams("abc"));           
             }
         }
         break;
     case TAG_LOG_EVENT_ID_DURATION:
         {
-            if (pUmeng != NULL)
+            if (g_pUmeng != NULL)
             {
-                pUmeng->logEventWithDuration("book", 12000);
-                pUmeng->logEventWithDuration("book", 23000, "chapter1");
+                g_pUmeng->logEventWithDuration("book", 12000);
+                g_pUmeng->logEventWithDuration("book", 23000, "chapter1");
                 LogEventParamMap paramMap;
                 paramMap.insert(LogEventParamPair("type", "popular"));
                 paramMap.insert(LogEventParamPair("artist", "JJLin"));
-                pUmeng->logEventWithDuration("music", 2330000, &paramMap);
+                g_pUmeng->logEventWithDuration("music", 2330000, &paramMap);
             }            
         }
         break;
     case TAG_LOG_EVENT_BEGIN:
         {
-            pAnalyticsInstance->logTimedEventBegin("music");
+            g_pAnalyticsInstance->logTimedEventBegin("music");
 
             LogEventParamMap paramMap;
             paramMap.insert(LogEventParamPair("type", "popular"));
             paramMap.insert(LogEventParamPair("artist", "JJLin"));
-            if (pUmeng != NULL)
+            if (g_pUmeng != NULL)
             {
-                pUmeng->logTimedEventWithLabelBegin("music", "one");
-                pUmeng->logTimedKVEventBegin("music", "flag0", &paramMap);
+                g_pUmeng->logTimedEventWithLabelBegin("music", "one");
+                g_pUmeng->logTimedKVEventBegin("music", "flag0", &paramMap);
             }
-            else if (pFlurry != NULL)
+            else if (g_pFlurry != NULL)
             {
-                pFlurry->logTimedEventBegin("music-kv", &paramMap);
+                g_pFlurry->logTimedEventBegin("music-kv", &paramMap);
             }
         }
         break;
     case TAG_LOG_EVENT_END:
         {
-            pAnalyticsInstance->logTimedEventEnd("music");
-            if (pUmeng != NULL)
+            g_pAnalyticsInstance->logTimedEventEnd("music");
+            if (g_pUmeng != NULL)
             {          
-                pUmeng->logTimedEventWithLabelEnd("music", "one");
-                pUmeng->logTimedKVEventEnd("music", "flag0");
+                g_pUmeng->logTimedEventWithLabelEnd("music", "one");
+                g_pUmeng->logTimedKVEventEnd("music", "flag0");
             }
-            else if (pFlurry != NULL)
+            else if (g_pFlurry != NULL)
             {
-                pFlurry->logTimedEventEnd("music-kv");
+                g_pFlurry->logTimedEventEnd("music-kv");
             }
         }
         break;
