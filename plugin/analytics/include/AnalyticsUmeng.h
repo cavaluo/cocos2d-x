@@ -7,6 +7,7 @@ namespace cocos2d { namespace plugin {
 
 class AnalyticsUmeng : public AnalyticsProtocol
 {
+	PLUGIN_REGISTER_DECL()
 public:
 	enum ReportPolicy
 	{

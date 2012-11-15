@@ -7,6 +7,7 @@ namespace cocos2d { namespace plugin {
 
 class AnalyticsFlurry : public AnalyticsProtocol
 {
+	PLUGIN_REGISTER_DECL()
 public:
 	enum Gender{
 	    FEMALE = 0,
@@ -34,7 +35,7 @@ public:
 	
 	virtual void logTimedEventBegin(const char* eventId);
 	/** Log a timed event with parameters. */
-	void logTimedEventBegin(const char* eventId, const LogEventParamMap* pParams);
+	void logTimedEventBegin(const char* eventId, const LogEventParamMap* paramMap);
 };
 
 }} // namespace cocos2d { namespace plugin {

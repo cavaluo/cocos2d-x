@@ -3,9 +3,9 @@
 
 namespace cocos2d { namespace plugin {
 
-class IPlugin;
+class PluginProtocol;
 
-typedef IPlugin* (*PluginCreator)();
+typedef PluginProtocol* (*PluginCreator)();
 
 /**
 	@brief RegisterPlugin class is only for associating plugin name with plugin creator.
@@ -19,11 +19,11 @@ public:
 };
 
 #define PLUGIN_REGISTER_DECL() \
-    public: static IPlugin* createPlugin();
+    public: static PluginProtocol* createPlugin();
 
-#define PLUGIN_REGISTER_IMPL(type, name) \
-static RegisterPlugin s_registerPlugin(name, type::createPlugin); \
-IPlugin* type::createPlugin() { \
+#define PLUGIN_REGISTER_IMPL(type) \
+static RegisterPlugin s_registerPlugin(#type, type::createPlugin); \
+PluginProtocol* type::createPlugin() { \
     type* pRet = new type(); \
     if (pRet) { \
         if (!pRet->init()) { \

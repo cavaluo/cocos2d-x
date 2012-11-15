@@ -28,7 +28,8 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
-    IPlugin* pPlugin = PluginManager::getInstance()->getPlugin("AnalyticsUmeng");
+    PluginProtocol* pPlugin = PluginManager::getInstance()->loadPlugin("AnalyticsUmeng");
+
     g_pAnalyticsInstance = dynamic_cast<AnalyticsProtocol*>(pPlugin);
     g_pUmeng = dynamic_cast<AnalyticsUmeng*>(pPlugin);
     g_pFlurry = dynamic_cast<AnalyticsFlurry*>(pPlugin);
