@@ -11,6 +11,8 @@
 
 namespace cocos2d { namespace plugin {
 
+PLUGIN_REGISTER_IMPL(AnalyticsUmeng)
+
 AnalyticsUmeng::AnalyticsUmeng()
 {
 	JniMethodInfo t; 

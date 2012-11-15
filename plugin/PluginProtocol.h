@@ -9,13 +9,13 @@ namespace cocos2d { namespace plugin {
 	The super class for all plugins.
 */
 
-class IPlugin
+class PluginProtocol
 {
 public:
-    virtual ~IPlugin() {}
+    virtual ~PluginProtocol() {}
     virtual bool init() { return true; }
 protected:
-    IPlugin() {}
+    PluginProtocol() {}
 };
 
 }} //namespace cocos2d { namespace plugin {

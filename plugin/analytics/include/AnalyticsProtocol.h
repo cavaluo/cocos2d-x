@@ -1,6 +1,7 @@
 #ifndef __CCX_ANALYTICS_PROTOCOL_H__
 #define __CCX_ANALYTICS_PROTOCOL_H__
 
+#include "PluginProtocol.h"
 #include <map>
 #include <string>
 
@@ -9,7 +10,7 @@ namespace cocos2d { namespace plugin {
 typedef std::pair< std::string, std::string >   LogEventParamPair;
 typedef std::map< std::string, std::string >    LogEventParamMap;
 
-class AnalyticsProtocol
+class AnalyticsProtocol : public PluginProtocol
 {
 public:
 	/** Start a new session. */
