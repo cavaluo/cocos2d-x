@@ -10,16 +10,10 @@ import com.flurry.android.FlurryAgent;
 
 public class AnalyticsFlurry implements IAnalytics {
 
-	private static boolean sIsInitialized = false;
 
+	private static boolean sIsInitialized = false;
 	private Context mContext = null;
-	
 	protected static String TAG = "AnalyticsFlurry";
-	public static void LogD(String tag, String msg){ 
-		if (AnalyticsWrapper.isDebugMode()) {
-			Log.d(tag, msg);
-		}
-	}
 	
 	protected static void LogE(String msg, Exception e) {
 		Log.e(TAG, msg, e);
@@ -94,7 +88,7 @@ public class AnalyticsFlurry implements IAnalytics {
 		FlurryAgent.endTimedEvent(eventId);
 	}
 
-	protected static void logTimedEventBegin(String eventId, Hashtable<String, String> paramMap) {
+	protected void logTimedEventBegin(String eventId, Hashtable<String, String> paramMap) {
 		try{
 			FlurryAgent.logEvent(eventId, paramMap, true);
 		} catch(Exception e){
@@ -102,7 +96,7 @@ public class AnalyticsFlurry implements IAnalytics {
 		}
 	}
 	
-	protected static void setReportLocation(boolean enabled) {
+	protected void setReportLocation(boolean enabled) {
 		try{
 			FlurryAgent.setReportLocation(enabled);
 		} catch(Exception e){
@@ -110,7 +104,7 @@ public class AnalyticsFlurry implements IAnalytics {
 		}
 	}
 	
-	protected static void  logPageView() {
+	protected void  logPageView() {
 		try{
 			FlurryAgent.onPageView();
 		} catch(Exception e){
@@ -118,7 +112,7 @@ public class AnalyticsFlurry implements IAnalytics {
 		}
 	}
 	
-	protected static int getAgentVersion() {
+	protected int getAgentVersion() {
 		int ret = 0;
 		try {
 			ret = FlurryAgent.getAgentVersion();
@@ -128,7 +122,7 @@ public class AnalyticsFlurry implements IAnalytics {
 		return ret;
 	}
 	
-	protected static void setVersionName(String versionName) {
+	protected void setVersionName(String versionName) {
 		try {
 			FlurryAgent.setVersionName(versionName);
 		} catch(Exception e){
@@ -136,7 +130,7 @@ public class AnalyticsFlurry implements IAnalytics {
 		}
 	}
 	
-	protected static void setAge(int age) {
+	protected void setAge(int age) {
 		try {
 			FlurryAgent.setAge(age);
 		} catch(Exception e){
@@ -144,7 +138,7 @@ public class AnalyticsFlurry implements IAnalytics {
 		}
 	}
 	
-	protected static void setGender(byte gender) {
+	protected void setGender(byte gender) {
 		try {
 			FlurryAgent.setGender(gender);
 		} catch(Exception e){
@@ -152,7 +146,7 @@ public class AnalyticsFlurry implements IAnalytics {
 		}
 	}
 	
-	protected static void setUserId(String userId) {
+	protected void setUserId(String userId) {
 		try {
 			FlurryAgent.setUserId(userId);
 		} catch(Exception e){
@@ -160,7 +154,7 @@ public class AnalyticsFlurry implements IAnalytics {
 		}
 	}
 	
-	protected static void setUseHttps(boolean useHttps) {
+	protected void setUseHttps(boolean useHttps) {
 		try {
 			FlurryAgent.setUseHttps(useHttps);
 		} catch(Exception e){
@@ -173,7 +167,7 @@ public class AnalyticsFlurry implements IAnalytics {
 			sIsInitialized = true;
 			Context ctx = AnalyticsWrapper.getContext();
 			if (ctx != null) {
-				AnalyticsWrapper.setAnalytics(new AnalyticsFlurry(ctx));
+				AnalyticsWrapper.nativeInitAnalytics(new AnalyticsFlurry(ctx), AnalyticsFlurry.class.getName().replace('.', '/'));
 			} else {
 				Log.e("AnalyticsFlurry", "AnalyticsWrapper wasn't initialized.");
 			}

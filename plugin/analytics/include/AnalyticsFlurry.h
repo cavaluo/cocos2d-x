@@ -14,6 +14,7 @@ public:
 	    MALE = 1
 	};
 	AnalyticsFlurry();
+	~AnalyticsFlurry();
 	/** @brief Enable or disable detailed location reporting.
 	 *  @note It must be invoked before calling startSession.
 	 */

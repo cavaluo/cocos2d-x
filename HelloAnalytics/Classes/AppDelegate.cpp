@@ -12,7 +12,6 @@ USING_NS_CC;
 #define FLURRY_KEY "W8N2JXRQGTGVSG2T3PC8"
 // The app key of umeng must be set in AndroidManifest.xml
 
-AnalyticsProtocol* g_pAnalyticsInstance = NULL;
 AnalyticsUmeng* g_pUmeng = NULL;
 AnalyticsFlurry* g_pFlurry = NULL;
 
@@ -28,14 +27,17 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
-    PluginProtocol* pPlugin = PluginManager::getInstance()->loadPlugin("AnalyticsUmeng");
-
-    g_pAnalyticsInstance = dynamic_cast<AnalyticsProtocol*>(pPlugin);
-    g_pUmeng = dynamic_cast<AnalyticsUmeng*>(pPlugin);
+    PluginProtocol* pPlugin = NULL;
+    pPlugin = PluginManager::getInstance()->loadPlugin("AnalyticsFlurry");
     g_pFlurry = dynamic_cast<AnalyticsFlurry*>(pPlugin);
+    pPlugin = PluginManager::getInstance()->loadPlugin("AnalyticsUmeng");
+    g_pUmeng = dynamic_cast<AnalyticsUmeng*>(pPlugin);
+    
+    g_pFlurry->setDebugMode(true);
+    g_pUmeng->setDebugMode(true);
 
-    g_pAnalyticsInstance->setDebugMode(true);
-    g_pAnalyticsInstance->setCaptureUncaughtException(true);
+    g_pFlurry->setCaptureUncaughtException(true);
+    g_pUmeng->setCaptureUncaughtException(true);
 
     if (g_pUmeng != NULL)
     {
@@ -85,7 +87,8 @@ void AppDelegate::applicationDidEnterBackground()
 
     // if you use SimpleAudioEngine, it must be pause
     // SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
-    g_pAnalyticsInstance->stopSession();
+    g_pFlurry->stopSession();
+    g_pUmeng->stopSession();
 }
 
 // this function will be called when the app is active again
@@ -93,14 +96,8 @@ void AppDelegate::applicationWillEnterForeground()
 {
     CCDirector::sharedDirector()->resume();
 
-    if (g_pUmeng != NULL)
-    {
-        g_pUmeng->startSession("");
-    }
-    else if (g_pFlurry != NULL)
-    {
-        g_pFlurry->startSession(FLURRY_KEY);
-    }
+    g_pUmeng->startSession("");
+    g_pFlurry->startSession(FLURRY_KEY);
 
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();

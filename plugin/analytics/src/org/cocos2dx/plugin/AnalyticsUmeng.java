@@ -7,17 +7,11 @@ import android.util.Log;
 import com.umeng.analytics.MobclickAgent;
 
 public class AnalyticsUmeng implements IAnalytics{
-
+	
 	private static boolean sIsInitialized = false;
 	private Context mContext = null;
-	private static AnalyticsUmeng sThisObj = null;
 	
 	protected static String TAG = "AnalyticsUmeng";
-	public static void LogD(String tag, String msg){ 
-		if (AnalyticsWrapper.isDebugMode()) {
-			Log.d(tag, msg);
-		}
-	}
 	
 	protected static void LogE(String msg, Exception e) {
 		Log.e(TAG, msg, e);
@@ -25,11 +19,10 @@ public class AnalyticsUmeng implements IAnalytics{
 	
 	public AnalyticsUmeng(Context context) {
 		mContext = context;
-		sThisObj = this;
 	}
 	
-	public static boolean isValid() {
-		return (sThisObj != null) && (sThisObj.mContext != null);
+	public boolean isValid() {
+		return mContext != null;
 	}
 	@Override
 	public void startSession(String appKey) {
@@ -94,102 +87,102 @@ public class AnalyticsUmeng implements IAnalytics{
 		MobclickAgent.onEventEnd(mContext, eventId);
 	}
 
-	protected static String getConfigParams(String key) {
+	protected String getConfigParams(String key) {
 		if (!isValid()) return null;
 		String ret = "";
 		try{
-			ret = MobclickAgent.getConfigParams(sThisObj.mContext, key);
+			ret = MobclickAgent.getConfigParams(mContext, key);
 		} catch(Exception e){
 			LogE("Exception in logTimedEventBegin", e);
 		}
 		return ret;
 	}
 	
-	protected static void updateOnlineConfig() {
+	protected void updateOnlineConfig() {
 		if (!isValid()) return;
 		try{
-			MobclickAgent.updateOnlineConfig(sThisObj.mContext);
+			MobclickAgent.updateOnlineConfig(mContext);
 		} catch(Exception e){
 			LogE("Exception in updateOnlineConfig", e);
 		}
 	}
 	
-	protected static void setDefaultReportPolicy(int policy) {
+	protected void setDefaultReportPolicy(int policy) {
 		if (!isValid()) return;
 		try{
-			MobclickAgent.setDefaultReportPolicy(sThisObj.mContext, policy);
+			MobclickAgent.setDefaultReportPolicy(mContext, policy);
 		} catch(Exception e){
 			LogE("Exception in setDefaultReportPolicy", e);
 		}
 	}
 	
-	protected static void logEventWithLabel(String eventId, String label) {
+	protected void logEventWithLabel(String eventId, String label) {
 		if (!isValid()) return;
 		try{
-			MobclickAgent.onEvent(sThisObj.mContext, eventId, label);
+			MobclickAgent.onEvent(mContext, eventId, label);
 		} catch(Exception e){
 			LogE("Exception in logEventWithLabel", e);
 		}
 	}
 	
-	protected static void logEventWithDuration(String eventId, int duration) {
+	protected void logEventWithDuration(String eventId, int duration) {
 		if (!isValid()) return;
 		try{
-			MobclickAgent.onEventDuration(sThisObj.mContext, eventId, duration);
+			MobclickAgent.onEventDuration(mContext, eventId, duration);
 		} catch(Exception e){
 			LogE("Exception in logEventWithDuration, eventId, duration", e);
 		}
 	}
 	
-	protected static void logEventWithDuration(String eventId, int duration, String label) {
+	protected void logEventWithDuration(String eventId, int duration, String label) {
 		if (!isValid()) return;
 		try{
-			MobclickAgent.onEventDuration(sThisObj.mContext, eventId, label, duration);
+			MobclickAgent.onEventDuration(mContext, eventId, label, duration);
 		} catch(Exception e){
 			LogE("Exception in logEventWithDuration, eventId, label, duration", e);
 		}
 	}
 	
-	protected static void logEventWithDuration(String eventId, int duration, Hashtable<String, String> paramMap) {
+	protected void logEventWithDuration(String eventId, int duration, Hashtable<String, String> paramMap) {
 		if (!isValid()) return;
 		try{
-			MobclickAgent.onEventDuration(sThisObj.mContext, eventId, paramMap, duration);
+			MobclickAgent.onEventDuration(mContext, eventId, paramMap, duration);
 		} catch(Exception e){
 			LogE("Exception in logEventWithDuration,eventId,duration,paramMap", e);
 		}
 	}
 	
-	protected static void logTimedEventWithLabelBegin(String eventId, String label) {
+	protected void logTimedEventWithLabelBegin(String eventId, String label) {
 		if (!isValid()) return;
 		try{
-			MobclickAgent.onEventBegin(sThisObj.mContext, eventId, label);
+			MobclickAgent.onEventBegin(mContext, eventId, label);
 		} catch(Exception e){
 			LogE("Exception in logTimedEventWithLabelBegin", e);
 		}
 	}
 	
-	protected static void logTimedEventWithLabelEnd(String eventId, String label) {
+	protected void logTimedEventWithLabelEnd(String eventId, String label) {
 		if (!isValid()) return;
 		try{
-			MobclickAgent.onEventEnd(sThisObj.mContext, eventId, label);
+			MobclickAgent.onEventEnd(mContext, eventId, label);
 		} catch(Exception e){
 			LogE("Exception in logTimedEventWithLabelEnd", e);
 		}
 	}
 	
-	protected static void logTimedKVEventBegin(String eventId, String label, Hashtable<String, String> paramMap) {
+	protected void logTimedKVEventBegin(String eventId, String label, Hashtable<String, String> paramMap) {
 		if (!isValid()) return;
 		try{
-			MobclickAgent.onKVEventBegin(sThisObj.mContext, eventId, paramMap, label);
+			MobclickAgent.onKVEventBegin(mContext, eventId, paramMap, label);
 		} catch(Exception e){
 			LogE("Exception in logTimedKVEventBegin", e);
 		}
 	}
 	
-	protected static void logTimedKVEventEnd(String eventId, String label) {
+	protected void logTimedKVEventEnd(String eventId, String label) {
 		if (!isValid()) return;
 		try{
-			MobclickAgent.onKVEventEnd(sThisObj.mContext, eventId, label);
+			MobclickAgent.onKVEventEnd(mContext, eventId, label);
 		} catch(Exception e){
 			LogE("Exception in logTimedKVEventEnd", e);
 		}
@@ -200,7 +193,7 @@ public class AnalyticsUmeng implements IAnalytics{
 			sIsInitialized = true;
 			Context ctx = AnalyticsWrapper.getContext();
 			if (ctx != null) {
-				AnalyticsWrapper.setAnalytics(new AnalyticsUmeng(ctx));
+				AnalyticsWrapper.nativeInitAnalytics(new AnalyticsUmeng(ctx), AnalyticsUmeng.class.getName().replace('.', '/'));
 			} else {
 				Log.e("AnalyticsUmeng", "AnalyticsWrapper wasn't initialized.");
 			}
