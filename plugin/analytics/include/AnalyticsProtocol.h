@@ -20,13 +20,13 @@ public:
 	/** Set the timeout for expiring a session. */
 	virtual void setSessionContinueMillis(long millis);
 	/** Whether to catch uncaught exceptions to server.*/
-	virtual void setCaptureUncaughtException(bool isEnabled);
+	virtual void setCaptureUncaughtException(bool enabled);
 	/** Set whether needs to output logs to console.*/
-	virtual void setDebugMode(bool isDebugMode);
+	virtual void setDebugMode(bool debug);
 	/** log an error */
-	virtual void logError(const char* errorId, const char* message, const LogEventParamMap* pParams = NULL);
+	virtual void logError(const char* errorId, const char* message, const LogEventParamMap* paramMap = NULL);
 	/** log an event. */
-	virtual void logEvent(const char* eventId, const LogEventParamMap* pParams = NULL);
+	virtual void logEvent(const char* eventId, const LogEventParamMap* paramMap = NULL);
 	/** begin to log a timed event */
 	virtual void logTimedEventBegin(const char* eventId);
 	/** end a timed event */

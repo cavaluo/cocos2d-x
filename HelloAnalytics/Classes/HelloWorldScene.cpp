@@ -8,7 +8,6 @@ using namespace cocos2d;
 using namespace CocosDenshion;
 using namespace cocos2d::plugin;
 
-extern AnalyticsProtocol* g_pAnalyticsInstance;
 extern AnalyticsUmeng* g_pUmeng;
 extern AnalyticsFlurry* g_pFlurry;
 
@@ -98,8 +97,10 @@ void HelloWorld::eventMenuCallback(CCObject* pSender)
     {
     case TAG_LOG_EVENT_ID:
         {
-            g_pAnalyticsInstance->logEvent("click");
-            g_pAnalyticsInstance->logEvent("music");
+            g_pUmeng->logEvent("click");
+            g_pUmeng->logEvent("music");
+            g_pFlurry->logEvent("click");
+            g_pFlurry->logEvent("music");
         }
         break;
     case TAG_LOG_EVENT_ID_KV:
@@ -107,7 +108,8 @@ void HelloWorld::eventMenuCallback(CCObject* pSender)
             LogEventParamMap paramMap;
             paramMap.insert(LogEventParamPair("type", "popular"));
             paramMap.insert(LogEventParamPair("artist", "JJLin"));
-            g_pAnalyticsInstance->logEvent("music", &paramMap);
+            g_pUmeng->logEvent("music", &paramMap);
+            g_pFlurry->logEvent("music", &paramMap);
         }
         break;
     case TAG_LOG_ONLINE_CONFIG:
@@ -133,7 +135,8 @@ void HelloWorld::eventMenuCallback(CCObject* pSender)
         break;
     case TAG_LOG_EVENT_BEGIN:
         {
-            g_pAnalyticsInstance->logTimedEventBegin("music");
+            g_pUmeng->logTimedEventBegin("music");
+            g_pFlurry->logTimedEventBegin("music");
 
             LogEventParamMap paramMap;
             paramMap.insert(LogEventParamPair("type", "popular"));
@@ -151,7 +154,8 @@ void HelloWorld::eventMenuCallback(CCObject* pSender)
         break;
     case TAG_LOG_EVENT_END:
         {
-            g_pAnalyticsInstance->logTimedEventEnd("music");
+            g_pUmeng->logTimedEventEnd("music");
+            g_pFlurry->logTimedEventEnd("music");
             if (g_pUmeng != NULL)
             {          
                 g_pUmeng->logTimedEventWithLabelEnd("music", "one");

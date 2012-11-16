@@ -14,8 +14,11 @@ class PluginProtocol
 public:
     virtual ~PluginProtocol() {}
     virtual bool init() { return true; }
+    void setUserData(void* userData) { m_pUserData = userData; }
+    void* getUserData() { return m_pUserData; }
 protected:
     PluginProtocol() {}
+    void* m_pUserData;
 };
 
 }} //namespace cocos2d { namespace plugin {

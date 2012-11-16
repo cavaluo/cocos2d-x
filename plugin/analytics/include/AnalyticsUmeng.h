@@ -17,18 +17,20 @@ public:
 		WIFIONLY = 5
 	};
 	AnalyticsUmeng();
+	~AnalyticsUmeng();
+
 	void updateOnlineConfig();
 	const char* getConfigParams(const char* key);
-	void setDefaultReportPolicy(ReportPolicy ePolicy);
+	void setDefaultReportPolicy(ReportPolicy policy);
 
 	void logEventWithLabel(const char* eventId, const char* label);
 	void logEventWithDuration(const char* eventId, long duration, const char* label);
-	void logEventWithDuration(const char* eventId, long duration, const LogEventParamMap* pParamMap = NULL);
+	void logEventWithDuration(const char* eventId, long duration, const LogEventParamMap* paramMap = NULL);
 
 	void logTimedEventWithLabelBegin(const char* eventId, const char* label);
 	void logTimedEventWithLabelEnd(const char* eventId, const char* label);
 
-	void logTimedKVEventBegin(const char* eventId, const char* label, const LogEventParamMap* pParamMap);
+	void logTimedKVEventBegin(const char* eventId, const char* label, const LogEventParamMap* paramMap);
 	void logTimedKVEventEnd(const char* eventId, const char* label);
 };
 
