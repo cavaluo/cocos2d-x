@@ -84,7 +84,7 @@ void PluginManager::unloadPlugin(const char* name)
         PluginCreatorMap::iterator it = s_pCreatorMap->find(name);
         if (it != s_pCreatorMap->end())
         {
-            if (it->second.pInstance == NULL) {
+            if (it->second.pInstance != NULL) {
                 delete it->second.pInstance;
                 it->second.pInstance = NULL;
             }

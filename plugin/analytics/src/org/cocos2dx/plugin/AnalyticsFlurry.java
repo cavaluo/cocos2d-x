@@ -3,15 +3,12 @@ package org.cocos2dx.plugin;
 import java.util.Hashtable;
 
 import android.content.Context;
-import android.provider.SyncStateContract.Constants;
 import android.util.Log;
 
 import com.flurry.android.FlurryAgent;
 
 public class AnalyticsFlurry implements IAnalytics {
 
-
-	private static boolean sIsInitialized = false;
 	private Context mContext = null;
 	protected static String TAG = "AnalyticsFlurry";
 	
@@ -159,18 +156,6 @@ public class AnalyticsFlurry implements IAnalytics {
 			FlurryAgent.setUseHttps(useHttps);
 		} catch(Exception e){
 			LogE("Exception in setUseHttps", e);
-		}
-	}
-	
-	protected static void init() {
-		if (!sIsInitialized) {
-			sIsInitialized = true;
-			Context ctx = AnalyticsWrapper.getContext();
-			if (ctx != null) {
-				AnalyticsWrapper.nativeInitAnalytics(new AnalyticsFlurry(ctx), AnalyticsFlurry.class.getName().replace('.', '/'));
-			} else {
-				Log.e("AnalyticsFlurry", "AnalyticsWrapper wasn't initialized.");
-			}
 		}
 	}
 }

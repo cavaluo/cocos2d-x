@@ -16,26 +16,17 @@ PLUGIN_REGISTER_IMPL(AnalyticsUmeng)
 
 AnalyticsUmeng::AnalyticsUmeng()
 {
-	AnalyticsData* pData = (AnalyticsData*)this->getUserData();
-
-	JniMethodInfo t; 
-	if (JniHelper::getStaticMethodInfo(t
-		, pData->jclassName.c_str()
-		, "init"
-		, "()V"))
-	{
-		t.env->CallStaticVoidMethod(t.classID, t.methodID);
-		t.env->DeleteLocalRef(t.classID);
-	}
+	
 }
 
 AnalyticsUmeng::~AnalyticsUmeng()
 {
-	if (m_pUserData != NULL)
-	{
-		delete ((AnalyticsData*)m_pUserData);
-		m_pUserData = NULL;
-	}
+	LOGD("AnalyticsUmeng destructor");
+}
+
+bool AnalyticsUmeng::init()
+{
+	return AnalyticsUtils::initJavaAnalytics("AnalyticsUmeng");
 }
 
 void AnalyticsUmeng::updateOnlineConfig()
@@ -141,14 +132,14 @@ void AnalyticsUmeng::logEventWithDuration(const char* eventId, long duration, co
 	}
 }
 
-void AnalyticsUmeng::logEventWithDuration(const char* eventId, long duration, const LogEventParamMap* pParamMap /* = NULL */)
+void AnalyticsUmeng::logEventWithDuration(const char* eventId, long duration, const LogEventParamMap* paramMap /* = NULL */)
 {
 	return_if_fails(eventId != NULL && strlen(eventId) > 0);
 
 	AnalyticsData* pData = (AnalyticsData*)this->getUserData();
 
 	JniMethodInfo t;
-	if (pParamMap == NULL)
+	if (paramMap == NULL)
 	{
 		if (JniHelper::getMethodInfo(t
 			, pData->jclassName.c_str()
@@ -169,7 +160,7 @@ void AnalyticsUmeng::logEventWithDuration(const char* eventId, long duration, co
 			, "(Ljava/lang/String;ILjava/util/Hashtable;)V"))
 		{
 			jstring jeventId = t.env->NewStringUTF(eventId);
-			jobject jparamMap= createJavaMapObject(t, pParamMap);
+			jobject jparamMap= AnalyticsUtils::createJavaMapObject(t, paramMap);
 			t.env->CallVoidMethod(pData->jobj, t.methodID, jeventId, duration, jparamMap);
 			t.env->DeleteLocalRef(jeventId);
 			t.env->DeleteLocalRef(jparamMap);
@@ -223,7 +214,7 @@ void AnalyticsUmeng::logTimedEventWithLabelEnd(const char* eventId, const char* 
 	}
 }
 
-void AnalyticsUmeng::logTimedKVEventBegin(const char* eventId, const char* label, const LogEventParamMap* pParamMap)
+void AnalyticsUmeng::logTimedKVEventBegin(const char* eventId, const char* label, const LogEventParamMap* paramMap)
 {
 	return_if_fails(eventId != NULL && strlen(eventId) > 0);
 	return_if_fails(label != NULL && strlen(label) > 0);
@@ -238,7 +229,7 @@ void AnalyticsUmeng::logTimedKVEventBegin(const char* eventId, const char* label
 	{
 		jstring jeventId = t.env->NewStringUTF(eventId);
 		jstring jlabel = t.env->NewStringUTF(label);
-		jobject jparamMap= createJavaMapObject(t, pParamMap);
+		jobject jparamMap= AnalyticsUtils::createJavaMapObject(t, paramMap);
 		t.env->CallVoidMethod(pData->jobj, t.methodID, jeventId, jlabel, jparamMap);
 		t.env->DeleteLocalRef(jeventId);
 		t.env->DeleteLocalRef(jlabel);

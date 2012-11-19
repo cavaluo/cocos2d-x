@@ -17,21 +17,17 @@ PLUGIN_REGISTER_IMPL(AnalyticsFlurry)
 
 AnalyticsFlurry::AnalyticsFlurry()
 {
-	AnalyticsData* pData = (AnalyticsData*)this->getUserData();
-	JniMethodInfo t; 
-	if (JniHelper::getStaticMethodInfo(t
-		, pData->jclassName.c_str()
-		, "init"
-		, "()V"))
-	{
-		t.env->CallStaticVoidMethod(t.classID, t.methodID);
-		t.env->DeleteLocalRef(t.classID);
-	}
+
 }
 
 AnalyticsFlurry::~AnalyticsFlurry()
 {
+	LOGD("AnalyticsFlurry destructor");
+}
 
+bool AnalyticsFlurry::init()
+{
+	return AnalyticsUtils::initJavaAnalytics("AnalyticsFlurry");
 }
 
 void AnalyticsFlurry::setReportLocation(bool enabled)
@@ -159,11 +155,11 @@ void AnalyticsFlurry::logTimedEventBegin(const char* eventId)
 	AnalyticsProtocol::logTimedEventBegin(eventId);
 }
 
-void AnalyticsFlurry::logTimedEventBegin(const char* eventId, const LogEventParamMap* pParamMap)
+void AnalyticsFlurry::logTimedEventBegin(const char* eventId, const LogEventParamMap* paramMap)
 {
 	return_if_fails(eventId != NULL && strlen(eventId) > 0);
 	
-	if (pParamMap == NULL)
+	if (paramMap == NULL)
 	{
 		AnalyticsProtocol::logTimedEventBegin(eventId);
 	}
@@ -177,7 +173,7 @@ void AnalyticsFlurry::logTimedEventBegin(const char* eventId, const LogEventPara
 			, "(Ljava/lang/String;Ljava/util/Hashtable;)V"))
 		{
 			jstring jeventId = t.env->NewStringUTF(eventId);
-			jobject jparamMap= createJavaMapObject(t, pParamMap);
+			jobject jparamMap= AnalyticsUtils::createJavaMapObject(t, paramMap);
 			t.env->CallVoidMethod(pData->jobj, t.methodID, jeventId, jparamMap);
 			t.env->DeleteLocalRef(jeventId);
 			t.env->DeleteLocalRef(jparamMap);

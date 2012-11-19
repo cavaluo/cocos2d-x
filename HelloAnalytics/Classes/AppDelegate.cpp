@@ -29,10 +29,15 @@ bool AppDelegate::applicationDidFinishLaunching()
 {
     PluginProtocol* pPlugin = NULL;
     pPlugin = PluginManager::getInstance()->loadPlugin("AnalyticsFlurry");
+
     g_pFlurry = dynamic_cast<AnalyticsFlurry*>(pPlugin);
+    g_pFlurry->startSession(FLURRY_KEY);
+
     pPlugin = PluginManager::getInstance()->loadPlugin("AnalyticsUmeng");
     g_pUmeng = dynamic_cast<AnalyticsUmeng*>(pPlugin);
-    
+    // The app key of umeng must be set in AndroidManifest.xml, so you don't need to set it here.
+    g_pUmeng->startSession("");
+
     g_pFlurry->setDebugMode(true);
     g_pUmeng->setDebugMode(true);
 
@@ -43,8 +48,6 @@ bool AppDelegate::applicationDidFinishLaunching()
     {
         g_pUmeng->updateOnlineConfig();
         g_pUmeng->setDefaultReportPolicy(AnalyticsUmeng::REALTIME);
-        // The app key of umeng must be set in AndroidManifest.xml, so you don't need to set it here.
-        g_pUmeng->startSession("");
     }
 
     if (g_pFlurry != NULL)
@@ -58,7 +61,6 @@ bool AppDelegate::applicationDidFinishLaunching()
         g_pFlurry->setGender(AnalyticsFlurry::MALE);
         g_pFlurry->setUserId("123456");
         g_pFlurry->setUseHttps(false);
-        g_pFlurry->startSession(FLURRY_KEY);
     }
     
     // initialize director

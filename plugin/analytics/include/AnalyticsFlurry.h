@@ -15,6 +15,8 @@ public:
 	};
 	AnalyticsFlurry();
 	~AnalyticsFlurry();
+	virtual bool init();
+	
 	/** @brief Enable or disable detailed location reporting.
 	 *  @note It must be invoked before calling startSession.
 	 */

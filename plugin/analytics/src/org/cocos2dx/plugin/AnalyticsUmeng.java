@@ -8,7 +8,6 @@ import com.umeng.analytics.MobclickAgent;
 
 public class AnalyticsUmeng implements IAnalytics{
 	
-	private static boolean sIsInitialized = false;
 	private Context mContext = null;
 	
 	protected static String TAG = "AnalyticsUmeng";
@@ -185,18 +184,6 @@ public class AnalyticsUmeng implements IAnalytics{
 			MobclickAgent.onKVEventEnd(mContext, eventId, label);
 		} catch(Exception e){
 			LogE("Exception in logTimedKVEventEnd", e);
-		}
-	}
-	
-	protected static void init() {
-		if (!sIsInitialized) {
-			sIsInitialized = true;
-			Context ctx = AnalyticsWrapper.getContext();
-			if (ctx != null) {
-				AnalyticsWrapper.nativeInitAnalytics(new AnalyticsUmeng(ctx), AnalyticsUmeng.class.getName().replace('.', '/'));
-			} else {
-				Log.e("AnalyticsUmeng", "AnalyticsWrapper wasn't initialized.");
-			}
 		}
 	}
 }

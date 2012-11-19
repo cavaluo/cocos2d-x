@@ -29,15 +29,15 @@ JNIEXPORT void JNICALL Java_org_cocos2dx_plugin_AnalyticsWrapper_nativeInitAnaly
 
 namespace cocos2d { namespace plugin {
 
-static void callJavaFunctionWithName_string_map(AnalyticsProtocol* thiz, const char* funcName, const char* keyParam, const LogEventParamMap* pParamMap)
+static void callJavaFunctionWithName_string_map(AnalyticsProtocol* thiz, const char* funcName, const char* keyParam, const LogEventParamMap* paramMap)
 {
 	return_if_fails(funcName != NULL && strlen(funcName) > 0);
-	return_if_fails(keyParam != NULL && strlen(keyParam) > 0);
+	return_if_fails(keyParam != NULL);
 
     AnalyticsData* pData = (AnalyticsData*)thiz->getUserData();
 
 	JniMethodInfo t;
-    if (NULL == pParamMap)
+    if (NULL == paramMap)
     {
     	if (JniHelper::getMethodInfo(t
     		, pData->jclassName.c_str()
@@ -58,7 +58,7 @@ static void callJavaFunctionWithName_string_map(AnalyticsProtocol* thiz, const c
     		, "(Ljava/lang/String;Ljava/util/Hashtable;)V"))
     	{
     		jstring jeventId = t.env->NewStringUTF(keyParam);
-    		jobject obj_Map = createJavaMapObject(t, pParamMap);
+    		jobject obj_Map = AnalyticsUtils::createJavaMapObject(t, paramMap);
     		t.env->CallVoidMethod(pData->jobj, t.methodID, jeventId, obj_Map);
     		t.env->DeleteLocalRef(jeventId);
     		t.env->DeleteLocalRef(obj_Map);
@@ -94,10 +94,12 @@ AnalyticsProtocol::~AnalyticsProtocol()
 {
     if (m_pUserData != NULL)
     {
-        jobject jobj = 
-
-
-        delete ((AnalyticsData*)m_pUserData);
+        AnalyticsData* pData = (AnalyticsData*)m_pUserData;
+        jobject jobj = pData->jobj;
+        JNIEnv* pEnv = JniHelper::getEnv();
+        LOGD("Delete global reference.");
+        pEnv->DeleteGlobalRef(jobj);
+        delete pData;
         m_pUserData = NULL;
     }
 }
@@ -111,7 +113,7 @@ void AnalyticsProtocol::stopSession()
 {
     AnalyticsData* pData = (AnalyticsData*)this->getUserData();
     JniMethodInfo t;
-    if (JniHelper::getStaticMethodInfo(t
+    if (JniHelper::getMethodInfo(t
         , pData->jclassName.c_str()
         , "stopSession"
         , "()V"))
@@ -169,7 +171,7 @@ void AnalyticsProtocol::logError(const char* errorId, const char* message, const
     		jstring jerrorId = t.env->NewStringUTF(errorId);
     		jstring jmessage = t.env->NewStringUTF(message);
 
-    		jobject jobjMap = createJavaMapObject(t, pParams);
+    		jobject jobjMap = AnalyticsUtils::createJavaMapObject(t, pParams);
     		t.env->CallVoidMethod(pData->jobj, t.methodID, jerrorId, jmessage, jobjMap);
     		t.env->DeleteLocalRef(jerrorId);
     		t.env->DeleteLocalRef(jmessage);

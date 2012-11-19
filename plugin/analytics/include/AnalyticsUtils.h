@@ -10,7 +10,12 @@ namespace cocos2d { namespace plugin {
 #define return_if_fails(cond) if (!(cond)) return; 
 #define return_val_if_fails(cond, ret) if(!(cond)) return (ret);
 
-jobject createJavaMapObject(JniMethodInfo&t, const LogEventParamMap* pParamMap);
+class AnalyticsUtils
+{
+public:	
+	static jobject createJavaMapObject(JniMethodInfo&t, const LogEventParamMap* paramMap);
+	static bool initJavaAnalytics(const char* className);
+};
 
 }} // namespace cocos2d { namespace plugin {
 

@@ -87,7 +87,25 @@ bool HelloWorld::init()
         pMenuItem->setPosition( ccp(size.width / 2, size.height - 50*i - 100));
     }
 
+    CCLabelTTF* label = CCLabelTTF::create("reload all plugins", "Arial", 24);
+    CCMenuItemLabel* pMenuItem = CCMenuItemLabel::create(label, this, menu_selector(HelloWorld::reloadPluginMenuCallback));
+    pMenuItem->setAnchorPoint(ccp(0, 0));
+    pMenu->addChild(pMenuItem, 0);
+    pMenuItem->setPosition( ccp(size.width / 2, 0));
+
     return true;
+}
+
+void HelloWorld::reloadPluginMenuCallback(CCObject* pSender)
+{
+    PluginManager::getInstance()->unloadPlugin("AnalyticsFlurry");
+    PluginManager::getInstance()->unloadPlugin("AnalyticsUmeng");
+
+    PluginProtocol* pPlugin = NULL;
+    pPlugin = PluginManager::getInstance()->loadPlugin("AnalyticsFlurry");
+    g_pFlurry = dynamic_cast<AnalyticsFlurry*>(pPlugin);
+    pPlugin = PluginManager::getInstance()->loadPlugin("AnalyticsUmeng");
+    g_pUmeng = dynamic_cast<AnalyticsUmeng*>(pPlugin);
 }
 
 void HelloWorld::eventMenuCallback(CCObject* pSender)
