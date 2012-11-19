@@ -7,13 +7,13 @@ namespace cocos2d { namespace plugin {
 
 class AnalyticsFlurry : public AnalyticsProtocol
 {
-	PLUGIN_REGISTER_DECL()
+	PLUGIN_REGISTER_DECL(AnalyticsFlurry)
 public:
 	enum Gender{
 	    FEMALE = 0,
 	    MALE = 1
 	};
-	AnalyticsFlurry();
+
 	~AnalyticsFlurry();
 	virtual bool init();
 	

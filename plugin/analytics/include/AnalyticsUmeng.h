@@ -10,7 +10,7 @@ namespace cocos2d { namespace plugin {
 
 class AnalyticsUmeng : public AnalyticsProtocol
 {
-	PLUGIN_REGISTER_DECL()
+	PLUGIN_REGISTER_DECL(AnalyticsUmeng)
 public:
 	enum ReportPolicy
 	{
@@ -19,7 +19,7 @@ public:
 		DAILY = 4,
 		WIFIONLY = 5
 	};
-	AnalyticsUmeng();
+
 	~AnalyticsUmeng();
 	virtual bool init();
 	/** Update the online configuration */

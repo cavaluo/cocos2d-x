@@ -18,7 +18,8 @@ public:
     RegisterPlugin(const char* name, PluginCreator pfnCreator);
 };
 
-#define PLUGIN_REGISTER_DECL() \
+#define PLUGIN_REGISTER_DECL(type) \
+    private: type() {} \
     public: static PluginProtocol* createPlugin();
 
 #define PLUGIN_REGISTER_IMPL(type) \

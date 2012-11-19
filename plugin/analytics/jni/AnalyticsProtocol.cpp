@@ -96,7 +96,7 @@ AnalyticsProtocol::~AnalyticsProtocol()
     {
         AnalyticsData* pData = (AnalyticsData*)m_pUserData;
         jobject jobj = pData->jobj;
-        JNIEnv* pEnv = JniHelper::getEnv();
+        JNIEnv* pEnv = AnalyticsUtils::getEnv();
         LOGD("Delete global reference.");
         pEnv->DeleteGlobalRef(jobj);
         delete pData;

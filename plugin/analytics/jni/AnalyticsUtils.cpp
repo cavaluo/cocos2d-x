@@ -1,6 +1,16 @@
 #include "AnalyticsUtils.h"
+#include <android/log.h>
 
 namespace cocos2d { namespace plugin {
+
+#define JAVAVM    cocos2d::JniHelper::getJavaVM()
+
+#if 1
+#define  LOG_TAG    "AnalyticsUtils"
+#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+#else
+#define  LOGD(...) 
+#endif
 
 jobject AnalyticsUtils::createJavaMapObject(JniMethodInfo&t, const LogEventParamMap* paramMap)
 {
@@ -35,6 +45,34 @@ bool AnalyticsUtils::initJavaAnalytics(const char* className)
 		t.env->DeleteLocalRef(t.classID);
 	}
 	return bRet;
+}
+
+JNIEnv* AnalyticsUtils::getEnv()
+{
+    bool bRet = false;
+    JNIEnv* env = NULL;
+    do 
+    {
+        if (JAVAVM->GetEnv((void**)&env, JNI_VERSION_1_4) != JNI_OK)
+        {
+            LOGD("Failed to get the environment using GetEnv()");
+            break;
+        }
+
+        if (JAVAVM->AttachCurrentThread(&env, 0) < 0)
+        {
+            LOGD("Failed to get the environment using AttachCurrentThread()");
+            break;
+        }
+
+        bRet = true;
+    } while (0);        
+
+    if (!bRet) {
+    	env = NULL; 
+    }
+
+    return env;
 }
 
 }}// namespace cocos2d { namespace plugin {

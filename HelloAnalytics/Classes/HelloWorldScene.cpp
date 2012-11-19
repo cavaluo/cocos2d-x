@@ -89,7 +89,7 @@ bool HelloWorld::init()
 
     CCLabelTTF* label = CCLabelTTF::create("reload all plugins", "Arial", 24);
     CCMenuItemLabel* pMenuItem = CCMenuItemLabel::create(label, this, menu_selector(HelloWorld::reloadPluginMenuCallback));
-    pMenuItem->setAnchorPoint(ccp(0, 0));
+    pMenuItem->setAnchorPoint(ccp(0.5f, 0));
     pMenu->addChild(pMenuItem, 0);
     pMenuItem->setPosition( ccp(size.width / 2, 0));
 

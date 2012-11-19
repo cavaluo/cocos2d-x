@@ -15,11 +15,6 @@ namespace cocos2d { namespace plugin {
 
 PLUGIN_REGISTER_IMPL(AnalyticsFlurry)
 
-AnalyticsFlurry::AnalyticsFlurry()
-{
-
-}
-
 AnalyticsFlurry::~AnalyticsFlurry()
 {
 	LOGD("AnalyticsFlurry destructor");

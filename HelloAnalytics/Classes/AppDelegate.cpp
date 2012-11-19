@@ -31,8 +31,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     pPlugin = PluginManager::getInstance()->loadPlugin("AnalyticsFlurry");
 
     g_pFlurry = dynamic_cast<AnalyticsFlurry*>(pPlugin);
-    g_pFlurry->startSession(FLURRY_KEY);
-
+   
     pPlugin = PluginManager::getInstance()->loadPlugin("AnalyticsUmeng");
     g_pUmeng = dynamic_cast<AnalyticsUmeng*>(pPlugin);
     // The app key of umeng must be set in AndroidManifest.xml, so you don't need to set it here.
@@ -42,6 +41,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     g_pUmeng->setDebugMode(true);
 
     g_pFlurry->setCaptureUncaughtException(true);
+    // startSession must be invoked after set captureUncaughtException if using Flurry.
+    g_pFlurry->startSession(FLURRY_KEY);
+
     g_pUmeng->setCaptureUncaughtException(true);
 
     if (g_pUmeng != NULL)

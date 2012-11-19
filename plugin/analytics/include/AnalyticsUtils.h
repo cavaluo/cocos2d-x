@@ -15,6 +15,7 @@ class AnalyticsUtils
 public:	
 	static jobject createJavaMapObject(JniMethodInfo&t, const LogEventParamMap* paramMap);
 	static bool initJavaAnalytics(const char* className);
+	static JNIEnv* getEnv();
 };
 
 }} // namespace cocos2d { namespace plugin {
