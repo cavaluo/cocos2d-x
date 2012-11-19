@@ -40,6 +40,7 @@ typedef struct JniMethodInfo_
 class CC_DLL JniHelper
 {
 public:
+    static JNIEnv* getEnv();
     static JavaVM* getJavaVM();
     static void setJavaVM(JavaVM *javaVM);
     static const char* getExternalAssetPath();

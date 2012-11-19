@@ -43,7 +43,7 @@ extern "C"
     // java vm helper function
     //////////////////////////////////////////////////////////////////////////
 
-    static bool getEnv(JNIEnv **env)
+    static bool getEnv_(JNIEnv **env)
     {
         bool bRet = false;
 
@@ -76,7 +76,7 @@ extern "C"
         {
             if (! pEnv)
             {
-                if (! getEnv(&pEnv))
+                if (! getEnv_(&pEnv))
                 {
                     break;
                 }
@@ -101,7 +101,7 @@ extern "C"
 
         do 
         {
-            if (! getEnv(&pEnv))
+            if (! getEnv_(&pEnv))
             {
                 break;
             }
@@ -133,7 +133,7 @@ extern "C"
 
         do 
         {
-            if (! getEnv(&pEnv))
+            if (! getEnv_(&pEnv))
             {
                 break;
             }
@@ -166,7 +166,7 @@ extern "C"
         
         JNIEnv *env = 0;
 
-        if (! getEnv(&env))
+        if (! getEnv_(&env))
         {
             return 0;
         }
@@ -182,6 +182,17 @@ extern "C"
 NS_CC_BEGIN
 
 JavaVM* JniHelper::m_psJavaVM = NULL;
+
+JNIEnv* JniHelper::getEnv()
+{
+    JNIEnv* pEnv = NULL;
+    bool bRet = false;
+    bRet = getEnv_(&pEnv);
+    if (!bRet) {
+        pEnv = NULL;
+    }
+    return pEnv;
+}
 
 JavaVM* JniHelper::getJavaVM()
 {
