@@ -27,7 +27,7 @@ THE SOFTWARE.
 #include "CCAutoreleasePool.h"
 #include "ccMacros.h"
 #include "script_support/CCScriptSupport.h"
-
+#include "layers_scenes_transitions_nodes/CCLayer.h"
 NS_CC_BEGIN
 
 CCObject* CCCopying::copyWithZone(CCZone *pZone)
@@ -76,6 +76,8 @@ CCObject* CCObject::copy()
     return copyWithZone(0);
 }
 
+
+
 void CCObject::release(void)
 {
     CCAssert(m_uReference > 0, "reference count should greater than 0");
@@ -83,6 +85,12 @@ void CCObject::release(void)
 
     if (m_uReference == 0)
     {
+        if (dynamic_cast<CCLayerGradient*>(this))
+        {
+            int a = 0;
+            a = 0;
+        }
+        
         delete this;
     }
 }
@@ -92,6 +100,11 @@ void CCObject::retain(void)
     CCAssert(m_uReference > 0, "reference count should greater than 0");
 
     ++m_uReference;
+    if (dynamic_cast<CCLayerGradient*>(this))
+    {
+        int a = 0;
+        a = 0;
+    }
 }
 
 CCObject* CCObject::autorelease(void)

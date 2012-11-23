@@ -412,6 +412,7 @@ void ScriptingCore::createGlobalContext() {
     JS_SetOptions(this->cx_, JS_GetOptions(this->cx_) & ~JSOPTION_METHODJIT);
     JS_SetOptions(this->cx_, JS_GetOptions(this->cx_) & ~JSOPTION_METHODJIT_ALWAYS);
     JS_SetErrorReporter(this->cx_, ScriptingCore::reportError);
+    JS_SetGCZeal(this->cx_, 2, JS_DEFAULT_ZEAL_FREQ);
     this->global_ = NewGlobalObject(cx_);
     for (std::vector<sc_register_sth>::iterator it = registrationList.begin(); it != registrationList.end(); it++) {
         sc_register_sth callback = *it;
@@ -507,6 +508,11 @@ void ScriptingCore::removeScriptObjectByCCObject(CCObject* pObj)
         JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
         JS_GET_NATIVE_PROXY(jsproxy, nproxy->obj);
         JS_RemoveObjectRoot(cx, &jsproxy->obj);
+        CCLOG("dumpRoot begin---------------------");
+        CCLOG(CCString::createWithFormat("Unrooted: ( %s ) at 0x%X", nproxy->class_name, jsproxy->obj)->getCString());
+        
+        dumpRoot(this->cx_, 0, NULL);
+        CCLOG("dumpRoot end---------------------");
         JS_REMOVE_PROXY(nproxy, jsproxy);
     }
 }
@@ -560,9 +566,9 @@ JSBool ScriptingCore::dumpRoot(JSContext *cx, uint32_t argc, jsval *vp)
     // JS_DumpNamedRoots is only available on DEBUG versions of SpiderMonkey.
     // Mac and Simulator versions were compiled with DEBUG.
 #if DEBUG
-//    JSContext *_cx = ScriptingCore::getInstance()->getGlobalContext();
-//    JSRuntime *rt = JS_GetRuntime(_cx);
-//    JS_DumpNamedRoots(rt, dumpNamedRoot, NULL);
+   JSContext *_cx = ScriptingCore::getInstance()->getGlobalContext();
+   JSRuntime *rt = JS_GetRuntime(_cx);
+   JS_DumpNamedRoots(rt, dumpNamedRoot, NULL);
 #endif
     return JS_TRUE;
 }
@@ -642,6 +648,13 @@ int ScriptingCore::executeNodeEvent(CCNode* pNode, int nAction)
 
     if(nAction == kCCNodeOnEnter)
     {
+        if (dynamic_cast<CCScene*>(pNode))
+        {
+            CCLOG("scene enter ------ begin");
+            ScriptingCore::dumpRoot(cx_, 0, NULL);
+            CCLOG("scene enter ------ end");
+        }
+        
         executeJSFunctionWithName(this->cx_, p->obj, "onEnter", dataVal, retval);
         resumeSchedulesAndActions(pNode);
     }

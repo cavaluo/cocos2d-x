@@ -7,6 +7,7 @@
 typedef struct js_proxy {
 	void *ptr;
 	JSObject *obj;
+    char class_name[50];
 	UT_hash_handle hh;
 } js_proxy_t;
 
@@ -57,11 +58,13 @@ do { \
 	assert(p); \
 	p->ptr = native_obj; \
 	p->obj = js_obj; \
+    strncpy(p->class_name, typeid(*((CCObject*)native_obj)).name(), sizeof(p->class_name)); \
 	HASH_ADD_PTR(_native_js_global_ht, ptr, p); \
 	p = (js_proxy_t *)malloc(sizeof(js_proxy_t)); \
 	assert(p); \
 	p->ptr = native_obj; \
 	p->obj = js_obj; \
+    strncpy(p->class_name, typeid(*((CCObject*)native_obj)).name(), sizeof(p->class_name)); \
 	HASH_ADD_PTR(_js_native_global_ht, obj, p); \
 } while(0) \
 

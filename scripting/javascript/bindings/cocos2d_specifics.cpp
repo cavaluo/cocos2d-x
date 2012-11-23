@@ -47,7 +47,7 @@ JSObject* bind_menu_item(JSContext *cx, T* nativeObj, jsval callback, jsval this
 		// bind nativeObj <-> JSObject
 		js_proxy_t *proxy;
 		JS_NEW_PROXY(proxy, nativeObj, tmp);
-		JS_AddNamedObjectRoot(cx, &proxy->obj, "MenuItem");        
+		JS_AddNamedObjectRoot(cx, &proxy->obj, typeid(*nativeObj).name());        
 		addCallBackAndThis(tmp, callback, thisObj);
 
 		return tmp;
@@ -554,13 +554,22 @@ JSBool js_cocos2dx_swap_native_object(JSContext *cx, uint32_t argc, jsval *vp)
 			js_proxy_t *jsproxy;
 			JS_GET_PROXY(jsproxy, ptrTwo);
 			if (jsproxy) {
-                JS_RemoveObjectRoot(cx, &nproxy->obj);
+                if (dynamic_cast<CCLayerGradient*>((CCObject*)nproxy->ptr))
+                {
+                    int a = 0;
+                    a = 0;
+                }
+                
+                //JS_RemoveObjectRoot(cx, &nproxy->obj);
 
 				JS_REMOVE_PROXY(jsproxy, nproxy);
 				JS_NEW_PROXY(nproxy, ptrTwo, one);
+                int a = 0;
+                a = 0;
 			}
 		}
 	}
+
 	return JS_TRUE;
 }
 
