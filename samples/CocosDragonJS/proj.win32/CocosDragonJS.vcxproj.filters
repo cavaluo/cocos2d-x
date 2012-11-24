@@ -58,6 +58,9 @@
     <ClCompile Include="..\..\..\scripting\javascript\bindings\ScriptingCore.cpp">
       <Filter>bindings</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\scripting\javascript\bindings\jsproxy.cpp">
+      <Filter>bindings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -109,6 +112,9 @@
       <Filter>bindings</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\scripting\javascript\bindings\spidermonkey_specifics.h">
+      <Filter>bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\scripting\javascript\bindings\jsproxy.h">
       <Filter>bindings</Filter>
     </ClInclude>
   </ItemGroup>

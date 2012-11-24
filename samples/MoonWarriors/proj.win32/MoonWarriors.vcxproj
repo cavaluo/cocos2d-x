@@ -138,6 +138,7 @@ xcopy /Y /Q "$(SolutionDir)scripting\javascript\spidermonkey-win32\lib\*.*" "$(O
   <ItemGroup>
     <ClCompile Include="..\..\..\scripting\javascript\bindings\cocos2d_specifics.cpp" />
     <ClCompile Include="..\..\..\scripting\javascript\bindings\generated\cocos2dx.cpp" />
+    <ClCompile Include="..\..\..\scripting\javascript\bindings\jsproxy.cpp" />
     <ClCompile Include="..\..\..\scripting\javascript\bindings\ScriptingCore.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
@@ -145,6 +146,7 @@ xcopy /Y /Q "$(SolutionDir)scripting\javascript\spidermonkey-win32\lib\*.*" "$(O
   <ItemGroup>
     <ClInclude Include="..\..\..\scripting\javascript\bindings\cocos2d_specifics.hpp" />
     <ClInclude Include="..\..\..\scripting\javascript\bindings\generated\cocos2dx.hpp" />
+    <ClInclude Include="..\..\..\scripting\javascript\bindings\jsproxy.h" />
     <ClInclude Include="..\..\..\scripting\javascript\bindings\ScriptingCore.h" />
     <ClInclude Include="..\..\..\scripting\javascript\bindings\spidermonkey_specifics.h" />
     <ClInclude Include="main.h" />

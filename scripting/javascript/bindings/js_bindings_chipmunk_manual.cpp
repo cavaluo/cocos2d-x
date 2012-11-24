@@ -37,51 +37,12 @@ USING_NS_CC_EXT;
 // Function declarations
 void static freeSpaceChildren(cpSpace *space);
 
-
-template <class T>
-js_type_class_t *js_get_type_from_native(T* native_obj) {
-	js_type_class_t *typeProxy;
-	uint32_t typeId = reinterpret_cast<int>(typeid(*native_obj).name());
-    //const char *nam = typeid(*native_obj).name();
-	HASH_FIND_INT(_js_global_type_ht, &typeId, typeProxy);
-	if (!typeProxy) {
-		TypeInfo *typeInfo = dynamic_cast<TypeInfo *>(native_obj);
-		if (typeInfo) {
-			typeId = typeInfo->getClassTypeInfo();
-		} else {
-			typeId = reinterpret_cast<int>(typeid(T).name());
-		}
-		HASH_FIND_INT(_js_global_type_ht, &typeId, typeProxy);
-	}
-	return typeProxy;
-}
-
-/**
- * you don't need to manage the returned pointer. The returned pointer should be deleted
- * using JS_REMOVE_PROXY. Most of the time you do that in the C++ destructor.
- */
-template<class T>
-js_proxy_t *js_get_or_create_proxy(JSContext *cx, T *native_obj) {
-	js_proxy_t *proxy;
-	HASH_FIND_PTR(_native_js_global_ht, &native_obj, proxy);
-	if (!proxy) {
-		js_type_class_t *typeProxy = js_get_type_from_native<T>(native_obj);
-		assert(typeProxy);
-		JSObject* js_obj = JS_NewObject(cx, typeProxy->jsclass, typeProxy->proto, typeProxy->parentProto);
-		JS_NEW_PROXY(proxy, native_obj, js_obj);
-
-		JS_AddNamedObjectRoot(cx, &proxy->obj, typeid(native_obj).name());
-		return proxy;
-	} else {
-		return proxy;
-	}
-	return NULL;
-}
-
 template<class T>
 static JSBool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
     TypeTest<T> t;
     T* cobj = new T();
+    cobj->autorelease();
+
     js_type_class_t *p;
     uint32_t typeId = t.s_id();
     HASH_FIND_INT(_js_global_type_ht, &typeId, p);
@@ -89,7 +50,7 @@ static JSBool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
     JSObject *_tmp = JS_NewObject(cx, p->jsclass, p->proto, p->parentProto);
     js_proxy_t *pp;
     JS_NEW_PROXY(pp, cobj, _tmp);
-    JS_AddObjectRoot(cx, &pp->obj);
+    JS_AddNamedObjectRoot(cx, &pp->obj, typeid(*cobj).name());
     JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(_tmp));
 
     return JS_TRUE;
@@ -229,6 +190,7 @@ JSBool JSB_CCPhysicsDebugNode_debugNodeForCPSpace__static(JSContext *cx, uint32_
             jsret = OBJECT_TO_JSVAL(obj);
             js_proxy_t *p;
             JS_NEW_PROXY(p, ret, obj);
+            JS_AddNamedObjectRoot(cx, &obj, typeid(*ret).name());
         } else {
             jsret = JSVAL_NULL;
         }
@@ -352,6 +314,7 @@ JSBool JSPROXY_CCPhysicsSprite_spriteWithFile_rect__static(JSContext *cx, uint32
 				jsret = OBJECT_TO_JSVAL(obj);
                 js_proxy_t *p;
                 JS_NEW_PROXY(p, ret, obj);
+                JS_AddNamedObjectRoot(cx, &obj, typeid(*ret).name());
 			} else {
 				jsret = JSVAL_NULL;
 			}
@@ -377,7 +340,7 @@ JSBool JSPROXY_CCPhysicsSprite_spriteWithFile_rect__static(JSContext *cx, uint32
 				jsret = OBJECT_TO_JSVAL(obj);
                 js_proxy_t *p;
                 JS_NEW_PROXY(p, ret, obj);
-
+                JS_AddNamedObjectRoot(cx, &obj, typeid(*ret).name());
 			} else {
 				jsret = JSVAL_NULL;
 			}
@@ -417,6 +380,7 @@ JSBool JSPROXY_CCPhysicsSprite_spriteWithSpriteFrame__static(JSContext *cx, uint
             jsret = OBJECT_TO_JSVAL(obj);
             js_proxy_t *p;
             JS_NEW_PROXY(p, ret, obj);
+            JS_AddNamedObjectRoot(cx, &obj, typeid(*ret).name());
 		} else {
 			jsret = JSVAL_NULL;
 		}
@@ -448,6 +412,7 @@ JSBool JSPROXY_CCPhysicsSprite_spriteWithSpriteFrameName__static(JSContext *cx, 
             jsret = OBJECT_TO_JSVAL(obj);
             js_proxy_t *p;
             JS_NEW_PROXY(p, ret, obj);
+            JS_AddNamedObjectRoot(cx, &obj, typeid(*ret).name());
 		} else {
 			jsret = JSVAL_NULL;
 		}

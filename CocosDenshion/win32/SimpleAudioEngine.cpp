@@ -67,7 +67,7 @@ void SimpleAudioEngine::end()
 //////////////////////////////////////////////////////////////////////////
 
 void SimpleAudioEngine::playBackgroundMusic(const char* pszFilePath, bool bLoop)
-{
+{return;
     if (! pszFilePath)
     {
         return;
@@ -119,7 +119,7 @@ bool SimpleAudioEngine::isBackgroundMusicPlaying()
 //////////////////////////////////////////////////////////////////////////
 
 unsigned int SimpleAudioEngine::playEffect(const char* pszFilePath, bool bLoop)
-{
+{return 0;
     unsigned int nRet = _Hash(pszFilePath);
 
     preloadEffect(pszFilePath);

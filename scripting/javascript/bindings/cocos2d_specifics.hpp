@@ -58,7 +58,7 @@ inline js_type_class_t *js_get_type_from_native(T* native_obj) {
 template<class T>
 inline js_proxy_t *js_get_or_create_proxy(JSContext *cx, T *native_obj) {
     js_proxy_t *proxy;
-    HASH_FIND_PTR(_native_js_global_ht, &native_obj, proxy);
+    JS_GET_PROXY(proxy, native_obj);
     if (!proxy) {
         js_type_class_t *typeProxy = js_get_type_from_native<T>(native_obj);
         assert(typeProxy);

@@ -42,13 +42,19 @@ JSObject* bind_menu_item(JSContext *cx, T* nativeObj, jsval callback, jsval this
 	} else {
 		js_type_class_t *classType = js_get_type_from_native<T>(nativeObj);
 		assert(classType);
-		JSObject *tmp = JS_NewObject(cx, classType->jsclass, classType->proto, classType->parentProto);
+		jsval abc = JSVAL_NULL;
+
+        JS_AddNamedValueRoot(cx, &callback, "bind_menu_item callback");
+
+        JSObject *tmp = JS_NewObject(cx, classType->jsclass, classType->proto, classType->parentProto);
 
 		// bind nativeObj <-> JSObject
 		js_proxy_t *proxy;
 		JS_NEW_PROXY(proxy, nativeObj, tmp);
 		JS_AddNamedObjectRoot(cx, &proxy->obj, typeid(*nativeObj).name());        
 		addCallBackAndThis(tmp, callback, thisObj);
+
+        JS_RemoveValueRoot(cx, &callback);
 
 		return tmp;
 	}
@@ -579,7 +585,7 @@ JSBool js_cocos2dx_CCNode_copy(JSContext *cx, uint32_t argc, jsval *vp)
 		JSObject *obj = JS_THIS_OBJECT(cx, vp);
 		js_proxy_t *proxy;
 		JS_GET_NATIVE_PROXY(proxy, obj);
-		cocos2d::CCNode *node = (cocos2d::CCNode *)(proxy ? proxy->ptr : NULL);
+		cocos2d::CCObject *node = (cocos2d::CCObject *)(proxy ? proxy->ptr : NULL);
 		TEST_NATIVE_OBJECT(cx, node)
 		JSClass *jsclass = JS_GetClass(obj);
 		JSObject *proto = JS_GetPrototype(obj);
@@ -587,6 +593,7 @@ JSBool js_cocos2dx_CCNode_copy(JSContext *cx, uint32_t argc, jsval *vp)
 		JSObject *jsret = JS_NewObject(cx, jsclass, proto, parent);
 		cocos2d::CCObject *ret = node->copy();
 		if (ret && jsret) {
+			ret->autorelease();
 			JS_NEW_PROXY(proxy, ret, jsret);
 			JS_AddNamedObjectRoot(cx, &proxy->obj, typeid(*ret).name());
 			JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(jsret));
@@ -674,7 +681,8 @@ void JSCallFuncWrapper::callbackFunc(CCNode *node) const {
     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
     js_proxy_t *proxy = js_get_or_create_proxy<cocos2d::CCNode>(cx, node);
 
-    JS_AddValueRoot(cx, valArr);
+    JS_AddNamedValueRoot(cx, &valArr[0], "callbackFunc valArr[0]");
+	JS_AddNamedValueRoot(cx, &valArr[1], "callbackFunc valArr[1]");
 
     valArr[0] = OBJECT_TO_JSVAL(proxy->obj);
     if(!JSVAL_IS_VOID(extraData)) {
@@ -695,8 +703,8 @@ void JSCallFuncWrapper::callbackFunc(CCNode *node) const {
 
     JSCallFuncWrapper::setTargetForNativeNode(node, (JSCallFuncWrapper *)this);
 
-    JS_RemoveValueRoot(cx, valArr);
-
+	JS_RemoveValueRoot(cx, &valArr[0]);
+	JS_RemoveValueRoot(cx, &valArr[1]);
 }
 
 // cc.CallFunc.create( func, this, [data])
@@ -902,14 +910,15 @@ JSBool js_CCNode_scheduleOnce(JSContext *cx, uint32_t argc, jsval *vp)
 		cocos2d::CCNode *node = (cocos2d::CCNode *)(proxy ? proxy->ptr : NULL);
         
         CCScheduler *sched = node->getScheduler();
-        
+        js_proxy_t *p = js_get_or_create_proxy<cocos2d::CCScheduler>(cx, sched); 
+
         JSScheduleWrapper *tmpCobj = new JSScheduleWrapper();
         tmpCobj->autorelease();
 
         //
         // delay
         //
-        double interval;
+        double interval = 0.0;
         if( argc >= 2 ) {
             if( ! JS_ValueToNumber(cx, argv[1], &interval ) )
                 return JS_FALSE;
@@ -922,14 +931,14 @@ JSBool js_CCNode_scheduleOnce(JSContext *cx, uint32_t argc, jsval *vp)
         JSScheduleWrapper::setTargetForNativeNode(node, tmpCobj);
         
         if(argc == 1) {
-            sched->scheduleSelector(schedule_selector(JSScheduleWrapper::scheduleFunc), tmpCobj, 0, !node->isRunning(), 0, 0);
+            sched->scheduleSelector(schedule_selector(JSScheduleWrapper::scheduleFunc), tmpCobj, 0.0f, 0, 0, !node->isRunning());
         } else {
-            sched->scheduleSelector(schedule_selector(JSScheduleWrapper::scheduleFunc), tmpCobj, interval, !node->isRunning(), 0, 0);
+            sched->scheduleSelector(schedule_selector(JSScheduleWrapper::scheduleFunc), tmpCobj, interval, 0, 0, !node->isRunning());
         }
         
         JS_SET_RVAL(cx, vp, JSVAL_VOID);
         
-        JS_SetReservedSlot(proxy->obj, 0, argv[0]);
+        JS_SetReservedSlot(p->obj, 0, argv[0]);
 
     }
     return JS_TRUE;

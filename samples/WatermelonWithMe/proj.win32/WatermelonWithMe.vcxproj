@@ -165,6 +165,7 @@ copy "$(ProjectDir)..\*.js" "$(OutDir)\WatermelonWithMeRes\"  /Y
     <ClCompile Include="..\..\..\scripting\javascript\bindings\cocos2d_specifics.cpp" />
     <ClCompile Include="..\..\..\scripting\javascript\bindings\cocosjs_manual_conversions.cpp" />
     <ClCompile Include="..\..\..\scripting\javascript\bindings\generated\cocos2dx.cpp" />
+    <ClCompile Include="..\..\..\scripting\javascript\bindings\jsproxy.cpp" />
     <ClCompile Include="..\..\..\scripting\javascript\bindings\js_bindings_ccbreader.cpp" />
     <ClCompile Include="..\..\..\scripting\javascript\bindings\js_bindings_chipmunk_auto_classes.cpp" />
     <ClCompile Include="..\..\..\scripting\javascript\bindings\js_bindings_chipmunk_functions.cpp" />
@@ -180,6 +181,7 @@ copy "$(ProjectDir)..\*.js" "$(OutDir)\WatermelonWithMeRes\"  /Y
     <ClInclude Include="..\..\..\scripting\javascript\bindings\cocos2d_specifics.hpp" />
     <ClInclude Include="..\..\..\scripting\javascript\bindings\cocosjs_manual_conversions.h" />
     <ClInclude Include="..\..\..\scripting\javascript\bindings\generated\cocos2dx.hpp" />
+    <ClInclude Include="..\..\..\scripting\javascript\bindings\jsproxy.h" />
     <ClInclude Include="..\..\..\scripting\javascript\bindings\js_bindings_ccbreader.h" />
     <ClInclude Include="..\..\..\scripting\javascript\bindings\js_bindings_chipmunk_auto_classes.h" />
     <ClInclude Include="..\..\..\scripting\javascript\bindings\js_bindings_chipmunk_auto_classes_registration.h" />

@@ -34,6 +34,9 @@
     <ClCompile Include="..\..\..\scripting\javascript\bindings\generated\cocos2dx.cpp">
       <Filter>bindings\generated</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\scripting\javascript\bindings\jsproxy.cpp">
+      <Filter>bindings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -56,6 +59,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\scripting\javascript\bindings\generated\cocos2dx.hpp">
       <Filter>bindings\generated</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\scripting\javascript\bindings\jsproxy.h">
+      <Filter>bindings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -55,7 +55,7 @@ void CCNodeLoaderLibrary::registerCCNodeLoader(CCString * pClassName, CCNodeLoad
 }
 
 void CCNodeLoaderLibrary::unregisterCCNodeLoader(const char * pClassName) {
-    this->unregisterCCNodeLoader(CCString::create(pClassName));
+    this->unregisterCCNodeLoader(CCString::create(pClassName)); //cjh dangerous.
 }
 
 void CCNodeLoaderLibrary::unregisterCCNodeLoader(CCString * pClassName) {

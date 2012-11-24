@@ -17,6 +17,7 @@
 #include "jsdbgapi.h"
 #include "cocos2d.h"
 #include "cocos2d_specifics.hpp"
+
 // for debug socket
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #include <io.h>
@@ -38,10 +39,12 @@
 #define  LOGD(...) js_log(__VA_ARGS__)
 #endif
 
-js_proxy_t *_native_js_global_ht = NULL;
-js_proxy_t *_js_native_global_ht = NULL;
+// js_proxy_t *_native_js_global_ht = NULL;
+// js_proxy_t *_js_native_global_ht = NULL;
 js_type_class_t *_js_global_type_ht = NULL;
 char *_js_log_buf = NULL;
+
+JSBindingProxy g_native_js_map;
 
 std::vector<sc_register_sth> registrationList;
 
@@ -155,18 +158,19 @@ static void executeJSFunctionWithName(JSContext *cx, JSObject *obj,
     JSBool hasAction;
     jsval temp_retval;
 
-    if (JS_HasProperty(cx, obj, funcName, &hasAction) && hasAction) {
-        if(!JS_GetProperty(cx, obj, funcName, &temp_retval)) {
-            return;
+    do {
+        if (JS_HasProperty(cx, obj, funcName, &hasAction) && hasAction) {
+            if(!JS_GetProperty(cx, obj, funcName, &temp_retval)) {
+                break;
+            }
+            if(temp_retval == JSVAL_VOID) {
+                break;
+            }
+            JSAutoCompartment ac(cx, obj);
+            JS_CallFunctionName(cx, obj, funcName,
+                1, &dataVal, &retval);
         }
-        if(temp_retval == JSVAL_VOID) {
-            return;
-        }
-		JSAutoCompartment ac(cx, obj);
-        JS_CallFunctionName(cx, obj, funcName,
-                            1, &dataVal, &retval);
-    }
-
+    } while(false);
 }
 
 void js_log(const char *format, ...) {
@@ -285,6 +289,7 @@ void registerDefaultClasses(JSContext* cx, JSObject* global) {
 
     JS_DefineFunction(cx, jsc, "garbageCollect", ScriptingCore::forceGC, 0, JSPROP_READONLY | JSPROP_PERMANENT | JSPROP_ENUMERATE );
     JS_DefineFunction(cx, jsc, "dumpRoot", ScriptingCore::dumpRoot, 0, JSPROP_READONLY | JSPROP_PERMANENT | JSPROP_ENUMERATE );
+    JS_DefineFunction(cx, jsc, "dumpHeap", ScriptingCore::dumpHeap, 0, JSPROP_READONLY | JSPROP_PERMANENT | JSPROP_ENUMERATE );
     JS_DefineFunction(cx, jsc, "addGCRootObject", ScriptingCore::addRootJS, 1, JSPROP_READONLY | JSPROP_PERMANENT | JSPROP_ENUMERATE );
     JS_DefineFunction(cx, jsc, "removeGCRootObject", ScriptingCore::removeRootJS, 1, JSPROP_READONLY | JSPROP_PERMANENT | JSPROP_ENUMERATE );
     JS_DefineFunction(cx, jsc, "executeScript", ScriptingCore::executeScript, 1, JSPROP_READONLY | JSPROP_PERMANENT | JSPROP_ENUMERATE );
@@ -382,17 +387,28 @@ void ScriptingCore::addRegisterCallback(sc_register_sth callback) {
 
 void ScriptingCore::removeAllRoots(JSContext *cx) {
     js_proxy_t *current, *tmp;
-    HASH_ITER(hh, _js_native_global_ht, current, tmp) {
-        JS_RemoveObjectRoot(cx, &current->obj);
-        HASH_DEL(_js_native_global_ht, current);
-        free(current);
+//     HASH_ITER(hh, _js_native_global_ht, current, tmp) {
+//         JS_RemoveObjectRoot(cx, &current->obj);
+//         HASH_DEL(_js_native_global_ht, current);
+//         free(current);
+//     }
+//     HASH_ITER(hh, _native_js_global_ht, current, tmp) {
+//         HASH_DEL(_native_js_global_ht, current);
+//         free(current);
+//     }
+//     HASH_CLEAR(hh, _js_native_global_ht);
+//     HASH_CLEAR(hh, _native_js_global_ht);
+
+    const NativeKeyMap& nativeKeyMap = g_native_js_map.GetNativeKeyMap();
+    NativeKeyMap::const_iterator nativeIter = nativeKeyMap.begin();
+    for (; nativeIter != nativeKeyMap.end(); ++nativeIter)
+    {
+        JSObject* jsobj = nativeIter->second->jsobj;
+        JS_RemoveObjectRoot(cx, &jsobj);
     }
-    HASH_ITER(hh, _native_js_global_ht, current, tmp) {
-        HASH_DEL(_native_js_global_ht, current);
-        free(current);
-    }
-    HASH_CLEAR(hh, _js_native_global_ht);
-    HASH_CLEAR(hh, _native_js_global_ht);
+    
+    g_native_js_map.RemoveAll();
+
     HASH_CLEAR(hh, _js_global_type_ht);
 }
 
@@ -508,11 +524,11 @@ void ScriptingCore::removeScriptObjectByCCObject(CCObject* pObj)
         JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
         JS_GET_NATIVE_PROXY(jsproxy, nproxy->obj);
         JS_RemoveObjectRoot(cx, &jsproxy->obj);
-        CCLOG("dumpRoot begin---------------------");
-        CCLOG(CCString::createWithFormat("Unrooted: ( %s ) at 0x%X", nproxy->class_name, jsproxy->obj)->getCString());
+        //CCLOG("dumpRoot begin---------------------");
+        CCLOG(CCString::createWithFormat("Unrooted: ( %s ) at %p", nproxy->class_name, &jsproxy->obj)->getCString());
         
-        dumpRoot(this->cx_, 0, NULL);
-        CCLOG("dumpRoot end---------------------");
+        //dumpRoot(this->cx_, 0, NULL);
+        //CCLOG("dumpRoot end---------------------");
         JS_REMOVE_PROXY(nproxy, jsproxy);
     }
 }
@@ -553,8 +569,113 @@ JSBool ScriptingCore::forceGC(JSContext *cx, uint32_t argc, jsval *vp)
 {
     JSRuntime *rt = JS_GetRuntime(cx);
     JS_GC(rt);
+    JS_SET_RVAL(cx, vp, JSVAL_VOID);
     return JS_TRUE;
 }
+
+JSBool ScriptingCore::dumpHeap(JSContext *cx, unsigned argc, jsval *vp)
+{
+    jsval v;
+    void* startThing;
+    JSGCTraceKind startTraceKind;
+    const char *badTraceArg;
+    void *thingToFind;
+    size_t maxDepth;
+    void *thingToIgnore;
+    FILE *dumpFile;
+    bool ok;
+
+    const char *fileName = NULL;
+    JSAutoByteString fileNameBytes;
+    if (argc > 0) {
+        v = JS_ARGV(cx, vp)[0];
+        if (!JSVAL_IS_NULL(v)) {
+            JSString *str;
+
+            str = JS_ValueToString(cx, v);
+            if (!str)
+                return false;
+            JS_ARGV(cx, vp)[0] = STRING_TO_JSVAL(str);
+            if (!fileNameBytes.encode(cx, str))
+                return false;
+            fileName = fileNameBytes.ptr();
+        }
+    }
+
+    startThing = NULL;
+    startTraceKind = JSTRACE_OBJECT;
+    if (argc > 1) {
+        v = JS_ARGV(cx, vp)[1];
+        if (JSVAL_IS_TRACEABLE(v)) {
+            startThing = JSVAL_TO_TRACEABLE(v);
+            startTraceKind = JSVAL_TRACE_KIND(v);
+        } else if (!JSVAL_IS_NULL(v)) {
+            badTraceArg = "start";
+            goto not_traceable_arg;
+        }
+    }
+
+    thingToFind = NULL;
+    if (argc > 2) {
+        v = JS_ARGV(cx, vp)[2];
+        if (JSVAL_IS_TRACEABLE(v)) {
+            thingToFind = JSVAL_TO_TRACEABLE(v);
+        } else if (!JSVAL_IS_NULL(v)) {
+            badTraceArg = "toFind";
+            goto not_traceable_arg;
+        }
+    }
+
+    maxDepth = (size_t)-1;
+    if (argc > 3) {
+        v = JS_ARGV(cx, vp)[3];
+        if (!JSVAL_IS_NULL(v)) {
+            uint32_t depth;
+
+            if (!JS_ValueToECMAUint32(cx, v, &depth))
+                return false;
+            maxDepth = depth;
+        }
+    }
+
+    thingToIgnore = NULL;
+    if (argc > 4) {
+        v = JS_ARGV(cx, vp)[4];
+        if (JSVAL_IS_TRACEABLE(v)) {
+            thingToIgnore = JSVAL_TO_TRACEABLE(v);
+        } else if (!JSVAL_IS_NULL(v)) {
+            badTraceArg = "toIgnore";
+            goto not_traceable_arg;
+        }
+    }
+
+    if (!fileName) {
+        dumpFile = stdout;
+    } else {
+        dumpFile = fopen(fileName, "w");
+        if (!dumpFile) {
+            JS_ReportError(cx, "can't open %s: %s", fileName, strerror(errno));
+            return false;
+        }
+    }
+
+    ok = JS_DumpHeap(JS_GetRuntime(cx), dumpFile, startThing, startTraceKind, thingToFind,
+        maxDepth, thingToIgnore);
+    if (dumpFile != stdout)
+        fclose(dumpFile);
+    if (!ok) {
+        JS_ReportOutOfMemory(cx);
+        return false;
+    }
+    JS_SET_RVAL(cx, vp, JSVAL_VOID);
+    return true;
+
+not_traceable_arg:
+    JS_ReportError(cx, "argument '%s' is not null or a heap-allocated thing",
+        badTraceArg);
+    return false;
+}
+
 
 static void dumpNamedRoot(const char *name, void *addr,  JSGCRootType type, void *data)
 {
@@ -643,8 +764,6 @@ int ScriptingCore::executeNodeEvent(CCNode* pNode, int nAction)
 
     jsval retval;
     jsval dataVal = INT_TO_JSVAL(1);
-    js_proxy_t *proxy;
-    JS_GET_PROXY(proxy, pNode);
 
     if(nAction == kCCNodeOnEnter)
     {
@@ -691,7 +810,9 @@ int ScriptingCore::executeMenuItemEvent(CCMenuItem* pMenuItem)
     JS_GET_PROXY(proxy, pMenuItem);
     dataVal = (proxy ? OBJECT_TO_JSVAL(proxy->obj) : JSVAL_NULL);
 
+    JS_AddNamedValueRoot(this->cx_, &dataVal, "executeMenuItemEvent dataVal");
     executeJSFunctionFromReservedSpot(this->cx_, p->obj, dataVal, retval);
+    JS_RemoveValueRoot(this->cx_, &dataVal);
 
     return 1;
 }
@@ -715,8 +836,12 @@ int ScriptingCore::executeSchedule(CCTimer* pTimer, float dt, CCNode* pNode/* = 
 
     jsval retval;
     jsval dataVal = DOUBLE_TO_JSVAL(dt);
+	
+	JS_AddNamedValueRoot(this->cx_, &dataVal, "schedule data val");
 
     executeJSFunctionWithName(this->cx_, p->obj, "update", dataVal, retval);
+
+	JS_RemoveValueRoot(this->cx_, &dataVal);
 
     return 1;
 }
