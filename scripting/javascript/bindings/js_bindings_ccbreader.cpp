@@ -37,7 +37,7 @@ SEL_CCControlHandler CCBScriptCallbackProxy::onResolveCCBCCControlSelector(CCObj
 }
 
 bool CCBScriptCallbackProxy::onAssignCCBMemberVariable(CCObject * pTarget,
-                                                       CCString * pMemberVariableName,
+                                                       const char * pMemberVariableName,
                                                        CCNode * pNode) {
     return true;
 }
