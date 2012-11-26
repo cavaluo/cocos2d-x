@@ -9,6 +9,7 @@
 USING_NS_CC;
 
 struct js_proxy;
+class JSScheduleWrapper;
 
 typedef struct tagJSProxy
 {
@@ -38,5 +39,6 @@ protected:
     NativeKeyMap m_nativeKeyMap;
     JSObjectKeyMap m_jsKeyMap;
 };
+
 
 #endif /* __JSPROXY_H__ */

@@ -51,6 +51,8 @@ void CCNodeLoaderLibrary::registerCCNodeLoader(const char * pClassName, CCNodeLo
 void CCNodeLoaderLibrary::registerCCNodeLoader(CCString * pClassName, CCNodeLoader * pCCNodeLoader) {
     pClassName->retain();
     pCCNodeLoader->retain();
+    pClassName->retain();
+    pCCNodeLoader->retain();
     this->mCCNodeLoaders.insert(CCNodeLoaderMapEntry(pClassName, pCCNodeLoader));
 }
 
@@ -74,8 +76,8 @@ CCNodeLoader * CCNodeLoaderLibrary::getCCNodeLoader(CCString * pClassName) {
 void CCNodeLoaderLibrary::purge(bool pReleaseCCNodeLoaders) {
     if(pReleaseCCNodeLoaders) {
         for(CCNodeLoaderMap::iterator it = this->mCCNodeLoaders.begin(); it != this->mCCNodeLoaders.end(); it++) {
-            it->first->release();
-            it->second->release();
+//cjh             it->first->release();
+//cjh             it->second->release();
         }
     }
     this->mCCNodeLoaders.clear();

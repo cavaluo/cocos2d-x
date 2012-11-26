@@ -5,6 +5,7 @@
 #include "ScriptingCore.h"
 
 class JSScheduleWrapper;
+class JSCallFuncWrapper;
 
 typedef struct jsScheduleFunc_proxy {
     void * ptr;
@@ -25,10 +26,26 @@ typedef struct jsCallFuncTarget_proxy {
     UT_hash_handle hh;
 } callfuncTarget_proxy_t;
 
-extern schedFunc_proxy_t *_schedFunc_target_ht;
-extern schedTarget_proxy_t *_schedTarget_native_ht;
+typedef std::multimap<CCObject*, JSScheduleWrapper*> jsb_nativeobj_targets_multimap_t;
+typedef std::pair<CCObject*, JSScheduleWrapper*> jsb_nativeobj_targets_pair_t;
+typedef std::pair<jsb_nativeobj_targets_multimap_t::iterator, jsb_nativeobj_targets_multimap_t::iterator> jsb_nativeobj_targets_pair_ret_t;
 
-extern callfuncTarget_proxy_t *_callfuncTarget_native_ht;
+typedef std::multimap<JSObject*, JSScheduleWrapper*> jsb_jsfunc_targets_multimap_t;
+typedef std::pair<JSObject*, JSScheduleWrapper*> jsb_jsfunc_targets_pair_t;
+typedef std::pair<jsb_jsfunc_targets_multimap_t::iterator, jsb_jsfunc_targets_multimap_t::iterator> jsb_jsfunc_targets_pair_ret_t;
+
+// extern schedFunc_proxy_t *_schedFunc_target_ht;
+// extern schedTarget_proxy_t *_schedTarget_native_ht;
+extern jsb_nativeobj_targets_multimap_t g_nativeobj_targets_map;
+extern jsb_jsfunc_targets_multimap_t g_jsfunc_targets_map;
+
+typedef std::multimap<CCObject*, JSCallFuncWrapper*> jsb_callfunc_nativeobj_targets_multimap_t;
+typedef std::pair<CCObject*, JSCallFuncWrapper*> jsb_callfunc_nativeobj_targets_pair_t;
+typedef std::pair<jsb_callfunc_nativeobj_targets_multimap_t::iterator, jsb_callfunc_nativeobj_targets_multimap_t::iterator> jsb_callfunc_nativeobj_targets_pair_ret_t;
+
+extern jsb_callfunc_nativeobj_targets_multimap_t g_callfunc_nativeobj_targets_multimap;
+
+//extern callfuncTarget_proxy_t *_callfuncTarget_native_ht;
 
 /**
  * You don't need to manage the returned pointer. They live for the whole life of
@@ -64,11 +81,6 @@ inline js_proxy_t *js_get_or_create_proxy(JSContext *cx, T *native_obj) {
         assert(typeProxy);
         JSObject* js_obj = JS_NewObject(cx, typeProxy->jsclass, typeProxy->proto, typeProxy->parentProto);
         JS_NEW_PROXY(proxy, native_obj, js_obj);
-#ifdef DEBUG
-        JS_AddNamedObjectRoot(cx, &proxy->obj, typeid(*native_obj).name());
-#else
-        JS_AddObjectRoot(cx, &proxy->obj);
-#endif
         return proxy;
     } else {
         return proxy;
@@ -120,8 +132,8 @@ public:
         return;
     }
 
-    static void setTargetForNativeNode(CCNode *pNode, JSCallFuncWrapper *target);
-    static CCArray * getTargetForNativeNode(CCNode *pNode);
+//     static void setTargetForNativeNode(CCNode *pNode, JSCallFuncWrapper *target);
+//     static CCArray * getTargetForNativeNode(CCNode *pNode);
 
     void callbackFunc(CCNode *node) const;
 };

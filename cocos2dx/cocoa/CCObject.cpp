@@ -100,11 +100,6 @@ void CCObject::retain(void)
     CCAssert(m_uReference > 0, "reference count should greater than 0");
 
     ++m_uReference;
-    if (dynamic_cast<CCLayerGradient*>(this))
-    {
-        int a = 0;
-        a = 0;
-    }
 }
 
 CCObject* CCObject::autorelease(void)

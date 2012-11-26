@@ -144,6 +144,8 @@ var GameLayer = cc.Layer.extend({
 
         if( cc.config.platform == 'browser' )
             cc.$("#cou").innerHTML = "Ship:" + 1 + ", Enemy: " + MW.CONTAINER.ENEMIES.length + ", Bullet:" + MW.CONTAINER.ENEMY_BULLETS.length + "," + MW.CONTAINER.PLAYER_BULLETS.length + " all:" + this.getChildren().length;
+        else
+            cc.log("Ship:" + 1 + ", Enemy: " + MW.CONTAINER.ENEMIES.length + ", Bullet:" + MW.CONTAINER.ENEMY_BULLETS.length + "," + MW.CONTAINER.PLAYER_BULLETS.length + " all:" + this.getChildren().length);
     },
     checkIsCollide:function () {
         var selChild, bulletChild;

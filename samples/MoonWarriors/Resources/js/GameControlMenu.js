@@ -20,9 +20,11 @@ var GameControlMenu = cc.Layer.extend({
         return bRet;
     },
     onSysMenu:function (pSender) {
-        var scene = cc.Scene.create();
-        scene.addChild(SysMenu.create());
-        cc.Director.getInstance().replaceScene(cc.TransitionFade.create(1.2,scene));
+        __jsc__.dumpRoot();
+        __jsc__.garbageCollect();
+        //var scene = cc.Scene.create();
+        //scene.addChild(SysMenu.create());
+        //cc.Director.getInstance().replaceScene(cc.TransitionFade.create(1.2,scene));
     }
 });
 

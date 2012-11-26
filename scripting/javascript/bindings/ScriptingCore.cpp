@@ -45,6 +45,7 @@ js_type_class_t *_js_global_type_ht = NULL;
 char *_js_log_buf = NULL;
 
 JSBindingProxy g_native_js_map;
+extern std::map<CCObject*, JSCallFuncWrapper*> g_callFuncArray;
 
 std::vector<sc_register_sth> registrationList;
 
@@ -64,7 +65,7 @@ static void executeJSFunctionFromReservedSpot(JSContext *cx, JSObject *obj,
     jsval thisObj = JS_GetReservedSlot(obj, 1);
 	JSAutoCompartment ac(cx, obj);
     if(thisObj == JSVAL_VOID) {
-        JS_CallFunctionValue(cx, obj, func, 1, &dataVal, &retval);
+        JS_CallFunctionValue(cx, NULL, func, 1, &dataVal, &retval);
     } else {
         assert(!JSVAL_IS_PRIMITIVE(thisObj));
         JS_CallFunctionValue(cx, JSVAL_TO_OBJECT(thisObj), func, 1, &dataVal, &retval);
@@ -123,11 +124,8 @@ static void getJSTouchObject(JSContext *cx, CCTouch *x, jsval &jsret) {
     HASH_FIND_INT(_js_global_type_ht, &typeId, classType);
     assert(classType);
     JSObject *_tmp = JS_NewObject(cx, classType->jsclass, classType->proto, classType->parentProto);
-    js_proxy_t *proxy, *nproxy;
+    js_proxy_t *proxy;
     JS_NEW_PROXY(proxy, x, _tmp);
-    void *ptr = x;
-    JS_GET_PROXY(nproxy, ptr);
-    JS_AddNamedObjectRoot(cx, &nproxy->obj, "CCTouch");
     jsret = OBJECT_TO_JSVAL(_tmp);
 }
 
@@ -137,7 +135,6 @@ static void removeJSTouchObject(JSContext *cx, CCTouch *x, jsval &jsret) {
     void *ptr = x;
     JS_GET_PROXY(nproxy, ptr);
     if (nproxy) {
-        JS_RemoveObjectRoot(cx, &nproxy->obj);
         JS_GET_NATIVE_PROXY(jsproxy, nproxy->obj);
         JS_REMOVE_PROXY(nproxy, jsproxy);
     }
@@ -398,14 +395,6 @@ void ScriptingCore::removeAllRoots(JSContext *cx) {
 //     }
 //     HASH_CLEAR(hh, _js_native_global_ht);
 //     HASH_CLEAR(hh, _native_js_global_ht);
-
-    const NativeKeyMap& nativeKeyMap = g_native_js_map.GetNativeKeyMap();
-    NativeKeyMap::const_iterator nativeIter = nativeKeyMap.begin();
-    for (; nativeIter != nativeKeyMap.end(); ++nativeIter)
-    {
-        JSObject* jsobj = nativeIter->second->jsobj;
-        JS_RemoveObjectRoot(cx, &jsobj);
-    }
     
     g_native_js_map.RemoveAll();
 
@@ -514,6 +503,7 @@ JSBool ScriptingCore::log(JSContext* cx, uint32_t argc, jsval *vp)
 }
 
 
+
 void ScriptingCore::removeScriptObjectByCCObject(CCObject* pObj)
 {
     js_proxy_t* nproxy;
@@ -523,13 +513,20 @@ void ScriptingCore::removeScriptObjectByCCObject(CCObject* pObj)
     if (nproxy) {
         JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
         JS_GET_NATIVE_PROXY(jsproxy, nproxy->obj);
-        JS_RemoveObjectRoot(cx, &jsproxy->obj);
-        //CCLOG("dumpRoot begin---------------------");
-        CCLOG(CCString::createWithFormat("Unrooted: ( %s ) at %p", nproxy->class_name, &jsproxy->obj)->getCString());
+
+        if (0 == strcmp(nproxy->class_name, "class cocos2d::CCCallFuncN"))
+        {
+            std::map<CCObject*, JSCallFuncWrapper*>::iterator it = g_callFuncArray.find(pObj);
+            if (it != g_callFuncArray.end())
+            {
+                g_callFuncArray.erase(it);
+            }
+        }
         
-        //dumpRoot(this->cx_, 0, NULL);
-        //CCLOG("dumpRoot end---------------------");
+        //CCLOG(CCString::createWithFormat("Unrooted: ( %s ) at %p", nproxy->class_name, &jsproxy->obj)->getCString());
+        
         JS_REMOVE_PROXY(nproxy, jsproxy);
+        //JS_GC(JS_GetRuntime(cx));
     }
 }
 
@@ -676,20 +673,45 @@ not_traceable_arg:
     return false;
 }
 
+static int s_count = 0;
+static std::multimap<std::string, void*> s_dumpRootMap;
 
 static void dumpNamedRoot(const char *name, void *addr,  JSGCRootType type, void *data)
 {
-    CCLOG("Root: '%s' at %p", name, addr);
+    //CCLOG("Root: '%s' at %p", name, addr);
+    s_dumpRootMap.insert(std::pair<std::string, void*>(name, addr));
+    s_count++;
 }
 
 JSBool ScriptingCore::dumpRoot(JSContext *cx, uint32_t argc, jsval *vp)
 {
+    int count = 0;
+    CCLOG("----begin---- count of call action");
+    for (std::map<CCObject*, JSCallFuncWrapper*>::iterator it = g_callFuncArray.begin(); it != g_callFuncArray.end(); it++)
+    {
+        CCLOG("call action at %p", it->first);
+        count++;
+    }
+    CCLOG("count = %d", count);
+    CCLOG("-----end--- count of call action\n");
+    return JS_TRUE;
     // JS_DumpNamedRoots is only available on DEBUG versions of SpiderMonkey.
     // Mac and Simulator versions were compiled with DEBUG.
 #if DEBUG
    JSContext *_cx = ScriptingCore::getInstance()->getGlobalContext();
    JSRuntime *rt = JS_GetRuntime(_cx);
+   s_count = 0;
+   CCLOG("----------------start dump named root --------------------");
+   
    JS_DumpNamedRoots(rt, dumpNamedRoot, NULL);
+   for (std::multimap<std::string, void*>::iterator it = s_dumpRootMap.begin();
+       it != s_dumpRootMap.end(); ++it)
+   {
+       CCLOG("Root: '%s' at %p", it->first.c_str(), it->second);
+   }
+   s_dumpRootMap.clear();
+   CCLOG("root total = %d", s_count);
+   CCLOG("----------------end dump named root --------------------\n");
 #endif
     return JS_TRUE;
 }
@@ -744,14 +766,68 @@ void ScriptingCore::resumeSchedulesAndActions(CCNode *node) {
 
 void ScriptingCore::cleanupSchedulesAndActions(CCNode *node) {
  
-    CCArray * arr = JSCallFuncWrapper::getTargetForNativeNode(node);
-    if(arr) {
-        arr->removeAllObjects();
-    }
+//     CCArray * targetArr = JSCallFuncWrapper::getTargetForNativeNode(node);
+//     if(targetArr) {
+//         jsb_callfunc_nativeobj_targets_multimap_t::iterator it = g_callfunc_nativeobj_targets_multimap.find(node);
+//         for (; it != g_callfunc_nativeobj_targets_multimap.end();)
+//         {
+//             g_callfunc_nativeobj_targets_multimap.erase(it);
+//             it = g_callfunc_nativeobj_targets_multimap.find(node);
+//         }
+//         CCObject* pObj = NULL;
+//         CCARRAY_FOREACH(targetArr, pObj)
+//         {
+//             pObj->release();
+//         }
+//         targetArr->removeAllObjects();
+//     }
     
-    arr = JSScheduleWrapper::getTargetForNativeNode(node);
-    if(arr) {
-        arr->removeAllObjects();
+    CCArray *targetArr = JSScheduleWrapper::getTargetForNativeNode(node);
+    if(targetArr) {
+        CCScheduler* pScheduler = CCDirector::sharedDirector()->getScheduler();
+        CCObject* pObj = NULL;
+        int releaseNumInCCArray = 0;
+        int releaseNumInMap = 0;
+
+        CCARRAY_FOREACH(targetArr, pObj)
+        {
+            releaseNumInCCArray++;
+            jsb_jsfunc_targets_multimap_t::iterator jsfunc_iter = g_jsfunc_targets_map.begin();
+
+            for (; jsfunc_iter != g_jsfunc_targets_map.end();)
+            {
+                if (jsfunc_iter->second == pObj)
+                {
+                    jsfunc_iter = g_jsfunc_targets_map.erase(jsfunc_iter);
+                }
+                else
+                {
+                    jsfunc_iter++;
+                }
+            }
+
+            pObj->release();
+            pScheduler->unscheduleAllForTarget(pObj);    
+        }
+        int count_before = g_nativeobj_targets_map.size();
+        jsb_nativeobj_targets_multimap_t::iterator it = g_nativeobj_targets_map.find(node);
+        for (; it != g_nativeobj_targets_map.end();)
+        {
+            releaseNumInMap++;
+            g_nativeobj_targets_map.erase(it);
+            it = g_nativeobj_targets_map.find(node);
+        }
+        
+        CCAssert(releaseNumInCCArray == releaseNumInMap, "");
+
+        int count_after = g_nativeobj_targets_map.size();
+        if (count_before - count_after >= 2)
+        {
+            int a = 0;
+            a = 0;
+        }
+
+        targetArr->removeAllObjects();
     }
 }
 
@@ -824,6 +900,50 @@ int ScriptingCore::executeNotificationEvent(CCNotificationCenter* pNotificationC
 
 int ScriptingCore::executeCallFuncActionEvent(CCCallFunc* pAction, CCObject* pTarget/* = NULL*/)
 {
+    js_proxy_t * p = NULL;
+    JS_GET_PROXY(p, pAction);
+
+    if (!p) return 0;
+
+    jsval valArr[2];
+
+//     JSCallFuncWrapper* pCallFuncWrapper = g_callFuncArray[pAction];
+//     JSContext *cx = ScriptingCore::getInstance()->getGlobalContext();
+//     jsval jsCallback = pCallFuncWrapper->jsCallback;
+//     jsval jsThisObj = pCallFuncWrapper->jsThisObj;
+// 
+//     js_proxy_t* senderProxy;
+//     JS_GET_PROXY(senderProxy, pTarget);
+// 
+//     valArr[0] = OBJECT_TO_JSVAL(senderProxy->obj);
+//     valArr[1] = JSVAL_NULL;
+// 
+//     jsval retval;
+//     if(jsCallback != JSVAL_VOID) {
+//         if (jsThisObj != JSVAL_VOID) {
+//             JS_CallFunctionValue(cx, JSVAL_TO_OBJECT(jsThisObj), jsCallback, 2, valArr, &retval);
+//         }
+//         else {
+//             JS_CallFunctionValue(cx, NULL, jsCallback, 2, valArr, &retval);
+//         }
+//     }
+
+    jsval retval;
+    jsval dataVal;
+
+    js_proxy_t *proxy;
+    JS_GET_PROXY(proxy, pTarget);
+    dataVal = (proxy ? OBJECT_TO_JSVAL(proxy->obj) : JSVAL_NULL);    
+    if (dataVal == JSVAL_NULL)
+    {
+        int a = 0;
+        a = 0;
+    }
+    
+    JS_AddNamedValueRoot(this->cx_, &dataVal, "executeCallFuncActionEvent dataVal");
+    executeJSFunctionFromReservedSpot(this->cx_, p->obj, dataVal, retval);
+    JS_RemoveValueRoot(this->cx_, &dataVal);
+
     return 1;
 }
 
@@ -1308,8 +1428,10 @@ jsval c_string_to_jsval(JSContext* cx, const char* v) {
 jsval ccpoint_to_jsval(JSContext* cx, CCPoint& v) {
     JSObject *tmp = JS_NewObject(cx, NULL, NULL, NULL);
     if (!tmp) return JSVAL_NULL;
-    JSBool ok = JS_DefineProperty(cx, tmp, "x", DOUBLE_TO_JSVAL(v.x), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
-                JS_DefineProperty(cx, tmp, "y", DOUBLE_TO_JSVAL(v.y), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT);
+
+    JSBool ok = JS_FALSE;
+    ok = JS_DefineProperty(cx, tmp, "x", DOUBLE_TO_JSVAL(v.x), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT);
+    ok = JS_DefineProperty(cx, tmp, "y", DOUBLE_TO_JSVAL(v.y), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT);
     if (ok) {
         return OBJECT_TO_JSVAL(tmp);
     }

@@ -50,7 +50,7 @@ static JSBool dummy_constructor(JSContext *cx, uint32_t argc, jsval *vp) {
     JSObject *_tmp = JS_NewObject(cx, p->jsclass, p->proto, p->parentProto);
     js_proxy_t *pp;
     JS_NEW_PROXY(pp, cobj, _tmp);
-    JS_AddNamedObjectRoot(cx, &pp->obj, typeid(*cobj).name());
+    //(cx, &pp->obj, typeid(*cobj).name());
     JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(_tmp));
 
     return JS_TRUE;
@@ -190,7 +190,7 @@ JSBool JSB_CCPhysicsDebugNode_debugNodeForCPSpace__static(JSContext *cx, uint32_
             jsret = OBJECT_TO_JSVAL(obj);
             js_proxy_t *p;
             JS_NEW_PROXY(p, ret, obj);
-            JS_AddNamedObjectRoot(cx, &obj, typeid(*ret).name());
+            //(cx, &obj, typeid(*ret).name());
         } else {
             jsret = JSVAL_NULL;
         }
@@ -314,7 +314,7 @@ JSBool JSPROXY_CCPhysicsSprite_spriteWithFile_rect__static(JSContext *cx, uint32
 				jsret = OBJECT_TO_JSVAL(obj);
                 js_proxy_t *p;
                 JS_NEW_PROXY(p, ret, obj);
-                JS_AddNamedObjectRoot(cx, &obj, typeid(*ret).name());
+                //(cx, &obj, typeid(*ret).name());
 			} else {
 				jsret = JSVAL_NULL;
 			}
@@ -340,7 +340,7 @@ JSBool JSPROXY_CCPhysicsSprite_spriteWithFile_rect__static(JSContext *cx, uint32
 				jsret = OBJECT_TO_JSVAL(obj);
                 js_proxy_t *p;
                 JS_NEW_PROXY(p, ret, obj);
-                JS_AddNamedObjectRoot(cx, &obj, typeid(*ret).name());
+                //(cx, &obj, typeid(*ret).name());
 			} else {
 				jsret = JSVAL_NULL;
 			}
@@ -380,7 +380,7 @@ JSBool JSPROXY_CCPhysicsSprite_spriteWithSpriteFrame__static(JSContext *cx, uint
             jsret = OBJECT_TO_JSVAL(obj);
             js_proxy_t *p;
             JS_NEW_PROXY(p, ret, obj);
-            JS_AddNamedObjectRoot(cx, &obj, typeid(*ret).name());
+            //(cx, &obj, typeid(*ret).name());
 		} else {
 			jsret = JSVAL_NULL;
 		}
@@ -412,7 +412,7 @@ JSBool JSPROXY_CCPhysicsSprite_spriteWithSpriteFrameName__static(JSContext *cx, 
             jsret = OBJECT_TO_JSVAL(obj);
             js_proxy_t *p;
             JS_NEW_PROXY(p, ret, obj);
-            JS_AddNamedObjectRoot(cx, &obj, typeid(*ret).name());
+            //(cx, &obj, typeid(*ret).name());
 		} else {
 			jsret = JSVAL_NULL;
 		}
@@ -912,7 +912,7 @@ JSBool JSB_cpSpace_addBody(JSContext *cx, uint32_t argc, jsval *vp) {
 	cpSpaceAddBody((cpSpace*)arg0 , (cpBody*)arg1  );
 	
 	// Root it:
-	JS_AddNamedObjectRoot(cx, &retproxy->jsobj, "cpBody");
+	//(cx, &retproxy->jsobj, "cpBody");
 	
 	// addBody returns the same object that was added, so return it without conversions
 	JS_SET_RVAL(cx, vp, retval);
@@ -939,7 +939,7 @@ JSBool JSB_cpSpace_addConstraint(JSContext *cx, uint32_t argc, jsval *vp) {
 	cpSpaceAddConstraint((cpSpace*)arg0 , (cpConstraint*)arg1  );
 	
 	// Root it:
-	JS_AddNamedObjectRoot(cx, &retproxy->jsobj, "cpConstraint");
+	//(cx, &retproxy->jsobj, "cpConstraint");
 	
 	// addConstraint returns the same object that was added, so return it without conversions
 	JS_SET_RVAL(cx, vp, retval);
@@ -966,7 +966,7 @@ JSBool JSB_cpSpace_addShape(JSContext *cx, uint32_t argc, jsval *vp) {
 	cpSpaceAddShape((cpSpace*)arg0 , (cpShape*)arg1  );
 	
 	// Root it:
-	JS_AddNamedObjectRoot(cx, &retproxy->jsobj, "cpShape");
+	//(cx, &retproxy->jsobj, "cpShape");
 	
 	// addShape returns the same object that was added, so return it without conversions
 	JS_SET_RVAL(cx, vp, retval);
@@ -993,7 +993,7 @@ JSBool JSB_cpSpace_addStaticShape(JSContext *cx, uint32_t argc, jsval *vp) {
 	cpSpaceAddStaticShape((cpSpace*)arg0 , (cpShape*)arg1  );
 	
 	// Root it:
-	JS_AddNamedObjectRoot(cx, &retproxy->jsobj, "cpShape (static)");
+	//(cx, &retproxy->jsobj, "cpShape (static)");
 
 	// addStaticShape returns the same object that was added, so return it without conversions
 	JS_SET_RVAL(cx, vp, retval);

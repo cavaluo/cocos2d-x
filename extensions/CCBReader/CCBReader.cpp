@@ -122,7 +122,7 @@ CCBReader::~CCBReader() {
     // Clear string cache.
     std::vector<CCString *>::iterator stringCacheIterator;
     for (stringCacheIterator = this->mStringCache.begin(); stringCacheIterator != this->mStringCache.end(); stringCacheIterator++) {
-        (*stringCacheIterator)->release();
+//cjh        (*stringCacheIterator)->release();
     }
     this->mStringCache.clear();
     

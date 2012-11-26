@@ -16,7 +16,7 @@ CCData::CCData(CCData *pData)
 
 CCData::~CCData()
 {
-    CC_SAFE_DELETE_ARRAY(m_pBytes);
+//cjh    CC_SAFE_DELETE_ARRAY(m_pBytes);
 }
 
 unsigned char* CCData::getBytes()
