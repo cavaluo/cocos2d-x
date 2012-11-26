@@ -103,9 +103,7 @@ void HelloCocosBuilderLayer::onButtonTestClicked(CCObject * pSender, cocos2d::ex
 }
 
 void HelloCocosBuilderLayer::onAnimationsTestClicked(CCObject * pSender, cocos2d::extension::CCControlEvent pCCControlEvent) {
-    // Load node graph (TestAnimations is a sub class of CCLayer) and retrieve the ccb action manager
-    CCBAnimationManager *actionManager = NULL;
-    
+
     /* Create an autorelease CCNodeLoaderLibrary. */
     CCNodeLoaderLibrary * ccNodeLoaderLibrary = CCNodeLoaderLibrary::newDefaultCCNodeLoaderLibrary();
     
@@ -122,8 +120,7 @@ void HelloCocosBuilderLayer::onAnimationsTestClicked(CCObject * pSender, cocos2d
     // the owner will cause lblTestTitle to be set by the CCBReader.
     // lblTestTitle is in the TestHeader.ccbi, which is referenced
     // from each of the test scenes.
-    CCNode *animationsTest = ccbReader->readNodeGraphFromFile("ccb/ccb/TestAnimations.ccbi", this, &actionManager);
-    ((AnimationsTestLayer*)animationsTest)->setAnimationManager(actionManager);
+    CCNode *animationsTest = ccbReader->readNodeGraphFromFile("ccb/ccb/TestAnimations.ccbi", this);
     
     this->mTestTitleLabelTTF->setString("TestAnimations.ccbi");
     

@@ -818,22 +818,32 @@ CCNode * CCNodeLoader::parsePropTypeCCBFile(CCNode * pNode, CCNode * pParent, CC
     
     // Load sub file
     const char *path = CCFileUtils::sharedFileUtils()->fullPathFromRelativePath(ccbFileName.c_str());
+    unsigned long size = 0;
+    unsigned char * pBytes = CCFileUtils::sharedFileUtils()->getFileData(path, "rb", &size);
+
     CCBReader * ccbReader = new CCBReader(pCCBReader);
     ccbReader->autorelease();
-
-    unsigned long size = 0;
-    
-    unsigned char * pBytes = CCFileUtils::sharedFileUtils()->getFileData(path, "rb", &size);
-    CCData *data = new CCData(pBytes, size);
-    ccbReader->initWithData(data, pCCBReader->getOwner());
-    data->release();
     ccbReader->getAnimationManager()->setRootContainerSize(pParent->getContentSize());
     
-    ccbReader->setAnimationManagers(pCCBReader->getAnimationManagers());
+    CCData *data = new CCData(pBytes, size);
+    data->retain();
+    ccbReader->mData = data;
+    ccbReader->mBytes = data->getBytes();
+    ccbReader->mCurrentByte = 0;
+    ccbReader->mCurrentBit = 0;
+    pCCBReader->mOwner->retain();
+    ccbReader->mOwner = pCCBReader->mOwner;
+
+    ccbReader->mOwnerOutletNames = pCCBReader->mOwnerOutletNames;
+    ccbReader->mOwnerOutletNodes = pCCBReader->mOwnerOutletNodes;
+    ccbReader->mOwnerOutletNodes->retain();
+    ccbReader->mOwnerCallbackNames = pCCBReader->mOwnerCallbackNames;
+    ccbReader->mOwnerCallbackNodes = pCCBReader->mOwnerCallbackNodes;
+    ccbReader->mOwnerCallbackNodes->retain();
+
+    data->release();
     
-    CCNode * ccbFileNode = ccbReader->readFileWithCleanUp(false);
-    
-    pCCBReader->setAnimationManagers(ccbReader->getAnimationManagers());
+    CCNode * ccbFileNode = ccbReader->readFileWithCleanUp(false, pCCBReader->getAnimationManagers());
     
     if (ccbFileNode && ccbReader->getAnimationManager()->getAutoPlaySequenceId() != -1)
     {

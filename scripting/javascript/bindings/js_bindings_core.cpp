@@ -148,8 +148,7 @@ void jsb_set_jsobject_for_proxy(JSObject *jsobj, void* proxy)
 	
 	element->proxy = proxy;
 	element->jsObject = jsobj;
-    JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
-	JS_AddNamedObjectRoot(cx, &element->jsObject, "chipumke");
+
 	HASH_ADD_INT( reverse_hash, proxy, element );
 }
 
@@ -158,8 +157,6 @@ void jsb_del_jsobject_for_proxy(void* proxy)
 	tHashJSObject *element = NULL;
 	HASH_FIND_INT(reverse_hash, &proxy, element);
 	if( element ) {		
-        JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
-        JS_RemoveObjectRoot(cx, &element->jsObject);
 		HASH_DEL(reverse_hash, element);
 		free(element);
 	}	

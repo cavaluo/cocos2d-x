@@ -191,20 +191,18 @@ private:
     std::vector<std::string> mOwnerOutletNames;
     CCArray* mOwnerOutletNodes;
     CCArray* mNodesWithAnimationManagers;
-    CCArray* mAnimationManagerForNodes;
+    CCArray* mAnimationManagersForNodes;
     
-    CCArray* mOwnerCallbackNames;
+    std::vector<std::string> mOwnerCallbackNames;
     CCArray* mOwnerCallbackNodes;
     
-
+    bool init();
 public:
     CCBReader(CCNodeLoaderLibrary *pCCNodeLoaderLibrary, CCBMemberVariableAssigner *pCCBMemberVariableAssigner = NULL, CCBSelectorResolver *pCCBSelectorResolver = NULL, CCNodeLoaderListener *pCCNodeLoaderListener = NULL);
     CCBReader(CCBReader *pCCBReader);
     virtual ~CCBReader();
     CCBReader();
-    
-    bool initWithData(CCData *pData, CCObject *pOwner);
-
+   
     CCNode* readNodeGraphFromFile(const char *pCCBFileName);
     CCNode* readNodeGraphFromFile(const char *pCCBFileName, CCObject *pOwner);
     CCNode* readNodeGraphFromFile(const char *pCCBFileName, CCObject *pOwner, const CCSize &parentSize);
@@ -236,20 +234,21 @@ public:
     int readInt(bool pSigned);
     unsigned char readByte();
     bool readBool();
+    std::string readUTF8();
     float readFloat();
     std::string readCachedString();
     bool isJSControlled();
             
     
-    CCArray *getOwnerCallbackNames();
-    CCArray *getOwnerCallbackNodes();
-    const std::vector<std::string>& getOwnerOutletNames();
+    CCArray* getOwnerCallbackNames();
+    CCArray* getOwnerCallbackNodes();
+    CCArray* getOwnerOutletNames();
     CCArray* getOwnerOutletNodes();
     CCArray* getNodesWithAnimationManagers();
     CCArray* getAnimationManagersForNodes();
 
-    std::vector<std::pair<CCNode *, CCBAnimationManager *> > getAnimationManagers();
-    void setAnimationManagers(std::vector<std::pair<CCNode *, CCBAnimationManager *> > x);
+    CCDictionary* getAnimationManagers();
+    void setAnimationManagers(CCDictionary* x);
     
     void addOwnerCallbackName(std::string name);
     void addOwnerCallbackNode(CCNode *node);
@@ -269,14 +268,14 @@ private:
     
     bool readHeader();
     bool readStringCache();
-    void readStringCacheEntry();
+    //void readStringCacheEntry();
     CCNode* readNodeGraph();
     CCNode* readNodeGraph(CCNode * pParent);
 
     bool getBit();
     void alignBits();
-    std::string readUTF8();
 
+    friend class CCNodeLoader;
 };
 
 // end of effects group
