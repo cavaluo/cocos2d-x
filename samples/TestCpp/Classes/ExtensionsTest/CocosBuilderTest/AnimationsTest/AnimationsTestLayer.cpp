@@ -34,6 +34,8 @@ bool AnimationsTestLayer::onAssignCCBMemberVariable(CCObject * pTarget, const ch
 
 void AnimationsTestLayer::setAnimationManager(cocos2d::extension::CCBAnimationManager *pAnimationManager)
 {
+    // Don't retain animationManager since animationManager retains AnimationsTestLayer in CCBReader::readNodeGraph;
+    // It will cause correlative dependence.
     CC_SAFE_RELEASE_NULL(mAnimationManager);
     mAnimationManager = pAnimationManager;
     CC_SAFE_RETAIN(mAnimationManager);

@@ -69,6 +69,8 @@ CCBReader::CCBReader(CCNodeLoaderLibrary * pCCNodeLoaderLibrary, CCBMemberVariab
 , mActionManagers(NULL)
 , mNodesWithAnimationManagers(NULL)
 , mAnimationManagersForNodes(NULL)
+, mOwnerOutletNodes(NULL)
+, mOwnerCallbackNodes(NULL)
 {
     this->mCCNodeLoaderLibrary = pCCNodeLoaderLibrary;
     this->mCCNodeLoaderLibrary->retain();
@@ -90,8 +92,9 @@ CCBReader::CCBReader(CCBReader * pCCBReader)
 , mActionManagers(NULL)
 , mNodesWithAnimationManagers(NULL)
 , mAnimationManagersForNodes(NULL)
+, mOwnerOutletNodes(NULL)
+, mOwnerCallbackNodes(NULL)
 {
-    this->mLoadedSpriteSheets = pCCBReader->mLoadedSpriteSheets;
     this->mCCNodeLoaderLibrary = pCCBReader->mCCNodeLoaderLibrary;
     this->mCCNodeLoaderLibrary->retain();
 
@@ -124,6 +127,8 @@ CCBReader::CCBReader()
 , mActionManagers(NULL)
 , mNodesWithAnimationManagers(NULL)
 , mAnimationManagersForNodes(NULL)
+, mOwnerOutletNodes(NULL)
+, mOwnerCallbackNodes(NULL)
 {
     init();
 }
@@ -134,9 +139,9 @@ CCBReader::~CCBReader() {
 
     this->mCCNodeLoaderLibrary->release();
 
-    mOwnerOutletNodes->release();
+    CC_SAFE_RELEASE(mOwnerOutletNodes);
     mOwnerOutletNames.clear();
-    mOwnerCallbackNodes->release();
+    CC_SAFE_RELEASE(mOwnerCallbackNodes);
     mOwnerCallbackNames.clear();
 
     // Clear string cache.
@@ -156,6 +161,9 @@ bool CCBReader::init()
     setAnimationManager(pActionManager);
     pActionManager->release();
     
+    // Clean set of loaded sprite sheets
+    mLoadedSpriteSheets.clear();
+
     // Setup resolution scale and container size
     mActionManager->setRootContainerSize(CCDirector::sharedDirector()->getWinSize());
     
@@ -247,6 +255,8 @@ CCNode* CCBReader::readNodeGraphFromData(CCData *pData, CCObject *pOwner, const 
 
     mActionManager->setRootContainerSize(parentSize);
     
+    CC_SAFE_RELEASE(mOwnerOutletNodes);
+    CC_SAFE_RELEASE(mOwnerCallbackNodes);
     mOwnerOutletNodes = new CCArray();
     mOwnerCallbackNodes = new CCArray();
     
@@ -269,7 +279,7 @@ CCNode* CCBReader::readNodeGraphFromData(CCData *pData, CCObject *pOwner, const 
     {
         CCNode* pNode = (CCNode*)pElement->getIntKey();
         CCBAnimationManager* manager = (CCBAnimationManager*)animationManagers->objectForKey((intptr_t)pNode);
-        pNode->setUserObject(manager);
+        //cjh pNode->setUserObject(manager);
 
         if (jsControlled)
         {
