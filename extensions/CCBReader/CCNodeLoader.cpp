@@ -35,17 +35,20 @@ void CCNodeLoader::parseProperties(CCNode * pNode, CCNode * pParent, CCBReader *
         {
             setProp = true;
         }
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+        // Cocos2d-x is using touch event callback for all platforms,
+        // it's different from cocos2d-iphone which uses mouse event for Mac port.
+        // So we just need to touch event by using kCCBPlatformIOS.
+//#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS) || (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
         if(platform == kCCBPlatformIOS)
         {
             setProp = true;
         }
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-        if(platform == kCCBPlatformMac)
-        {
-            setProp = true;
-        }
-#endif
+// #elif (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
+//         if(platform == kCCBPlatformMac)
+//         {
+//             setProp = true;
+//         }
+// #endif
         
         // Forward properties for sub ccb files
         if (dynamic_cast<CCBFile*>(pNode) != NULL)
@@ -826,12 +829,14 @@ CCNode * CCNodeLoader::parsePropTypeCCBFile(CCNode * pNode, CCNode * pParent, CC
     ccbReader->getAnimationManager()->setRootContainerSize(pParent->getContentSize());
     
     CCData *data = new CCData(pBytes, size);
+    CC_SAFE_DELETE_ARRAY(pBytes);
+
     data->retain();
     ccbReader->mData = data;
     ccbReader->mBytes = data->getBytes();
     ccbReader->mCurrentByte = 0;
     ccbReader->mCurrentBit = 0;
-    pCCBReader->mOwner->retain();
+    CC_SAFE_RETAIN(pCCBReader->mOwner);
     ccbReader->mOwner = pCCBReader->mOwner;
 
     ccbReader->mOwnerOutletNames = pCCBReader->mOwnerOutletNames;
