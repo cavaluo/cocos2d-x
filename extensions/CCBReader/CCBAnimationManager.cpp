@@ -425,7 +425,7 @@ void CCBAnimationManager::setAnimatedProperty(const char *pPropName, CCNode *pNo
             }
             else if (strcmp(pPropName, "visible") == 0)
             {
-                bool x = (bool)pValue;
+                bool x = (NULL == pValue) ? false : true;
                 if(x) {
                     CCSequence::createWithTwoActions(CCDelayTime::create(fTweenDuration), CCShow::create());
                 } else {

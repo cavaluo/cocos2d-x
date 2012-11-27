@@ -1343,6 +1343,7 @@ void Issue1305::log(CCNode* pSender)
 
 void Issue1305::onExit()
 {
+    m_pSpriteTmp->stopAllActions();
     m_pSpriteTmp->release();
     ActionsDemo::onExit();
 }

@@ -107,6 +107,7 @@ Config of cocos2d-x project, per target platform.
 #endif 
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+#include <vld.h>
 #pragma warning (disable:4127)  
 #endif  // CC_PLATFORM_WIN32
 
