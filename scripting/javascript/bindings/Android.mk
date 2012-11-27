@@ -16,6 +16,7 @@ LOCAL_SRC_FILES := ScriptingCore.cpp \
                    js_bindings_chipmunk_registration.cpp \
                    js_bindings_ccbreader.cpp \
                    js_bindings_core.cpp \
+                   jsproxy.cpp \
                    generated/cocos2dx.cpp
 
 LOCAL_CFLAGS := -DCOCOS2D_JAVASCRIPT

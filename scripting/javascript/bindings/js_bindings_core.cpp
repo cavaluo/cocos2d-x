@@ -66,7 +66,7 @@ static JSClass global_class = {
 #pragma mark JSBCore - Helper free functions
 static void reportError(JSContext *cx, const char *message, JSErrorReport *report)
 {
-	fprintf(stderr, "%s:%u:%s\n",  
+	CCLOG("%s:%u:%s\n",  
 			report->filename ? report->filename : "<no filename=\"filename\">",  
 			(unsigned int) report->lineno,  
 			message);
@@ -81,7 +81,7 @@ JSBool JSBCore_log(JSContext *cx, uint32_t argc, jsval *vp)
 		JS_ConvertArguments(cx, argc, JS_ARGV(cx, vp), "S", &string);
 		if (string) {
 			char *cstr = JS_EncodeString(cx, string);
-			fprintf(stderr, "%s\n", cstr);
+			CCLOG("%s\n", cstr);
 		}
 		
 		return JS_TRUE;

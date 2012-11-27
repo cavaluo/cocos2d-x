@@ -272,7 +272,7 @@ var GameLayer = cc.LayerGradient.extend({
         this._level = level;
 
         __jsc__.dumpRoot();
-        __jsc__.garbageCollect();
+        //__jsc__.garbageCollect();
     },
 
     // HUD stuff
@@ -953,7 +953,7 @@ var BootLayer = cc.Layer.extend({
 		cache.addSpriteFrames( "coins.plist" );
 
         __jsc__.dumpRoot();
-        __jsc__.garbageCollect();
+        //__jsc__.garbageCollect();
     },
 
     onEnter:function() {
@@ -1054,7 +1054,7 @@ var OptionsLayer = cc.LayerGradient.extend({
         menu.setPosition( centerPos );
 
         __jsc__.dumpRoot();
-        __jsc__.garbageCollect();
+        //__jsc__.garbageCollect();
     },
 
     onBack:function( sender) {

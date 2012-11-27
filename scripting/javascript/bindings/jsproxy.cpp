@@ -37,8 +37,11 @@ void JSBindingProxy::NewProxy(CCObject* nobj, JSObject* jsobj, struct js_proxy* 
         CCAssert(false, "js key pair exists");
     }
     m_jsKeyMap.insert(JSPair(jsobj, p));
-
-    JS_AddNamedObjectRoot(ScriptingCore::getInstance()->getGlobalContext(), &p->jsobj, typeid(*nobj).name()); 
+#ifdef DEBUG
+    JS_AddNamedObjectRoot(ScriptingCore::getInstance()->getGlobalContext(), &p->jsobj, typeid(*nobj).name());
+#else
+    JS_AddObjectRoot(ScriptingCore::getInstance()->getGlobalContext(), &p->jsobj);
+#endif
 }
 
 void JSBindingProxy::RemoveProxy(CCObject* nobj, JSObject* jsobj)

@@ -335,13 +335,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>gameobjects-hd.png</string>
+            <string>gameobjects.png</string>
             <key>size</key>
             <string>{256,512}</string>
             <key>smartupdate</key>
             <string>$TexturePacker:SmartUpdate:19e2e4573e7e153d3e5b6dede0d4e7f0$</string>
             <key>textureFileName</key>
-            <string>gameobjects-hd.png</string>
+            <string>gameobjects.png</string>
         </dict>
     </dict>
 </plist>

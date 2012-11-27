@@ -417,7 +417,9 @@ void ScriptingCore::createGlobalContext() {
     JS_SetOptions(this->cx_, JS_GetOptions(this->cx_) & ~JSOPTION_METHODJIT);
     JS_SetOptions(this->cx_, JS_GetOptions(this->cx_) & ~JSOPTION_METHODJIT_ALWAYS);
     JS_SetErrorReporter(this->cx_, ScriptingCore::reportError);
+#ifdef DEBUG
     JS_SetGCZeal(this->cx_, 2, JS_DEFAULT_ZEAL_FREQ);
+#endif
     this->global_ = NewGlobalObject(cx_);
     for (std::vector<sc_register_sth>::iterator it = registrationList.begin(); it != registrationList.end(); it++) {
         sc_register_sth callback = *it;
@@ -651,15 +653,15 @@ JSBool ScriptingCore::dumpHeap(JSContext *cx, unsigned argc, jsval *vp)
     } else {
         dumpFile = fopen(fileName, "w");
         if (!dumpFile) {
-            JS_ReportError(cx, "can't open %s: %s", fileName, strerror(errno));
+            JS_ReportError(cx, "can't open %s", fileName);
             return false;
         }
     }
 
-    ok = JS_DumpHeap(JS_GetRuntime(cx), dumpFile, startThing, startTraceKind, thingToFind,
-        maxDepth, thingToIgnore);
-    if (dumpFile != stdout)
-        fclose(dumpFile);
+//cjh     ok = JS_DumpHeap(JS_GetRuntime(cx), dumpFile, startThing, startTraceKind, thingToFind,
+//         maxDepth, thingToIgnore);
+//     if (dumpFile != stdout)
+//         fclose(dumpFile);
     if (!ok) {
         JS_ReportOutOfMemory(cx);
         return false;
@@ -798,7 +800,8 @@ void ScriptingCore::cleanupSchedulesAndActions(CCNode *node) {
             {
                 if (jsfunc_iter->second == pObj)
                 {
-                    jsfunc_iter = g_jsfunc_targets_map.erase(jsfunc_iter);
+                    /*jsfunc_iter = */g_jsfunc_targets_map.erase(jsfunc_iter);
+                    jsfunc_iter = g_jsfunc_targets_map.begin();
                 }
                 else
                 {
@@ -886,7 +889,11 @@ int ScriptingCore::executeMenuItemEvent(CCMenuItem* pMenuItem)
     JS_GET_PROXY(proxy, pMenuItem);
     dataVal = (proxy ? OBJECT_TO_JSVAL(proxy->obj) : JSVAL_NULL);
 
+#ifdef DEBUG
     JS_AddNamedValueRoot(this->cx_, &dataVal, "executeMenuItemEvent dataVal");
+#else
+    JS_AddValueRoot(this->cx_, &dataVal);
+#endif
     executeJSFunctionFromReservedSpot(this->cx_, p->obj, dataVal, retval);
     JS_RemoveValueRoot(this->cx_, &dataVal);
 
@@ -939,8 +946,11 @@ int ScriptingCore::executeCallFuncActionEvent(CCCallFunc* pAction, CCObject* pTa
         int a = 0;
         a = 0;
     }
-    
+#ifdef DEBUG
     JS_AddNamedValueRoot(this->cx_, &dataVal, "executeCallFuncActionEvent dataVal");
+#else
+    JS_AddValueRoot(this->cx_, &dataVal);
+#endif
     executeJSFunctionFromReservedSpot(this->cx_, p->obj, dataVal, retval);
     JS_RemoveValueRoot(this->cx_, &dataVal);
 
@@ -957,8 +967,11 @@ int ScriptingCore::executeSchedule(CCTimer* pTimer, float dt, CCNode* pNode/* = 
     jsval retval;
     jsval dataVal = DOUBLE_TO_JSVAL(dt);
 	
+#ifdef DEBUG
 	JS_AddNamedValueRoot(this->cx_, &dataVal, "schedule data val");
-
+#else
+    JS_AddValueRoot(this->cx_, &dataVal);
+#endif
     executeJSFunctionWithName(this->cx_, p->obj, "update", dataVal, retval);
 
 	JS_RemoveValueRoot(this->cx_, &dataVal);
