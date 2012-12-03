@@ -1533,6 +1533,20 @@ void JSB_cpBase_createClass(JSContext *cx, JSObject* globalObj, const char* name
 	JSB_cpBase_object = JS_InitClass(cx, globalObj, NULL, JSB_cpBase_class, JSB_cpBase_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    const long id = cocos2d::getHashCodeByString("cpBase");
+    js_type_class_t *p;
+    uint32_t typeId = id;
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpBase_class;
+        p->proto = JSB_cpBase_object;
+        p->parentProto = NULL;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 // Manual "methods"

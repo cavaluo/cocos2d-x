@@ -287,6 +287,20 @@ void JSB_cpConstraint_createClass(JSContext *cx, JSObject* globalObj, const char
 	JSB_cpConstraint_object = JS_InitClass(cx, globalObj, JSB_cpBase_object, JSB_cpConstraint_class, JSB_cpConstraint_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpConstraint> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpConstraint_class;
+        p->proto = JSB_cpConstraint_object;
+        p->parentProto = JSB_cpBase_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -484,6 +498,20 @@ void JSB_cpGrooveJoint_createClass(JSContext *cx, JSObject* globalObj, const cha
 	JSB_cpGrooveJoint_object = JS_InitClass(cx, globalObj, JSB_cpConstraint_object, JSB_cpGrooveJoint_class, JSB_cpGrooveJoint_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpGrooveJoint> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpGrooveJoint_class;
+        p->proto = JSB_cpGrooveJoint_object;
+        p->parentProto = JSB_cpConstraint_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -596,6 +624,20 @@ void JSB_cpSimpleMotor_createClass(JSContext *cx, JSObject* globalObj, const cha
 	JSB_cpSimpleMotor_object = JS_InitClass(cx, globalObj, JSB_cpConstraint_object, JSB_cpSimpleMotor_class, JSB_cpSimpleMotor_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpSimpleMotor> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpSimpleMotor_class;
+        p->proto = JSB_cpSimpleMotor_object;
+        p->parentProto = JSB_cpConstraint_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -751,6 +793,20 @@ void JSB_cpPivotJoint_createClass(JSContext *cx, JSObject* globalObj, const char
 	JSB_cpPivotJoint_object = JS_InitClass(cx, globalObj, JSB_cpConstraint_object, JSB_cpPivotJoint_class, JSB_cpPivotJoint_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpPivotJoint> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpPivotJoint_class;
+        p->proto = JSB_cpPivotJoint_object;
+        p->parentProto = JSB_cpConstraint_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -944,6 +1000,20 @@ void JSB_cpPinJoint_createClass(JSContext *cx, JSObject* globalObj, const char* 
 	JSB_cpPinJoint_object = JS_InitClass(cx, globalObj, JSB_cpConstraint_object, JSB_cpPinJoint_class, JSB_cpPinJoint_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpPinJoint> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpPinJoint_class;
+        p->proto = JSB_cpPinJoint_object;
+        p->parentProto = JSB_cpConstraint_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -1176,6 +1246,20 @@ void JSB_cpSlideJoint_createClass(JSContext *cx, JSObject* globalObj, const char
 	JSB_cpSlideJoint_object = JS_InitClass(cx, globalObj, JSB_cpConstraint_object, JSB_cpSlideJoint_class, JSB_cpSlideJoint_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpSlideJoint> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpSlideJoint_class;
+        p->proto = JSB_cpSlideJoint_object;
+        p->parentProto = JSB_cpConstraint_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -1326,6 +1410,20 @@ void JSB_cpGearJoint_createClass(JSContext *cx, JSObject* globalObj, const char*
 	JSB_cpGearJoint_object = JS_InitClass(cx, globalObj, JSB_cpConstraint_object, JSB_cpGearJoint_class, JSB_cpGearJoint_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpGearJoint> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpGearJoint_class;
+        p->proto = JSB_cpGearJoint_object;
+        p->parentProto = JSB_cpConstraint_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -1514,6 +1612,20 @@ void JSB_cpDampedRotarySpring_createClass(JSContext *cx, JSObject* globalObj, co
 	JSB_cpDampedRotarySpring_object = JS_InitClass(cx, globalObj, JSB_cpConstraint_object, JSB_cpDampedRotarySpring_class, JSB_cpDampedRotarySpring_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpDampedRotarySpring> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpDampedRotarySpring_class;
+        p->proto = JSB_cpDampedRotarySpring_object;
+        p->parentProto = JSB_cpConstraint_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -1784,6 +1896,20 @@ void JSB_cpDampedSpring_createClass(JSContext *cx, JSObject* globalObj, const ch
 	JSB_cpDampedSpring_object = JS_InitClass(cx, globalObj, JSB_cpConstraint_object, JSB_cpDampedSpring_class, JSB_cpDampedSpring_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpDampedSpring> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpDampedSpring_class;
+        p->proto = JSB_cpDampedSpring_object;
+        p->parentProto = JSB_cpConstraint_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -1971,6 +2097,20 @@ void JSB_cpRatchetJoint_createClass(JSContext *cx, JSObject* globalObj, const ch
 	JSB_cpRatchetJoint_object = JS_InitClass(cx, globalObj, JSB_cpConstraint_object, JSB_cpRatchetJoint_class, JSB_cpRatchetJoint_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpRatchetJoint> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpRatchetJoint_class;
+        p->proto = JSB_cpRatchetJoint_object;
+        p->parentProto = JSB_cpConstraint_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -2121,6 +2261,20 @@ void JSB_cpRotaryLimitJoint_createClass(JSContext *cx, JSObject* globalObj, cons
 	JSB_cpRotaryLimitJoint_object = JS_InitClass(cx, globalObj, JSB_cpConstraint_object, JSB_cpRotaryLimitJoint_class, JSB_cpRotaryLimitJoint_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpRotaryLimitJoint> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpRotaryLimitJoint_class;
+        p->proto = JSB_cpRotaryLimitJoint_object;
+        p->parentProto = JSB_cpConstraint_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -2472,6 +2626,20 @@ void JSB_cpArbiter_createClass(JSContext *cx, JSObject* globalObj, const char* n
 	JSB_cpArbiter_object = JS_InitClass(cx, globalObj, JSB_cpBase_object, JSB_cpArbiter_class, JSB_cpArbiter_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpArbiter> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpArbiter_class;
+        p->proto = JSB_cpArbiter_object;
+        p->parentProto = JSB_cpBase_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -3168,6 +3336,20 @@ void JSB_cpSpace_createClass(JSContext *cx, JSObject* globalObj, const char* nam
 	JSB_cpSpace_object = JS_InitClass(cx, globalObj, JSB_cpBase_object, JSB_cpSpace_class, JSB_cpSpace_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpSpace> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpSpace_class;
+        p->proto = JSB_cpSpace_object;
+        p->parentProto = JSB_cpBase_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -4039,6 +4221,20 @@ void JSB_cpBody_createClass(JSContext *cx, JSObject* globalObj, const char* name
 	JSB_cpBody_object = JS_InitClass(cx, globalObj, JSB_cpBase_object, JSB_cpBody_class, JSB_cpBody_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpBody> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpBody_class;
+        p->proto = JSB_cpBody_object;
+        p->parentProto = JSB_cpBase_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -4529,6 +4725,20 @@ void JSB_cpShape_createClass(JSContext *cx, JSObject* globalObj, const char* nam
 	JSB_cpShape_object = JS_InitClass(cx, globalObj, JSB_cpBase_object, JSB_cpShape_class, JSB_cpShape_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpShape> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpShape_class;
+        p->proto = JSB_cpShape_object;
+        p->parentProto = JSB_cpBase_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -4639,6 +4849,20 @@ void JSB_cpCircleShape_createClass(JSContext *cx, JSObject* globalObj, const cha
 	JSB_cpCircleShape_object = JS_InitClass(cx, globalObj, JSB_cpShape_object, JSB_cpCircleShape_class, JSB_cpCircleShape_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpCircleShape> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpCircleShape_class;
+        p->proto = JSB_cpCircleShape_object;
+        p->parentProto = JSB_cpShape_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -4810,6 +5034,20 @@ void JSB_cpSegmentShape_createClass(JSContext *cx, JSObject* globalObj, const ch
 	JSB_cpSegmentShape_object = JS_InitClass(cx, globalObj, JSB_cpShape_object, JSB_cpSegmentShape_class, JSB_cpSegmentShape_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpSegmentShape> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpSegmentShape_class;
+        p->proto = JSB_cpSegmentShape_object;
+        p->parentProto = JSB_cpShape_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 /*
@@ -4904,6 +5142,20 @@ void JSB_cpPolyShape_createClass(JSContext *cx, JSObject* globalObj, const char*
 	JSB_cpPolyShape_object = JS_InitClass(cx, globalObj, JSB_cpShape_object, JSB_cpPolyShape_class, JSB_cpPolyShape_constructor,0,properties,funcs,NULL,st_funcs);
 	JSBool found;
 	JS_SetPropertyAttributes(cx, globalObj, name, JSPROP_ENUMERATE | JSPROP_READONLY, &found);
+
+    // add the proto and JSClass to the type->js info hash table
+    TypeTest<cpPolyShape> t;
+    js_type_class_t *p;
+    uint32_t typeId = t.s_id();
+    HASH_FIND_INT(_js_global_type_ht, &typeId, p);
+    if (!p) {
+        p = (js_type_class_t *)malloc(sizeof(js_type_class_t));
+        p->type = typeId;
+        p->jsclass = JSB_cpPolyShape_class;
+        p->proto = JSB_cpPolyShape_object;
+        p->parentProto = JSB_cpShape_object;
+        HASH_ADD_INT(_js_global_type_ht, type, p);
+    }
 }
 
 
