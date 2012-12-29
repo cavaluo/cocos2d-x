@@ -29,6 +29,7 @@
 #include "cocos2d.h"
 #include "ExtensionMacros.h"
 #include "CCEditBox.h"
+#include "script_support/CCScriptSupport.h"
 
 NS_CC_EXT_BEGIN
 
@@ -36,7 +37,7 @@ NS_CC_EXT_BEGIN
 class CCEditBoxImpl
 {
 public:
-    CCEditBoxImpl(CCEditBox* pEditBox) : m_pEditBox(pEditBox), m_pDelegate(NULL)  {}
+    CCEditBoxImpl(CCEditBox* pEditBox) : m_pEditBox(pEditBox), m_pDelegate(NULL), m_nScriptHandler(0) {}
     virtual ~CCEditBoxImpl() {}
     
     virtual bool initWithSize(const CCSize& size) = 0;
@@ -49,6 +50,7 @@ public:
     virtual void setReturnType(KeyboardReturnType returnType) = 0;
     virtual bool isEditing() = 0;
     
+    virtual void setEnabled(bool enabled) = 0;
     virtual void setText(const char* pText) = 0;
     virtual const char* getText(void) = 0;
     virtual void setPlaceHolder(const char* pText) = 0;
@@ -57,6 +59,8 @@ public:
     virtual void openKeyboard() = 0;
     virtual void closeKeyboard() = 0;
     
+    virtual GLubyte getOpacity(void) = 0;
+    virtual void setOpacity(GLubyte opacity) = 0;
     virtual void setPosition(const CCPoint& pos) = 0;
     virtual void setContentSize(const CCSize& size) = 0;
     virtual void visit(void) = 0;
@@ -64,10 +68,27 @@ public:
     
     void setDelegate(CCEditBoxDelegate* pDelegate) { m_pDelegate = pDelegate; };
     CCEditBoxDelegate* getDelegate() { return m_pDelegate; };
+
+    void registerScriptEditboxHandler(int nHandler) {
+        unregisterScriptEditboxHandler();
+        m_nScriptHandler = nHandler;
+    };
+    void unregisterScriptEditboxHandler(void) {
+        if (m_nScriptHandler)
+        {
+            CCScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptHandler(m_nScriptHandler);
+            m_nScriptHandler = 0;
+        }
+    };
+    int getScriptEditboxHandler(void) {
+        return m_nScriptHandler;
+    }
+
     CCEditBox* getCCEditBox() { return m_pEditBox; };
 protected:
     CCEditBoxDelegate* m_pDelegate;
     CCEditBox* m_pEditBox;
+    int m_nScriptHandler;
 };
 
 // This method must be implemented at each subclass of CCEditBoxImpl.
