@@ -128,6 +128,28 @@
 		15A3D2DE1682EF08002FB0C5 /* libcocos2dx.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15A3D0C71682EDB7002FB0C5 /* libcocos2dx.a */; };
 		15A3D2E41682EF31002FB0C5 /* main.js in Resources */ = {isa = PBXBuildFile; fileRef = 15A3D2D81682EEEA002FB0C5 /* main.js */; };
 		15A3D2E51682EF31002FB0C5 /* MoonWarriors-jsb.js in Resources */ = {isa = PBXBuildFile; fileRef = 15A3D2D91682EEEA002FB0C5 /* MoonWarriors-jsb.js */; };
+		1A0710D1169EBB9400B0C6EC /* boost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0710D0169EBB9400B0C6EC /* boost.framework */; };
+		1A071112169EBBC900B0C6EC /* base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A0710D4169EBBC900B0C6EC /* base64.cpp */; };
+		1A071113169EBBC900B0C6EC /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A0710DF169EBBC900B0C6EC /* md5.c */; };
+		1A071114169EBBC900B0C6EC /* data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A0710E4169EBBC900B0C6EC /* data.cpp */; };
+		1A071115169EBBC900B0C6EC /* network_utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A0710E6169EBBC900B0C6EC /* network_utilities.cpp */; };
+		1A071116169EBBC900B0C6EC /* hybi_header.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A0710EA169EBBC900B0C6EC /* hybi_header.cpp */; };
+		1A071117169EBBC900B0C6EC /* hybi_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A0710ED169EBBC900B0C6EC /* hybi_util.cpp */; };
+		1A071118169EBBC900B0C6EC /* blank_rng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A0710F1169EBBC900B0C6EC /* blank_rng.cpp */; };
+		1A071119169EBBC900B0C6EC /* boost_rng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A0710F3169EBBC900B0C6EC /* boost_rng.cpp */; };
+		1A07111A169EBBC900B0C6EC /* SConscript in Resources */ = {isa = PBXBuildFile; fileRef = 1A0710F8169EBBC900B0C6EC /* SConscript */; };
+		1A07111B169EBBC900B0C6EC /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1A0710FA169EBBC900B0C6EC /* license.txt */; };
+		1A07111C169EBBC900B0C6EC /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 1A0710FB169EBBC900B0C6EC /* Makefile */; };
+		1A07111D169EBBC900B0C6EC /* Makefile.nt in Resources */ = {isa = PBXBuildFile; fileRef = 1A0710FC169EBBC900B0C6EC /* Makefile.nt */; };
+		1A071122169EBBC900B0C6EC /* client.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1A071108169EBBC900B0C6EC /* client.pem */; };
+		1A071123169EBBC900B0C6EC /* dh512.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1A071109169EBBC900B0C6EC /* dh512.pem */; };
+		1A071124169EBBC900B0C6EC /* server.cer in Resources */ = {isa = PBXBuildFile; fileRef = 1A07110A169EBBC900B0C6EC /* server.cer */; };
+		1A071125169EBBC900B0C6EC /* server.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1A07110B169EBBC900B0C6EC /* server.pem */; };
+		1A071126169EBBC900B0C6EC /* uri.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A07110C169EBBC900B0C6EC /* uri.cpp */; };
+		1A071130169EBED700B0C6EC /* chat_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A071128169EBED700B0C6EC /* chat_client.cpp */; };
+		1A071132169EBED700B0C6EC /* chat_client_handler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A07112A169EBED700B0C6EC /* chat_client_handler.cpp */; };
+		1A071135169EBED700B0C6EC /* jquery-1.6.3.min.js in Sources */ = {isa = PBXBuildFile; fileRef = 1A07112F169EBED700B0C6EC /* jquery-1.6.3.min.js */; };
+		1A071137169EC09D00B0C6EC /* sha1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A071136169EC09D00B0C6EC /* sha1.cpp */; };
 		1A177EB71698261C00C9AC27 /* jsb_chipmunk.js in Sources */ = {isa = PBXBuildFile; fileRef = 1A177EB01698261C00C9AC27 /* jsb_chipmunk.js */; };
 		1A177EB81698261C00C9AC27 /* jsb_cocos2d.js in Sources */ = {isa = PBXBuildFile; fileRef = 1A177EB11698261C00C9AC27 /* jsb_cocos2d.js */; };
 		1A177EB91698261C00C9AC27 /* jsb_cocosbuilder.js in Sources */ = {isa = PBXBuildFile; fileRef = 1A177EB21698261C00C9AC27 /* jsb_cocosbuilder.js */; };
@@ -395,6 +417,59 @@
 		15A3D2D51682EEC8002FB0C5 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../Shared/games/MoonWarriors/src; sourceTree = "<group>"; };
 		15A3D2D81682EEEA002FB0C5 /* main.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = main.js; path = ../../Shared/games/MoonWarriors/main.js; sourceTree = "<group>"; };
 		15A3D2D91682EEEA002FB0C5 /* MoonWarriors-jsb.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "MoonWarriors-jsb.js"; path = "../../Shared/games/MoonWarriors/MoonWarriors-jsb.js"; sourceTree = "<group>"; };
+		1A0710D0169EBB9400B0C6EC /* boost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = boost.framework; path = ../../../../../boostoniphone/framework/boost.framework; sourceTree = "<group>"; };
+		1A0710D4169EBBC900B0C6EC /* base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = base64.cpp; sourceTree = "<group>"; };
+		1A0710D5169EBBC900B0C6EC /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
+		1A0710D6169EBBC900B0C6EC /* common.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
+		1A0710D7169EBBC900B0C6EC /* connection.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = connection.hpp; sourceTree = "<group>"; };
+		1A0710D8169EBBC900B0C6EC /* endpoint.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = endpoint.hpp; sourceTree = "<group>"; };
+		1A0710DA169EBBC900B0C6EC /* constants.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = constants.hpp; sourceTree = "<group>"; };
+		1A0710DB169EBBC900B0C6EC /* parser.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = parser.hpp; sourceTree = "<group>"; };
+		1A0710DD169EBBC900B0C6EC /* logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = logger.hpp; sourceTree = "<group>"; };
+		1A0710DF169EBBC900B0C6EC /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
+		1A0710E0169EBBC900B0C6EC /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		1A0710E1169EBBC900B0C6EC /* md5.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = md5.hpp; sourceTree = "<group>"; };
+		1A0710E3169EBBC900B0C6EC /* control.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = control.hpp; sourceTree = "<group>"; };
+		1A0710E4169EBBC900B0C6EC /* data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = data.cpp; sourceTree = "<group>"; };
+		1A0710E5169EBBC900B0C6EC /* data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = data.hpp; sourceTree = "<group>"; };
+		1A0710E6169EBBC900B0C6EC /* network_utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = network_utilities.cpp; sourceTree = "<group>"; };
+		1A0710E7169EBBC900B0C6EC /* network_utilities.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = network_utilities.hpp; sourceTree = "<group>"; };
+		1A0710E9169EBBC900B0C6EC /* hybi.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = hybi.hpp; sourceTree = "<group>"; };
+		1A0710EA169EBBC900B0C6EC /* hybi_header.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hybi_header.cpp; sourceTree = "<group>"; };
+		1A0710EB169EBBC900B0C6EC /* hybi_header.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = hybi_header.hpp; sourceTree = "<group>"; };
+		1A0710EC169EBBC900B0C6EC /* hybi_legacy.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = hybi_legacy.hpp; sourceTree = "<group>"; };
+		1A0710ED169EBBC900B0C6EC /* hybi_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hybi_util.cpp; sourceTree = "<group>"; };
+		1A0710EE169EBBC900B0C6EC /* hybi_util.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = hybi_util.hpp; sourceTree = "<group>"; };
+		1A0710EF169EBBC900B0C6EC /* processor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = processor.hpp; sourceTree = "<group>"; };
+		1A0710F1169EBBC900B0C6EC /* blank_rng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = blank_rng.cpp; sourceTree = "<group>"; };
+		1A0710F2169EBBC900B0C6EC /* blank_rng.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = blank_rng.hpp; sourceTree = "<group>"; };
+		1A0710F3169EBBC900B0C6EC /* boost_rng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = boost_rng.cpp; sourceTree = "<group>"; };
+		1A0710F4169EBBC900B0C6EC /* boost_rng.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = boost_rng.hpp; sourceTree = "<group>"; };
+		1A0710F6169EBBC900B0C6EC /* client.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = client.hpp; sourceTree = "<group>"; };
+		1A0710F7169EBBC900B0C6EC /* server.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = server.hpp; sourceTree = "<group>"; };
+		1A0710F8169EBBC900B0C6EC /* SConscript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SConscript; sourceTree = "<group>"; };
+		1A0710FA169EBBC900B0C6EC /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
+		1A0710FB169EBBC900B0C6EC /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		1A0710FC169EBBC900B0C6EC /* Makefile.nt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.nt; sourceTree = "<group>"; };
+		1A0710FF169EBBC900B0C6EC /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
+		1A071102169EBBC900B0C6EC /* shared_const_buffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = shared_const_buffer.hpp; sourceTree = "<group>"; };
+		1A071104169EBBC900B0C6EC /* plain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = plain.hpp; sourceTree = "<group>"; };
+		1A071105169EBBC900B0C6EC /* socket_base.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = socket_base.hpp; sourceTree = "<group>"; };
+		1A071106169EBBC900B0C6EC /* tls.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = tls.hpp; sourceTree = "<group>"; };
+		1A071108169EBBC900B0C6EC /* client.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = client.pem; sourceTree = "<group>"; };
+		1A071109169EBBC900B0C6EC /* dh512.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dh512.pem; sourceTree = "<group>"; };
+		1A07110A169EBBC900B0C6EC /* server.cer */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.cer; sourceTree = "<group>"; };
+		1A07110B169EBBC900B0C6EC /* server.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = server.pem; sourceTree = "<group>"; };
+		1A07110C169EBBC900B0C6EC /* uri.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = uri.cpp; sourceTree = "<group>"; };
+		1A07110D169EBBC900B0C6EC /* uri.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = uri.hpp; sourceTree = "<group>"; };
+		1A07110F169EBBC900B0C6EC /* utf8_validator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = utf8_validator.hpp; sourceTree = "<group>"; };
+		1A071110169EBBC900B0C6EC /* websocket_frame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = websocket_frame.hpp; sourceTree = "<group>"; };
+		1A071111169EBBC900B0C6EC /* websocketpp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = websocketpp.hpp; sourceTree = "<group>"; };
+		1A071128169EBED700B0C6EC /* chat_client.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = chat_client.cpp; sourceTree = "<group>"; };
+		1A07112A169EBED700B0C6EC /* chat_client_handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = chat_client_handler.cpp; sourceTree = "<group>"; };
+		1A07112B169EBED700B0C6EC /* chat_client_handler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = chat_client_handler.hpp; sourceTree = "<group>"; };
+		1A07112F169EBED700B0C6EC /* jquery-1.6.3.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jquery-1.6.3.min.js"; sourceTree = "<group>"; };
+		1A071136169EC09D00B0C6EC /* sha1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sha1.cpp; sourceTree = "<group>"; };
 		1A177EB01698261C00C9AC27 /* jsb_chipmunk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jsb_chipmunk.js; sourceTree = "<group>"; };
 		1A177EB11698261C00C9AC27 /* jsb_cocos2d.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jsb_cocos2d.js; sourceTree = "<group>"; };
 		1A177EB21698261C00C9AC27 /* jsb_cocosbuilder.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jsb_cocosbuilder.js; sourceTree = "<group>"; };
@@ -431,6 +506,7 @@
 				15674A78163E70370002AD61 /* UIKit.framework in Frameworks */,
 				15674A7A163E70370002AD61 /* Foundation.framework in Frameworks */,
 				15674A7C163E70370002AD61 /* CoreGraphics.framework in Frameworks */,
+				1A0710D1169EBB9400B0C6EC /* boost.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +516,7 @@
 		15674A5E163E70370002AD61 = {
 			isa = PBXGroup;
 			children = (
+				1A0710D2169EBBC900B0C6EC /* src */,
 				15A3D0BF1682EDB7002FB0C5 /* cocos2dx.xcodeproj */,
 				15A3D29B1682EE81002FB0C5 /* bindings */,
 				15A3D0C81682EDDF002FB0C5 /* chipmunk */,
@@ -464,6 +541,7 @@
 		15674A6C163E70370002AD61 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A0710D0169EBB9400B0C6EC /* boost.framework */,
 				1A82F5E9169AC8DD00C4B13A /* libsqlite3.dylib */,
 				156752FF163E870E0002AD61 /* libxml2.dylib */,
 				156752F8163E82D40002AD61 /* libz.dylib */,
@@ -483,6 +561,7 @@
 		15674EFC163E72EE0002AD61 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1A071127169EBED700B0C6EC /* chat_client */,
 				15674EFD163E72EE0002AD61 /* AppDelegate.cpp */,
 				15674EFE163E72EE0002AD61 /* AppDelegate.h */,
 			);
@@ -890,6 +969,177 @@
 			path = js;
 			sourceTree = "<group>";
 		};
+		1A0710D2169EBBC900B0C6EC /* src */ = {
+			isa = PBXGroup;
+			children = (
+				1A0710D3169EBBC900B0C6EC /* base64 */,
+				1A0710D6169EBBC900B0C6EC /* common.hpp */,
+				1A0710D7169EBBC900B0C6EC /* connection.hpp */,
+				1A0710D8169EBBC900B0C6EC /* endpoint.hpp */,
+				1A0710D9169EBBC900B0C6EC /* http */,
+				1A0710DC169EBBC900B0C6EC /* logger */,
+				1A0710DE169EBBC900B0C6EC /* md5 */,
+				1A0710E2169EBBC900B0C6EC /* messages */,
+				1A0710E6169EBBC900B0C6EC /* network_utilities.cpp */,
+				1A0710E7169EBBC900B0C6EC /* network_utilities.hpp */,
+				1A0710E8169EBBC900B0C6EC /* processors */,
+				1A0710F0169EBBC900B0C6EC /* rng */,
+				1A0710F5169EBBC900B0C6EC /* roles */,
+				1A0710F8169EBBC900B0C6EC /* SConscript */,
+				1A0710F9169EBBC900B0C6EC /* sha1 */,
+				1A071102169EBBC900B0C6EC /* shared_const_buffer.hpp */,
+				1A071103169EBBC900B0C6EC /* sockets */,
+				1A071107169EBBC900B0C6EC /* ssl */,
+				1A07110C169EBBC900B0C6EC /* uri.cpp */,
+				1A07110D169EBBC900B0C6EC /* uri.hpp */,
+				1A07110E169EBBC900B0C6EC /* utf8_validator */,
+				1A071110169EBBC900B0C6EC /* websocket_frame.hpp */,
+				1A071111169EBBC900B0C6EC /* websocketpp.hpp */,
+			);
+			name = src;
+			path = ../../../../../websocketpp/src;
+			sourceTree = "<group>";
+		};
+		1A0710D3169EBBC900B0C6EC /* base64 */ = {
+			isa = PBXGroup;
+			children = (
+				1A0710D4169EBBC900B0C6EC /* base64.cpp */,
+				1A0710D5169EBBC900B0C6EC /* base64.h */,
+			);
+			path = base64;
+			sourceTree = "<group>";
+		};
+		1A0710D9169EBBC900B0C6EC /* http */ = {
+			isa = PBXGroup;
+			children = (
+				1A0710DA169EBBC900B0C6EC /* constants.hpp */,
+				1A0710DB169EBBC900B0C6EC /* parser.hpp */,
+			);
+			path = http;
+			sourceTree = "<group>";
+		};
+		1A0710DC169EBBC900B0C6EC /* logger */ = {
+			isa = PBXGroup;
+			children = (
+				1A0710DD169EBBC900B0C6EC /* logger.hpp */,
+			);
+			path = logger;
+			sourceTree = "<group>";
+		};
+		1A0710DE169EBBC900B0C6EC /* md5 */ = {
+			isa = PBXGroup;
+			children = (
+				1A0710DF169EBBC900B0C6EC /* md5.c */,
+				1A0710E0169EBBC900B0C6EC /* md5.h */,
+				1A0710E1169EBBC900B0C6EC /* md5.hpp */,
+			);
+			path = md5;
+			sourceTree = "<group>";
+		};
+		1A0710E2169EBBC900B0C6EC /* messages */ = {
+			isa = PBXGroup;
+			children = (
+				1A0710E3169EBBC900B0C6EC /* control.hpp */,
+				1A0710E4169EBBC900B0C6EC /* data.cpp */,
+				1A0710E5169EBBC900B0C6EC /* data.hpp */,
+			);
+			path = messages;
+			sourceTree = "<group>";
+		};
+		1A0710E8169EBBC900B0C6EC /* processors */ = {
+			isa = PBXGroup;
+			children = (
+				1A0710E9169EBBC900B0C6EC /* hybi.hpp */,
+				1A0710EA169EBBC900B0C6EC /* hybi_header.cpp */,
+				1A0710EB169EBBC900B0C6EC /* hybi_header.hpp */,
+				1A0710EC169EBBC900B0C6EC /* hybi_legacy.hpp */,
+				1A0710ED169EBBC900B0C6EC /* hybi_util.cpp */,
+				1A0710EE169EBBC900B0C6EC /* hybi_util.hpp */,
+				1A0710EF169EBBC900B0C6EC /* processor.hpp */,
+			);
+			path = processors;
+			sourceTree = "<group>";
+		};
+		1A0710F0169EBBC900B0C6EC /* rng */ = {
+			isa = PBXGroup;
+			children = (
+				1A0710F1169EBBC900B0C6EC /* blank_rng.cpp */,
+				1A0710F2169EBBC900B0C6EC /* blank_rng.hpp */,
+				1A0710F3169EBBC900B0C6EC /* boost_rng.cpp */,
+				1A0710F4169EBBC900B0C6EC /* boost_rng.hpp */,
+			);
+			path = rng;
+			sourceTree = "<group>";
+		};
+		1A0710F5169EBBC900B0C6EC /* roles */ = {
+			isa = PBXGroup;
+			children = (
+				1A0710F6169EBBC900B0C6EC /* client.hpp */,
+				1A0710F7169EBBC900B0C6EC /* server.hpp */,
+			);
+			path = roles;
+			sourceTree = "<group>";
+		};
+		1A0710F9169EBBC900B0C6EC /* sha1 */ = {
+			isa = PBXGroup;
+			children = (
+				1A071136169EC09D00B0C6EC /* sha1.cpp */,
+				1A0710FA169EBBC900B0C6EC /* license.txt */,
+				1A0710FB169EBBC900B0C6EC /* Makefile */,
+				1A0710FC169EBBC900B0C6EC /* Makefile.nt */,
+				1A0710FF169EBBC900B0C6EC /* sha1.h */,
+			);
+			path = sha1;
+			sourceTree = "<group>";
+		};
+		1A071103169EBBC900B0C6EC /* sockets */ = {
+			isa = PBXGroup;
+			children = (
+				1A071104169EBBC900B0C6EC /* plain.hpp */,
+				1A071105169EBBC900B0C6EC /* socket_base.hpp */,
+				1A071106169EBBC900B0C6EC /* tls.hpp */,
+			);
+			path = sockets;
+			sourceTree = "<group>";
+		};
+		1A071107169EBBC900B0C6EC /* ssl */ = {
+			isa = PBXGroup;
+			children = (
+				1A071108169EBBC900B0C6EC /* client.pem */,
+				1A071109169EBBC900B0C6EC /* dh512.pem */,
+				1A07110A169EBBC900B0C6EC /* server.cer */,
+				1A07110B169EBBC900B0C6EC /* server.pem */,
+			);
+			path = ssl;
+			sourceTree = "<group>";
+		};
+		1A07110E169EBBC900B0C6EC /* utf8_validator */ = {
+			isa = PBXGroup;
+			children = (
+				1A07110F169EBBC900B0C6EC /* utf8_validator.hpp */,
+			);
+			path = utf8_validator;
+			sourceTree = "<group>";
+		};
+		1A071127169EBED700B0C6EC /* chat_client */ = {
+			isa = PBXGroup;
+			children = (
+				1A071128169EBED700B0C6EC /* chat_client.cpp */,
+				1A07112A169EBED700B0C6EC /* chat_client_handler.cpp */,
+				1A07112B169EBED700B0C6EC /* chat_client_handler.hpp */,
+				1A07112E169EBED700B0C6EC /* vendor */,
+			);
+			path = chat_client;
+			sourceTree = "<group>";
+		};
+		1A07112E169EBED700B0C6EC /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				1A07112F169EBED700B0C6EC /* jquery-1.6.3.min.js */,
+			);
+			path = vendor;
+			sourceTree = "<group>";
+		};
 		1A82F5E3169AC86100C4B13A /* LocalStorage */ = {
 			isa = PBXGroup;
 			children = (
@@ -990,6 +1240,13 @@
 				15A3D2C61682EE81002FB0C5 /* README in Resources */,
 				15A3D2D61682EEC8002FB0C5 /* res in Resources */,
 				15A3D2D71682EEC8002FB0C5 /* src in Resources */,
+				1A07111A169EBBC900B0C6EC /* SConscript in Resources */,
+				1A07111B169EBBC900B0C6EC /* license.txt in Resources */,
+				1A07111D169EBBC900B0C6EC /* Makefile.nt in Resources */,
+				1A071122169EBBC900B0C6EC /* client.pem in Resources */,
+				1A071123169EBBC900B0C6EC /* dh512.pem in Resources */,
+				1A071124169EBBC900B0C6EC /* server.cer in Resources */,
+				1A071125169EBBC900B0C6EC /* server.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1104,6 +1361,20 @@
 				1A177ECB1698271700C9AC27 /* js_bindings_system_registration.cpp in Sources */,
 				1A82F5E7169AC86100C4B13A /* LocalStorage.cpp in Sources */,
 				1A82F5E8169AC86100C4B13A /* LocalStorageAndroid.cpp in Sources */,
+				1A071112169EBBC900B0C6EC /* base64.cpp in Sources */,
+				1A071113169EBBC900B0C6EC /* md5.c in Sources */,
+				1A071114169EBBC900B0C6EC /* data.cpp in Sources */,
+				1A071115169EBBC900B0C6EC /* network_utilities.cpp in Sources */,
+				1A071116169EBBC900B0C6EC /* hybi_header.cpp in Sources */,
+				1A071117169EBBC900B0C6EC /* hybi_util.cpp in Sources */,
+				1A071118169EBBC900B0C6EC /* blank_rng.cpp in Sources */,
+				1A071119169EBBC900B0C6EC /* boost_rng.cpp in Sources */,
+				1A07111C169EBBC900B0C6EC /* Makefile in Sources */,
+				1A071126169EBBC900B0C6EC /* uri.cpp in Sources */,
+				1A071130169EBED700B0C6EC /* chat_client.cpp in Sources */,
+				1A071132169EBED700B0C6EC /* chat_client_handler.cpp in Sources */,
+				1A071135169EBED700B0C6EC /* jquery-1.6.3.min.js in Sources */,
+				1A071137169EC09D00B0C6EC /* sha1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1183,6 +1454,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../boostoniphone/framework\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1230,6 +1505,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../boostoniphone/framework\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (

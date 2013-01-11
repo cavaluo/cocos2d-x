@@ -12,6 +12,8 @@
 USING_NS_CC;
 using namespace CocosDenshion;
 
+int test_ws_main(int argc, char* argv[]);
+
 AppDelegate::AppDelegate()
 {
 }
@@ -49,6 +51,9 @@ bool AppDelegate::applicationDidFinishLaunching()
     CCScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
     ScriptingCore::getInstance()->runScript("MoonWarriors-jsb.js");
 
+    char* args[] = {"chat_client", "ws://localhost"};
+    test_ws_main(2, args);
+    
     return true;
 }
 
