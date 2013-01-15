@@ -46,6 +46,7 @@
 #include <map>
 #include <string>
 #include <queue>
+#include "ScriptingCore.h"
 
 using websocketpp::client;
 
@@ -71,6 +72,7 @@ public:
     void send(const std::string &msg);
     void close();
 
+    void setJSObject(JSObject* jsObj);
 private:
     void decode_server_msg(const std::string &msg);
     
@@ -78,6 +80,7 @@ private:
     std::set<std::string> m_participants;
     std::queue<std::string> m_msg_queue;
     connection_ptr m_con;
+    JSObject* m_jsObj;
 };
 
 typedef boost::shared_ptr<chat_client_handler> chat_client_handler_ptr;

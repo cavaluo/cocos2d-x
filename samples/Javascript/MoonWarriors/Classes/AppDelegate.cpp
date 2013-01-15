@@ -8,6 +8,7 @@
 #include "js_bindings_chipmunk_registration.h"
 #include "js_bindings_ccbreader.h"
 #include "js_bindings_system_registration.h"
+#include "js_bindings_websocket.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -45,14 +46,15 @@ bool AppDelegate::applicationDidFinishLaunching()
     sc->addRegisterCallback(register_CCBuilderReader);
     sc->addRegisterCallback(jsb_register_chipmunk);
     sc->addRegisterCallback(jsb_register_system);
+    sc->addRegisterCallback(jsb_register_websocket);
     sc->start();
     
     CCScriptEngineProtocol *pEngine = ScriptingCore::getInstance();
     CCScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
     ScriptingCore::getInstance()->runScript("MoonWarriors-jsb.js");
 
-    char* args[] = {"chat_client", "ws://localhost"};
-    test_ws_main(2, args);
+//    char* args[] = {"chat_client", "ws://localhost"};
+//    test_ws_main(2, args);
     
     return true;
 }

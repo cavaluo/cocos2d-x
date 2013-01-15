@@ -41,46 +41,51 @@ using websocketpp::client;
 
 using namespace websocketchat;
 
-int test_ws_main(int argc, char* argv[]) {
-    std::string uri;
-    
-    if (argc != 2) {
-        std::cout << "Usage: `chat_client ws_uri`" << std::endl;
-    } else {
-        uri = argv[1];
-    }
-        
-    try {
-        chat_client_handler_ptr handler(new chat_client_handler());
-        client endpoint(handler);
-        client::connection_ptr con;
-        
-        endpoint.alog().unset_level(websocketpp::log::alevel::ALL);
-        endpoint.elog().unset_level(websocketpp::log::elevel::ALL);
-        
-        endpoint.elog().set_level(websocketpp::log::elevel::RERROR);
-        endpoint.elog().set_level(websocketpp::log::elevel::FATAL);
-        
-        con = endpoint.get_connection("ws://127.0.0.1:9234");
-        
-        con->add_request_header("User-Agent","WebSocket++/0.2.0 WebSocket++Chat/0.2.0");
-        con->add_subprotocol("echo-protocol");
-        
-        con->set_origin("ws://127.0.0.1");//http://zaphoyd.com");//
+static pthread_t s_loadingThread;
 
-        endpoint.connect(con);
-        
-        boost::thread t(boost::bind(&client::run, &endpoint, false));
-        
-//        char line[512] = "sdlfjalsjflajsdflkjaslfdjalksdjflsadjlfkj";
-        //while (std::cin.getline(line, 512)) {
-        //    handler->send(line);
-//        }
-        
-        t.join();
-    } catch (std::exception& e) {
-        std::cerr << "Exception: " << e.what() << std::endl;
-    }
+typedef struct WebSocketArg
+{
+    chat_client_handler_ptr handler;
+    std::string url;
+}WebSocketArg;
+
+static void* loadImage(void* data)
+{
+    WebSocketArg* pArgs = (WebSocketArg*)data;
     
-    return 0;
+    client endpoint(pArgs->handler);
+    client::connection_ptr con;
+    
+    endpoint.alog().unset_level(websocketpp::log::alevel::ALL);
+    endpoint.elog().unset_level(websocketpp::log::elevel::ALL);
+    
+    endpoint.elog().set_level(websocketpp::log::elevel::RERROR);
+    endpoint.elog().set_level(websocketpp::log::elevel::FATAL);
+    
+    con = endpoint.get_connection(pArgs->url);
+    con->add_request_header("User-Agent","WebSocket++/0.2.0 WebSocket++Chat/0.2.0");
+    con->add_subprotocol("echo-protocol");
+    
+    con->set_origin("ws://127.0.0.1");//http://zaphoyd.com");//
+    
+    endpoint.connect(con);
+    
+    boost::thread t(boost::bind(&client::run, &endpoint, false));
+    
+    t.join();
+    
+    delete pArgs;
+    
+    return NULL;
+}
+
+chat_client_handler_ptr createWebSocket(const char* url)
+{
+    chat_client_handler_ptr handler(new chat_client_handler());
+    WebSocketArg* pArgs = new WebSocketArg();
+    pArgs->handler = handler;
+    pArgs->url = url;
+    
+    pthread_create(&s_loadingThread, NULL, loadImage, (void*)pArgs);
+    return handler;
 }

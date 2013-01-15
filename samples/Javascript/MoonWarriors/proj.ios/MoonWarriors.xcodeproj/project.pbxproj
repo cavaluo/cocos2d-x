@@ -169,6 +169,7 @@
 		1A82F5E7169AC86100C4B13A /* LocalStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A82F5E4169AC86100C4B13A /* LocalStorage.cpp */; };
 		1A82F5E8169AC86100C4B13A /* LocalStorageAndroid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A82F5E6169AC86100C4B13A /* LocalStorageAndroid.cpp */; };
 		1A82F5EA169AC8DD00C4B13A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A82F5E9169AC8DD00C4B13A /* libsqlite3.dylib */; };
+		1AD44A8216A401CC0030D264 /* js_bindings_websocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AD44A8016A401CC0030D264 /* js_bindings_websocket.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -486,6 +487,8 @@
 		1A82F5E5169AC86100C4B13A /* LocalStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalStorage.h; sourceTree = "<group>"; };
 		1A82F5E6169AC86100C4B13A /* LocalStorageAndroid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LocalStorageAndroid.cpp; sourceTree = "<group>"; };
 		1A82F5E9169AC8DD00C4B13A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		1AD44A8016A401CC0030D264 /* js_bindings_websocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_bindings_websocket.cpp; sourceTree = "<group>"; };
+		1AD44A8116A401CC0030D264 /* js_bindings_websocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = js_bindings_websocket.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -907,6 +910,8 @@
 		15A3D29B1682EE81002FB0C5 /* bindings */ = {
 			isa = PBXGroup;
 			children = (
+				1AD44A8016A401CC0030D264 /* js_bindings_websocket.cpp */,
+				1AD44A8116A401CC0030D264 /* js_bindings_websocket.h */,
 				15A3D29D1682EE81002FB0C5 /* cocos2d_specifics.cpp */,
 				15A3D29E1682EE81002FB0C5 /* cocos2d_specifics.hpp */,
 				15A3D29F1682EE81002FB0C5 /* cocosjs_manual_conversions.cpp */,
@@ -1375,6 +1380,7 @@
 				1A071132169EBED700B0C6EC /* chat_client_handler.cpp in Sources */,
 				1A071135169EBED700B0C6EC /* jquery-1.6.3.min.js in Sources */,
 				1A071137169EC09D00B0C6EC /* sha1.cpp in Sources */,
+				1AD44A8216A401CC0030D264 /* js_bindings_websocket.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

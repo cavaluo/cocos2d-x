@@ -28,6 +28,8 @@
 #include "chat_client_handler.hpp"
 
 #include <boost/algorithm/string/replace.hpp>
+#include "ScriptingCore.h"
+
 
 using websocketchat::chat_client_handler;
 using websocketpp::client;
@@ -38,10 +40,6 @@ void chat_client_handler::on_fail(connection_ptr con) {
 
 void chat_client_handler::on_open(connection_ptr con) {
     m_con = con;
-    char line[512] = "sdlfjalsjflajsdflkjaslfdjalksdjflsadjlfkj";
-    //while (std::cin.getline(line, 512)) {
-    m_con->send(line);
-    //        }
     std::cout << "Successfully connected" << std::endl;
 }
 
@@ -54,8 +52,14 @@ void chat_client_handler::on_close(connection_ptr con) {
 void chat_client_handler::on_message(connection_ptr con,message_ptr msg) {
     //decode_server_msg(msg->get_payload());
     std::cout<<msg->get_payload()<<std::endl;
+    ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(m_jsObj), "onmessage", JSVAL_NULL);
 }
 
+void chat_client_handler::setJSObject(JSObject* jsObj)
+{
+    m_jsObj = jsObj;
+}
+                                                           
 // CLIENT API
 // client api methods will be called from outside the io_service.run thread
 //  they need to be careful to not touch unsyncronized member variables.
