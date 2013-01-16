@@ -11,6 +11,7 @@
 
 using namespace websocketchat;
 
+
 chat_client_handler_ptr createWebSocket(const char* url);
 
 typedef std::pair<JSObject*, chat_client_handler_ptr> ClientPair;
@@ -20,6 +21,71 @@ static ClientMap s_client_map;
 
 JSClass  *jsb_websocket_class = NULL;
 JSObject *jsb_websocket_prototype = NULL;
+
+class WebsocketSchedulerWrapper : public CCObject
+{
+public:
+    void scheduleUpdate(float dt);
+};
+
+static pthread_mutex_t s_ws_mutex;
+static WsEvent s_evt;
+
+//
+void WebsocketSchedulerWrapper::scheduleUpdate(float dt)
+{
+    pthread_mutex_lock(&s_ws_mutex);
+    do
+    {
+        if (s_evt.type == WS_EVENT_NONE) {
+            
+            break;
+        }
+        
+        const char* jsFuncName = NULL;
+        if (s_evt.type == WS_EVENT_OPENED) {
+            jsFuncName = "onopen";
+        }
+        else if (s_evt.type == WS_EVENT_CLOSED) {
+            jsFuncName = "onclose";
+        }
+        else if (s_evt.type == WS_EVENT_MSG) {
+            jsFuncName = "onmessage";
+        }
+        else if (s_evt.type == WS_EVENT_ERROR) {
+            jsFuncName = "onerror";
+        }
+        else {
+            CCAssert(0, "Unknown event type");
+        }
+        CCLog("msg = %d, %s", s_evt.type, s_evt.msg.c_str());
+        for (ClientMap::iterator it = s_client_map.begin(); it != s_client_map.end(); ++it) {
+            if (it->second.get() == (chat_client_handler*)(s_evt.handler)) {
+                CCLog("Found.");
+                JSContext* cx = ScriptingCore::getInstance()->getGlobalContext();
+                JSString* str = JS_NewStringCopyZ(cx, s_evt.msg.c_str());
+                JSObject* jsEvtObj = JS_NewObject(cx, NULL, NULL, NULL);
+                jsval arg = STRING_TO_JSVAL(str);
+                JS_SetProperty(cx, jsEvtObj, "data", &arg);
+                
+                ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(it->first), jsFuncName, OBJECT_TO_JSVAL(jsEvtObj));
+                break;
+            }
+        }
+    }while(false);
+    s_evt.type = WS_EVENT_NONE;
+    s_evt.msg = "";
+    pthread_mutex_unlock(&s_ws_mutex);
+}
+
+void postWebsocketEvent(const WsEvent& evt)
+{
+    pthread_mutex_lock(&s_ws_mutex);
+    s_evt.handler = evt.handler;
+    s_evt.type = evt.type;
+    s_evt.msg = evt.msg;
+    pthread_mutex_unlock(&s_ws_mutex);
+}
 
 void jsb_register_websocket(JSContext *cx, JSObject *global) {
     jsb_websocket_class = (JSClass *)calloc(1, sizeof(JSClass));
@@ -74,11 +140,19 @@ void jsb_register_websocket(JSContext *cx, JSObject *global) {
 		p->parentProto = NULL;
 		HASH_ADD_INT(_js_global_type_ht, type, p);
 	}
+    
+    pthread_mutex_init(&s_ws_mutex, NULL);
+    
+    CCDirector* pDirector = CCDirector::sharedDirector();
+    WebsocketSchedulerWrapper* pWrapper = new WebsocketSchedulerWrapper();
+    pWrapper->autorelease();
+    pDirector->getScheduler()->scheduleSelector(schedule_selector(WebsocketSchedulerWrapper::scheduleUpdate), pWrapper, 0.0f, false);
 }
 
 JSBool jsb_websocket_constructor(JSContext *cx, uint32_t argc, jsval *vp)
 {
     if (argc == 1) {
+        JSBool ok = JS_TRUE;
         jsval *argv = JS_ARGV(cx, vp);
 		js_type_class_t *typeClass;
 		uint32_t typeId = cocos2d::getHashCodeByString("WebSocket"); 
@@ -86,8 +160,9 @@ JSBool jsb_websocket_constructor(JSContext *cx, uint32_t argc, jsval *vp)
 		assert(typeClass);
 		JSObject *obj = JS_NewObject(cx, typeClass->jsclass, typeClass->proto, typeClass->parentProto);
 
-		std::string url = jsval_to_std_string(cx, argv[0]);
-        
+		std::string url;
+        ok &= jsval_to_std_string(cx, argv[0], &url);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
         
         // createWebSocket need to return an object, it will be used in 'close' function.
         chat_client_handler_ptr handler = createWebSocket(url.c_str());
@@ -110,13 +185,16 @@ void jsb_websocket_finalize(JSFreeOp *fop, JSObject *obj) {
 JSBool jsb_websocket_send(JSContext *cx, uint32_t argc, jsval *vp)
 {
     if (argc == 1) {
+        JSBool ok  = JS_TRUE;
         jsval *argv = JS_ARGV(cx, vp);
         JSObject *obj = JS_THIS_OBJECT(cx, vp);
-        std::string msg = jsval_to_std_string(cx, argv[0]);
+        std::string msg;
+        ok &= jsval_to_std_string(cx, argv[0], &msg);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
         ClientMap::iterator iter = s_client_map.find(obj);
         if (iter != s_client_map.end())
         {
-            iter->second.get()->send(msg);
+            iter->second->send(msg);
         }
         
         JS_SET_RVAL(cx, vp, JSVAL_VOID);
@@ -133,7 +211,7 @@ JSBool jsb_websocket_close(JSContext *cx, uint32_t argc, jsval *vp)
         ClientMap::iterator iter = s_client_map.find(obj);
         if (iter != s_client_map.end())
         {
-            iter->second.get()->close();
+            iter->second->close();
         }
         
         JS_SET_RVAL(cx, vp, JSVAL_VOID);

@@ -28,34 +28,52 @@
 #include "chat_client_handler.hpp"
 
 #include <boost/algorithm/string/replace.hpp>
-#include "ScriptingCore.h"
+#include "js_bindings_websocket.h"
 
+void postWebsocketEvent(const WsEvent& evt);
 
 using websocketchat::chat_client_handler;
 using websocketpp::client;
 
 void chat_client_handler::on_fail(connection_ptr con) {
     std::cout << "Connection failed" << std::endl;
+    WsEvent evt;
+    evt.handler = (void*)this;
+    evt.type = WS_EVENT_ERROR;
+    postWebsocketEvent(evt);
 }
 
 void chat_client_handler::on_open(connection_ptr con) {
     m_con = con;
     std::cout << "Successfully connected" << std::endl;
+    WsEvent evt;
+    evt.handler = (void*)this;
+    evt.type = WS_EVENT_OPENED;
+    postWebsocketEvent(evt);
 }
 
 void chat_client_handler::on_close(connection_ptr con) {
     m_con = connection_ptr();
 
     std::cout << "client was disconnected" << std::endl;
+    WsEvent evt;
+    evt.handler = (void*)this;
+    evt.type = WS_EVENT_CLOSED;
+    postWebsocketEvent(evt);
 }
 
 void chat_client_handler::on_message(connection_ptr con,message_ptr msg) {
     //decode_server_msg(msg->get_payload());
     std::cout<<msg->get_payload()<<std::endl;
-    ScriptingCore::getInstance()->executeFunctionWithOwner(OBJECT_TO_JSVAL(m_jsObj), "onmessage", JSVAL_NULL);
+    // notify main thread that the message has came.
+    WsEvent evt;
+    evt.handler = (void*)this;
+    evt.type = WS_EVENT_MSG;
+    evt.msg = msg->get_payload();
+    postWebsocketEvent(evt);
 }
 
-void chat_client_handler::setJSObject(JSObject* jsObj)
+void chat_client_handler::setJSObject(void* jsObj)
 {
     m_jsObj = jsObj;
 }
