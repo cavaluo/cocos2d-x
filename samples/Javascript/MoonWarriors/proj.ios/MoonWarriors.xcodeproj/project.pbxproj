@@ -169,6 +169,7 @@
 		1A8C862516A6AEFD00B5AAF5 /* server.cer in Resources */ = {isa = PBXBuildFile; fileRef = 1A8C84D916A6AEFC00B5AAF5 /* server.cer */; };
 		1A8C862616A6AEFD00B5AAF5 /* server.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1A8C84DA16A6AEFC00B5AAF5 /* server.pem */; };
 		1A8C862716A6AEFD00B5AAF5 /* uri.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C84DB16A6AEFC00B5AAF5 /* uri.cpp */; };
+		1A8C867216A6BA3C00B5AAF5 /* handshake.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A8C867016A6BA3C00B5AAF5 /* handshake.cpp */; };
 		1AD44A8216A401CC0030D264 /* js_bindings_websocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AD44A8016A401CC0030D264 /* js_bindings_websocket.cpp */; };
 		A9706D8416A0C1FA0090A01D /* main.debug.js in Sources */ = {isa = PBXBuildFile; fileRef = A9706D8316A0C1FA0090A01D /* main.debug.js */; };
 		A9706D8516A0C3830090A01D /* main.debug.js in Resources */ = {isa = PBXBuildFile; fileRef = A9706D8316A0C1FA0090A01D /* main.debug.js */; };
@@ -489,6 +490,8 @@
 		1A8C84DE16A6AEFC00B5AAF5 /* utf8_validator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = utf8_validator.hpp; sourceTree = "<group>"; };
 		1A8C84DF16A6AEFC00B5AAF5 /* websocket_frame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = websocket_frame.hpp; sourceTree = "<group>"; };
 		1A8C84E016A6AEFC00B5AAF5 /* websocketpp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = websocketpp.hpp; sourceTree = "<group>"; };
+		1A8C867016A6BA3C00B5AAF5 /* handshake.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = handshake.cpp; sourceTree = "<group>"; };
+		1A8C867116A6BA3C00B5AAF5 /* handshake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = handshake.h; sourceTree = "<group>"; };
 		1AD44A8016A401CC0030D264 /* js_bindings_websocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = js_bindings_websocket.cpp; sourceTree = "<group>"; };
 		1AD44A8116A401CC0030D264 /* js_bindings_websocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = js_bindings_websocket.h; sourceTree = "<group>"; };
 		A9706D8316A0C1FA0090A01D /* main.debug.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = main.debug.js; sourceTree = "<group>"; };
@@ -1019,6 +1022,8 @@
 		1A8C83F416A6AEFC00B5AAF5 /* websocketpp */ = {
 			isa = PBXGroup;
 			children = (
+				1A8C867016A6BA3C00B5AAF5 /* handshake.cpp */,
+				1A8C867116A6BA3C00B5AAF5 /* handshake.h */,
 				1A8C84A116A6AEFC00B5AAF5 /* src */,
 			);
 			path = websocketpp;
@@ -1403,6 +1408,7 @@
 				1A8C861D16A6AEFD00B5AAF5 /* Makefile in Sources */,
 				1A8C862016A6AEFD00B5AAF5 /* sha1.cpp in Sources */,
 				1A8C862716A6AEFD00B5AAF5 /* uri.cpp in Sources */,
+				1A8C867216A6BA3C00B5AAF5 /* handshake.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
