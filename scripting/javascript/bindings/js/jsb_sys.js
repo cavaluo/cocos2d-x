@@ -45,3 +45,48 @@ Object.defineProperties(sys,
 	}
 
 });
+
+(function(){
+
+var scheduler = cc.Director.getInstance().getScheduler();
+
+var ScheduleWrapper = cc.Node.extend({
+	delegate: null,
+	
+	ctor: function() {
+		this._super();
+		cc.associateWithNative(this, cc.Node);
+	},
+
+	onTimeout: function(dt) {
+		if (this.delegate) {
+			this.delegate();
+		}
+	}
+});
+
+// setTimeout
+setTimeout = function(fn, millisecond) {
+	var node = new ScheduleWrapper();
+	node.retain();
+	node.delegate = fn;
+
+	scheduler.scheduleCallbackForTarget(node, node.onTimeout, millisecond/1000, 0, 0, false);
+	return node;
+};
+
+// clearTimeout
+clearTimeout = function (id) {
+	scheduler.unscheduleAllCallbacksForTarget(id);
+	id.release();
+};
+
+})();
+
+// function timeoutCB() {
+// 	cc.log("I am setTimeout callback");
+// 	//setTimeout(timeoutCB, 500);
+// }
+
+// var id = setTimeout(timeoutCB, 500);
+// clearTimeout(id);
