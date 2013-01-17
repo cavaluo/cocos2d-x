@@ -7,7 +7,7 @@
 #include "spidermonkey_specifics.h"
 #include "ScriptingCore.h"
 
-
+#include "handshake.h"
 
 using namespace websocketchat;
 
@@ -87,7 +87,28 @@ void postWebsocketEvent(const WsEvent& evt)
     pthread_mutex_unlock(&s_ws_mutex);
 }
 
+static JSBool jsb_handshake(JSContext* cx, uint32_t argc, jsval *vp)
+{
+    if (argc == 1) {
+        JSBool ok  = JS_TRUE;
+        jsval *argv = JS_ARGV(cx, vp);
+        JSObject *obj = JS_THIS_OBJECT(cx, vp);
+        std::string url;
+        ok &= jsval_to_std_string(cx, argv[0], &url);
+        JSB_PRECONDITION2(ok, cx, JS_FALSE, "Error processing arguments");
+        std::string ret = handshake(url);
+        JSString* jsstrRet = JS_NewStringCopyZ(cx, ret.c_str());
+        JS_SET_RVAL(cx, vp, STRING_TO_JSVAL(jsstrRet));
+        return JS_TRUE;
+    }
+    JS_ReportError(cx, "wrong number of arguments: %d, was expecting %d", argc, 1);
+	return JS_FALSE;
+}
+
 void jsb_register_websocket(JSContext *cx, JSObject *global) {
+    
+    JS_DefineFunction(cx, global, "__handshake", jsb_handshake, 1, JSPROP_READONLY | JSPROP_PERMANENT);
+    
     jsb_websocket_class = (JSClass *)calloc(1, sizeof(JSClass));
     jsb_websocket_class->name = "WebSocket";
     jsb_websocket_class->addProperty = JS_PropertyStub;
