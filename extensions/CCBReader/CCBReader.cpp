@@ -608,8 +608,9 @@ CCNode * CCBReader::readNodeGraph(CCNode * pParent) {
     // Read properties
     ccNodeLoader->parseProperties(node, pParent, this);
     
+    bool isCCBFileNode = dynamic_cast<CCBFile*>(node);
     // Handle sub ccb files (remove middle node)
-    if (dynamic_cast<CCBFile*>(node))
+    if (isCCBFileNode)
     {
         CCBFile *ccbFileNode = (CCBFile*)node;
         
@@ -682,14 +683,16 @@ CCNode * CCBReader::readNodeGraph(CCNode * pParent) {
         node->addChild(child);
     }
 
-    // Call onNodeLoaded
-    CCNodeLoaderListener * nodeAsCCNodeLoaderListener = dynamic_cast<CCNodeLoaderListener *>(node);
-    if(nodeAsCCNodeLoaderListener != NULL) {
-        nodeAsCCNodeLoaderListener->onNodeLoaded(node, ccNodeLoader);
-    } else if(this->mCCNodeLoaderListener != NULL) {
-        this->mCCNodeLoaderListener->onNodeLoaded(node, ccNodeLoader);
+    if (!isCCBFileNode)
+    {
+        // Call onNodeLoaded
+        CCNodeLoaderListener * nodeAsCCNodeLoaderListener = dynamic_cast<CCNodeLoaderListener *>(node);
+        if(nodeAsCCNodeLoaderListener != NULL) {
+            nodeAsCCNodeLoaderListener->onNodeLoaded(node, ccNodeLoader, this);
+        } else if(this->mCCNodeLoaderListener != NULL) {
+            this->mCCNodeLoaderListener->onNodeLoaded(node, ccNodeLoader, this);
+        }
     }
-
     return node;
 }
 
