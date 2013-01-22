@@ -575,7 +575,8 @@ void CCBAnimationManager::runAnimations(int nSeqId, float fTweenDuraiton)
 void CCBAnimationManager::runAnimationsForSequenceIdTweenDuration(int nSeqId, float fTweenDuration)
 {
     CCAssert(nSeqId != -1, "Sequence id couldn't be found");
-    
+	this->retain();
+
     mRootNode->stopAllActions();
     
     CCDictElement* pElement = NULL;
@@ -633,6 +634,8 @@ void CCBAnimationManager::runAnimationsForSequenceIdTweenDuration(int nSeqId, fl
     
     // Set the running scene
     mRunningSequence = getSequence(nSeqId);
+
+	this->release();
 }
 
 void CCBAnimationManager::runAnimationsForSequenceNamedTweenDuration(const char *pName, float fTweenDuration)
@@ -643,6 +646,11 @@ void CCBAnimationManager::runAnimationsForSequenceNamedTweenDuration(const char 
 
 void CCBAnimationManager::runAnimationsForSequenceNamed(const char *pName)
 {
+	if (0 == strcmp(pName, "Hit"))
+	{
+		int a = 0;
+		a = 0;
+	}
     runAnimationsForSequenceNamedTweenDuration(pName, 0);
 }
 
