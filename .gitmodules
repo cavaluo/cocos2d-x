@@ -7,3 +7,6 @@
 [submodule "samples/Javascript/Shared"]
 	path = samples/Javascript/Shared
 	url = https://github.com/minggo/cocos2d-js-tests.git
+[submodule "external/libwebsockets"]
+	path = external/libwebsockets
+	url = https://github.com/dumganhar/libwebsockets.git
