@@ -7,6 +7,7 @@
 #include "cocos2d_specifics.hpp"
 #include "js_bindings_chipmunk_registration.h"
 #include "js_bindings_system_registration.h"
+#include "jsb_opengl_registration.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
@@ -37,7 +38,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     sc->addRegisterCallback(register_cocos2dx_js_extensions);
     sc->addRegisterCallback(jsb_register_chipmunk);
     sc->addRegisterCallback(jsb_register_system);
-    
+    sc->addRegisterCallback(JSB_register_opengl);
     sc->start();
     
     CCScriptEngineProtocol *pEngine = ScriptingCore::getInstance();

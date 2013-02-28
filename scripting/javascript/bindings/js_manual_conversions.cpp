@@ -8,6 +8,7 @@
 #include "ScriptingCore.h"
 #include "js_bindings_config.h"
 #include "js_manual_conversions.h"
+#include "jsb_basic_conversions.h"
 
 JSBool jsval_to_opaque( JSContext *cx, jsval vp, void **r)
 {

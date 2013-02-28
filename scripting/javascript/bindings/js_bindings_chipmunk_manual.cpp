@@ -31,6 +31,7 @@
 
 #include "js_bindings_chipmunk_manual.h"
 #include "js_manual_conversions.h"
+#include "jsb_basic_conversions.h"
 #include "uthash.h"
 
 USING_NS_CC_EXT;

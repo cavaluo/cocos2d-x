@@ -3,6 +3,7 @@
 #include "cocos2d_specifics.hpp"
 #include <typeinfo>
 #include "js_bindings_config.h"
+#include "jsb_basic_conversions.h"
 
 USING_NS_CC_EXT;
 

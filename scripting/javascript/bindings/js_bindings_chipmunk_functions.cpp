@@ -12,6 +12,7 @@
 #include "js_bindings_config.h"
 #include "js_manual_conversions.h"
 #include "js_bindings_chipmunk_functions.h"
+#include "jsb_basic_conversions.h"
 
 // Arguments: cpArbiter*
 // Ret value: int
