@@ -436,6 +436,30 @@ void ScriptingCore::createGlobalContext() {
         sc_register_sth callback = *it;
         callback(this->cx_, this->global_);
     }
+
+	JSObject *tmp = JS_NewObject(cx_, NULL, NULL, NULL);
+    if (!tmp) return ;
+	JSBool ok = JS_DefineProperty(cx_, tmp, "x", c_string_to_jsval(cx_, "asdlfj"), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT) &&
+    JS_DefineProperty(cx_, tmp, "y", c_string_to_jsval(cx_, "ÖÐ¹ú"), NULL, NULL, JSPROP_ENUMERATE | JSPROP_PERMANENT);
+
+	JSObject* it = JS_NewPropertyIterator(cx_, tmp);
+
+	while (true)
+	{
+		jsid idp;
+		jsval val;
+		if (! JS_NextProperty(cx_, it, &idp) || ! JS_IdToValue(cx_, idp, &val))
+			return; // error
+		if (val == JSVAL_VOID)
+			break; // end of iteration
+		if (! JSVAL_IS_STRING(val))
+			continue; // ignore integer properties
+		jsval value;
+		JS_GetPropertyById(cx_, tmp, idp, &value);
+		JSStringWrapper strWrapper(JSVAL_TO_STRING(val));
+		JSStringWrapper strWrapper2(JSVAL_TO_STRING(value));
+		CCLOG("iterate object: key = %s, value = %s", strWrapper.get().c_str(), strWrapper2.get().c_str());
+	}
 }
 
 JSBool ScriptingCore::runScript(const char *path, JSObject* global, JSContext* cx)
