@@ -50,16 +50,16 @@ CCConfiguration::CCConfiguration(void)
 
 bool CCConfiguration::init(void)
 {
-    CCLOG("cocos2d: GL_VENDOR:     %s", glGetString(GL_VENDOR));
-    CCLOG("cocos2d: GL_RENDERER:   %s", glGetString(GL_RENDERER));
-    CCLOG("cocos2d: GL_VERSION:    %s", glGetString(GL_VERSION));
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 
-    m_pGlExtensions = (char *)glGetString(GL_EXTENSIONS);
+//cjh gl function here.;
 
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &m_nMaxTextureSize);
-    glGetIntegerv(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, &m_nMaxTextureUnits);
+//cjh gl function here.;
+//cjh gl function here.;
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    glGetIntegerv(GL_MAX_SAMPLES_APPLE, &m_nMaxSamplesAllowed);
+//cjh gl function here.;
 #endif
 
     m_bSupportsPVRTC = checkForGLExtension("GL_IMG_texture_compression_pvrtc");

@@ -182,7 +182,7 @@ void CCGridBase::set2DProjection()
 
     CCSize    size = director->getWinSizeInPixels();
 
-    glViewport(0, 0, (GLsizei)(size.width * CC_CONTENT_SCALE_FACTOR()), (GLsizei)(size.height * CC_CONTENT_SCALE_FACTOR()) );
+//cjh gl function here.;
     kmGLMatrixMode(KM_GL_PROJECTION);
     kmGLLoadIdentity();
 
@@ -325,12 +325,12 @@ void CCGrid3D::blit(void)
     //
 
     // position
-    glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, m_pVertices);
+//cjh gl function here.;
 
     // texCoords
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, m_pTexCoordinates);
+//cjh gl function here.;
 
-    glDrawElements(GL_TRIANGLES, (GLsizei) n*6, GL_UNSIGNED_SHORT, m_pIndices);
+//cjh gl function here.;
     CC_INCREMENT_GL_DRAWS(1);
 }
 
@@ -525,12 +525,12 @@ void CCTiledGrid3D::blit(void)
     //
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position | kCCVertexAttribFlag_TexCoords );
     // position
-    glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, 0, m_pVertices);
+//cjh gl function here.;
 
     // texCoords
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, m_pTexCoordinates);
+//cjh gl function here.;
 
-    glDrawElements(GL_TRIANGLES, (GLsizei)n*6, GL_UNSIGNED_SHORT, m_pIndices);
+//cjh gl function here.;
 
     CC_INCREMENT_GL_DRAWS(1);
 }

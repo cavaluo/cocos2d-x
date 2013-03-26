@@ -60,7 +60,7 @@ THE SOFTWARE.
  You can change the color, point size, width by calling:
  - ccDrawColor4B(), ccDrawColor4F()
  - ccPointSize()
- - glLineWidth()
+//cjh gl function here.
  
  @warning These functions draws the Line, Point, Polygon, immediately. They aren't batched. If you are going to make a game that depends on these primitives, I suggest creating a batch. Instead you should use CCDrawNode
  

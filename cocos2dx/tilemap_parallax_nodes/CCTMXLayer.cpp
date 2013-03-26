@@ -223,10 +223,10 @@ void CCTMXLayer::parseInternalProperties()
             }
             setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColorAlphaTest));
 
-            GLint alphaValueLocation = glGetUniformLocation(getShaderProgram()->getProgram(), kCCUniformAlphaTestValue);
+//cjh gl function here.;
 
-            // NOTE: alpha test shader is hard-coded to use the equivalent of a glAlphaFunc(GL_GREATER) comparison
-            getShaderProgram()->setUniformLocationWith1f(alphaValueLocation, alphaFuncValue);
+//cjh gl function here. comparison
+//            getShaderProgram()->setUniformLocationWith1f(alphaValueLocation, alphaFuncValue);
         }
         else
         {

@@ -110,7 +110,7 @@ bool CCAtlasNode::initWithTexture(CCTexture2D* texture, unsigned int tileWidth, 
 
     // shader stuff
     setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTexture_uColor));
-    m_nUniformColor = glGetUniformLocation( getShaderProgram()->getProgram(), "u_color");
+//cjh gl function here.;
 
     return true;
 }

@@ -36,66 +36,66 @@ CCGrabber::CCGrabber(void)
     memset(m_oldClearColor, 0, sizeof(m_oldClearColor));
 
     // generate FBO
-    glGenFramebuffers(1, &m_FBO);
+//cjh gl function here.;
 }
 
 void CCGrabber::grab(CCTexture2D *pTexture)
 {
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &m_oldFBO);
+//cjh gl function here.;
 
     // bind
-    glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+//cjh gl function here.;
 
     // associate texture with FBO
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pTexture->getName(), 0);
+//cjh gl function here.;
 
     // check if it worked (probably worth doing :) )
-    GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-    if (status != GL_FRAMEBUFFER_COMPLETE)
+//cjh gl function here.;
+//    if (status != GL_FRAMEBUFFER_COMPLETE)
     {
         CCAssert(0, "Frame Grabber: could not attach texture to framebuffer");
     }
 
-    glBindFramebuffer(GL_FRAMEBUFFER, m_oldFBO);
+//cjh gl function here.;
 }
 
 void CCGrabber::beforeRender(CCTexture2D *pTexture)
 {
     CC_UNUSED_PARAM(pTexture);
 
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &m_oldFBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+//cjh gl function here.;
+//cjh gl function here.;
     
     // save clear color
-    glGetFloatv(GL_COLOR_CLEAR_VALUE, m_oldClearColor);
+//cjh gl function here.;
     // BUG XXX: doesn't work with RGB565.
 
-    glClearColor(0, 0, 0, 0);
+//cjh gl function here.;
 
     // BUG #631: To fix #631, uncomment the lines with #631
     // Warning: But it CCGrabber won't work with 2 effects at the same time
-//  glClearColor(0.0f,0.0f,0.0f,1.0f);    // #631
+//cjh gl function here.;    // #631
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//cjh gl function here.;
 
-//  glColorMask(true, true, true, false);    // #631
+//cjh gl function here.;    // #631
 }
 
 void CCGrabber::afterRender(cocos2d::CCTexture2D *pTexture)
 {
     CC_UNUSED_PARAM(pTexture);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, m_oldFBO);
-//  glColorMask(true, true, true, true);    // #631
+//cjh gl function here.;
+//cjh gl function here.;    // #631
     
     // Restore clear color
-    glClearColor(m_oldClearColor[0], m_oldClearColor[1], m_oldClearColor[2], m_oldClearColor[3]);
+//cjh gl function here.;
 }
 
 CCGrabber::~CCGrabber()
 {
     CCLOGINFO("cocos2d: deallocing %p", this);
-    glDeleteFramebuffers(1, &m_FBO);
+//cjh gl function here.;
 }
 
 NS_CC_END

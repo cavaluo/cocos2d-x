@@ -44,6 +44,7 @@ Config of cocos2d-x project, per target platform.
 #define CC_PLATFORM_BLACKBERRY         7
 #define CC_PLATFORM_MAC                8
 #define CC_PLATFORM_NACL               9
+#define CC_PLATFORM_WIN8               10
 
 // Determine target platform by compile environment macro.
 #define CC_TARGET_PLATFORM             CC_PLATFORM_UNKNOWN
@@ -102,7 +103,10 @@ Config of cocos2d-x project, per target platform.
     #define CC_TARGET_PLATFORM     CC_PLATFORM_NACL
 #endif
 
-
+#if defined(CC_WIN8)
+#undef  CC_TARGET_PLATFORM
+#define CC_TARGET_PLATFORM     CC_PLATFORM_WIN8
+#endif
 //////////////////////////////////////////////////////////////////////////
 // post configure
 //////////////////////////////////////////////////////////////////////////

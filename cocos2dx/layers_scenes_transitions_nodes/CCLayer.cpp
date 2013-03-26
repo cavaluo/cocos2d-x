@@ -778,12 +778,12 @@ void CCLayerColor::draw()
     //
     // Attributes
     //
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, m_pSquareVertices);
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_FLOAT, GL_FALSE, 0, m_pSquareColors);
+//cjh gl function here.;
+//cjh gl function here.;
 
     ccGLBlendFunc( m_tBlendFunc.src, m_tBlendFunc.dst );
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+//cjh gl function here.;
 
     CC_INCREMENT_GL_DRAWS(1);
 }

@@ -70,9 +70,9 @@ static void lazy_init( void )
         s_pShader = CCShaderCache::sharedShaderCache()->programForKey(kCCShader_Position_uColor);
         s_pShader->retain();
         
-        s_nColorLocation = glGetUniformLocation( s_pShader->getProgram(), "u_color");
+//cjh gl function here.;
     CHECK_GL_ERROR_DEBUG();
-        s_nPointSizeLocation = glGetUniformLocation( s_pShader->getProgram(), "u_pointSize");
+//cjh gl function here.;
     CHECK_GL_ERROR_DEBUG();
 
         s_bInitialized = true;
@@ -106,9 +106,9 @@ void ccDrawPoint( const CCPoint& point )
     s_pShader->setUniformLocationWith4fv(s_nColorLocation, (GLfloat*) &s_tColor.r, 1);
     s_pShader->setUniformLocationWith1f(s_nPointSizeLocation, s_fPointSize);
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, &p);
+//cjh gl function here.;
 
-    glDrawArrays(GL_POINTS, 0, 1);
+//cjh gl function here.;
 
     CC_INCREMENT_GL_DRAWS(1);
 }
@@ -129,7 +129,7 @@ void ccDrawPoints( const CCPoint *points, unsigned int numberOfPoints )
     // iPhone and 32-bit machines optimization
     if( sizeof(CCPoint) == sizeof(ccVertex2F) )
     {
-        glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, points);
+//cjh gl function here.;
     }
     else
     {
@@ -138,10 +138,10 @@ void ccDrawPoints( const CCPoint *points, unsigned int numberOfPoints )
             newPoints[i].x = points[i].x;
             newPoints[i].y = points[i].y;
         }
-        glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, newPoints);
+//cjh gl function here.;
     }
 
-    glDrawArrays(GL_POINTS, 0, (GLsizei) numberOfPoints);
+//cjh gl function here.;
 
     CC_SAFE_DELETE_ARRAY(newPoints);
 
@@ -163,8 +163,8 @@ void ccDrawLine( const CCPoint& origin, const CCPoint& destination )
     s_pShader->setUniformLocationWith4fv(s_nColorLocation, (GLfloat*) &s_tColor.r, 1);
 
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glDrawArrays(GL_LINES, 0, 2);
+//cjh gl function here.;
+//cjh gl function here.;
 
     CC_INCREMENT_GL_DRAWS(1);
 }
@@ -202,12 +202,12 @@ void ccDrawPoly( const CCPoint *poli, unsigned int numberOfPoints, bool closePol
     // iPhone and 32-bit machines optimization
     if( sizeof(CCPoint) == sizeof(ccVertex2F) )
     {
-        glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, poli);
+//cjh gl function here.;
 
-        if( closePolygon )
-            glDrawArrays(GL_LINE_LOOP, 0, (GLsizei) numberOfPoints);
-        else
-            glDrawArrays(GL_LINE_STRIP, 0, (GLsizei) numberOfPoints);
+//        if( closePolygon )
+//cjh gl function here.;
+//        else
+//cjh gl function here.;
     }
     else
     {
@@ -218,12 +218,12 @@ void ccDrawPoly( const CCPoint *poli, unsigned int numberOfPoints, bool closePol
             newPoli[i].x = poli[i].x;
             newPoli[i].y = poli[i].y;
         }
-        glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, newPoli);
+//cjh gl function here.;
 
-        if( closePolygon )
-            glDrawArrays(GL_LINE_LOOP, 0, (GLsizei) numberOfPoints);
-        else
-            glDrawArrays(GL_LINE_STRIP, 0, (GLsizei) numberOfPoints);
+//        if( closePolygon )
+//cjh gl function here.;
+//        else
+//cjh gl function here.;
 
         CC_SAFE_DELETE_ARRAY(newPoli);
     }
@@ -247,7 +247,7 @@ void ccDrawSolidPoly( const CCPoint *poli, unsigned int numberOfPoints, ccColor4
     // iPhone and 32-bit machines optimization
     if( sizeof(CCPoint) == sizeof(ccVertex2F) )
     {
-        glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, poli);
+//cjh gl function here.;
     }
     else
     {
@@ -256,10 +256,10 @@ void ccDrawSolidPoly( const CCPoint *poli, unsigned int numberOfPoints, ccColor4
         {
             newPoli[i] = vertex2( poli[i].x, poli[i].y );
         }
-        glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, newPoli);
+//cjh gl function here.;
     }    
 
-    glDrawArrays(GL_TRIANGLE_FAN, 0, (GLsizei) numberOfPoints);
+//cjh gl function here.;
 
     CC_SAFE_DELETE_ARRAY(newPoli);
     CC_INCREMENT_GL_DRAWS(1);
@@ -296,8 +296,8 @@ void ccDrawCircle( const CCPoint& center, float radius, float angle, unsigned in
 
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glDrawArrays(GL_LINE_STRIP, 0, (GLsizei) segments+additionalSegment);
+//cjh gl function here.;
+//cjh gl function here.;
 
     free( vertices );
 
@@ -331,8 +331,8 @@ void ccDrawQuadBezier(const CCPoint& origin, const CCPoint& control, const CCPoi
 
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glDrawArrays(GL_LINE_STRIP, 0, (GLsizei) segments + 1);
+//cjh gl function here.;
+//cjh gl function here.;
     CC_SAFE_DELETE_ARRAY(vertices);
 
     CC_INCREMENT_GL_DRAWS(1);
@@ -383,8 +383,8 @@ void ccDrawCardinalSpline( CCPointArray *config, float tension,  unsigned int se
 
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glDrawArrays(GL_LINE_STRIP, 0, (GLsizei) segments + 1);
+//cjh gl function here.;
+//cjh gl function here.;
 
     CC_SAFE_DELETE_ARRAY(vertices);
     CC_INCREMENT_GL_DRAWS(1);
@@ -412,8 +412,8 @@ void ccDrawCubicBezier(const CCPoint& origin, const CCPoint& control1, const CCP
 
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_Position );
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glDrawArrays(GL_LINE_STRIP, 0, (GLsizei) segments + 1);
+//cjh gl function here.;
+//cjh gl function here.;
     CC_SAFE_DELETE_ARRAY(vertices);
 
     CC_INCREMENT_GL_DRAWS(1);
@@ -431,7 +431,7 @@ void ccPointSize( GLfloat pointSize )
 {
     s_fPointSize = pointSize * CC_CONTENT_SCALE_FACTOR();
 
-    //TODO :glPointSize( pointSize );
+//cjh gl function here.;
 
 }
 

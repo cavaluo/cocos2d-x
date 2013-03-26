@@ -945,10 +945,10 @@ public:
     /** 
      * Override this method to draw your own node.
      * The following GL states will be enabled by default:
-     * - glEnableClientState(GL_VERTEX_ARRAY);
-     * - glEnableClientState(GL_COLOR_ARRAY);
-     * - glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-     * - glEnable(GL_TEXTURE_2D);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
      * AND YOU SHOULD NOT DISABLE THEM AFTER DRAWING YOUR NODE
      * But if you enable any other GL state, you should disable it after drawing your node.
      */

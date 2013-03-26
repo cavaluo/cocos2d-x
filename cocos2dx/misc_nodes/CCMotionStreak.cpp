@@ -337,11 +337,11 @@ void CCMotionStreak::draw()
 
     ccGLBindTexture2D( m_pTexture->getName() );
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, m_pVertices);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, m_pTexCoords);
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, 0, m_pColorPointer);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, (GLsizei)m_uNuPoints*2);
+//cjh gl function here.;
 
     CC_INCREMENT_GL_DRAWS(1);
 }

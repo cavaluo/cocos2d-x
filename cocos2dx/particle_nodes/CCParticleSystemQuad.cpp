@@ -93,9 +93,9 @@ CCParticleSystemQuad::~CCParticleSystemQuad()
     {
         CC_SAFE_FREE(m_pQuads);
         CC_SAFE_FREE(m_pIndices);
-        glDeleteBuffers(2, &m_pBuffersVBO[0]);
+//cjh gl function here.;
 #if CC_TEXTURE_ATLAS_USE_VAO
-        glDeleteVertexArrays(1, &m_uVAOname);
+//cjh gl function here.;
 #endif
     }
     
@@ -320,21 +320,21 @@ void CCParticleSystemQuad::updateQuadWithParticle(tCCParticle* particle, const C
 }
 void CCParticleSystemQuad::postStep()
 {
-    glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
+//cjh gl function here.;
 	
 	// Option 1: Sub Data
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(m_pQuads[0])*m_uTotalParticles, m_pQuads);
+//cjh gl function here.;
 	
 	// Option 2: Data
-    //	glBufferData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * particleCount, quads_, GL_DYNAMIC_DRAW);
+//cjh gl function here.;
 	
 	// Option 3: Orphaning + glMapBuffer
-	// glBufferData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0])*m_uTotalParticles, NULL, GL_STREAM_DRAW);
-	// void *buf = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+//cjh gl function here.;
+//cjh gl function here.;
 	// memcpy(buf, m_pQuads, sizeof(m_pQuads[0])*m_uTotalParticles);
-	// glUnmapBuffer(GL_ARRAY_BUFFER);
+//cjh gl function here.;
     
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+//cjh gl function here.;
     
 	CHECK_GL_ERROR_DEBUG();
 }
@@ -358,13 +358,13 @@ void CCParticleSystemQuad::draw()
     ccGLBindVAO(m_uVAOname);
 
 #if CC_REBIND_INDICES_BUFFER
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
+//cjh gl function here.;
 #endif
 
-    glDrawElements(GL_TRIANGLES, (GLsizei) m_uParticleIdx*6, GL_UNSIGNED_SHORT, 0);
+//cjh gl function here.;
 
 #if CC_REBIND_INDICES_BUFFER
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//cjh gl function here.;
 #endif
 
 #else
@@ -376,20 +376,20 @@ void CCParticleSystemQuad::draw()
 
     ccGLEnableVertexAttribs( kCCVertexAttribFlag_PosColorTex );
 
-    glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
+//cjh gl function here.;
     // vertices
-    glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, vertices));
+//cjh gl function here.;
     // colors
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, colors));
+//cjh gl function here.;
     // tex coords
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, texCoords));
+//cjh gl function here.;
     
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
+//cjh gl function here.;
 
-    glDrawElements(GL_TRIANGLES, (GLsizei) m_uParticleIdx*6, GL_UNSIGNED_SHORT, 0);
+//cjh gl function here.;
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//cjh gl function here.;
+//cjh gl function here.;
 
 #endif
 
@@ -468,38 +468,38 @@ void CCParticleSystemQuad::setTotalParticles(unsigned int tp)
 void CCParticleSystemQuad::setupVBOandVAO()
 {
     // clean VAO
-    glDeleteBuffers(2, &m_pBuffersVBO[0]);
-    glDeleteVertexArrays(1, &m_uVAOname);
+//cjh gl function here.;
+//cjh gl function here.;
     
-    glGenVertexArrays(1, &m_uVAOname);
+//cjh gl function here.;
     ccGLBindVAO(m_uVAOname);
 
 #define kQuadSize sizeof(m_pQuads[0].bl)
 
-    glGenBuffers(2, &m_pBuffersVBO[0]);
+//cjh gl function here.;
 
-    glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0]) * m_uTotalParticles, m_pQuads, GL_DYNAMIC_DRAW);
+//cjh gl function here.;
+//cjh gl function here.;
 
     // vertices
-    glEnableVertexAttribArray(kCCVertexAttrib_Position);
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, vertices));
+//cjh gl function here.;
+//cjh gl function here.;
 
     // colors
-    glEnableVertexAttribArray(kCCVertexAttrib_Color);
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, colors));
+//cjh gl function here.;
+//cjh gl function here.;
 
     // tex coords
-    glEnableVertexAttribArray(kCCVertexAttrib_TexCoords);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, texCoords));
+//cjh gl function here.;
+//cjh gl function here.;
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_pIndices[0]) * m_uTotalParticles * 6, m_pIndices, GL_STATIC_DRAW);
+//cjh gl function here.;
+//cjh gl function here.;
 
     // Must unbind the VAO before changing the element buffer.
     ccGLBindVAO(0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//cjh gl function here.;
+//cjh gl function here.;
 
     CHECK_GL_ERROR_DEBUG();
 }
@@ -507,17 +507,17 @@ void CCParticleSystemQuad::setupVBOandVAO()
 
 void CCParticleSystemQuad::setupVBO()
 {
-    glDeleteBuffers(2, &m_pBuffersVBO[0]);
+//cjh gl function here.;
     
-    glGenBuffers(2, &m_pBuffersVBO[0]);
+//cjh gl function here.;
 
-    glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0]) * m_uTotalParticles, m_pQuads, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_pIndices[0]) * m_uTotalParticles * 6, m_pIndices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 
     CHECK_GL_ERROR_DEBUG();
 }
@@ -590,9 +590,9 @@ void CCParticleSystemQuad::setBatchNode(CCParticleBatchNode * batchNode)
             CC_SAFE_FREE(m_pQuads);
             CC_SAFE_FREE(m_pIndices);
 
-            glDeleteBuffers(2, &m_pBuffersVBO[0]);
+//cjh gl function here.;
 #if CC_TEXTURE_ATLAS_USE_VAO
-            glDeleteVertexArrays(1, &m_uVAOname);
+//cjh gl function here.;
 #endif
         }
     }

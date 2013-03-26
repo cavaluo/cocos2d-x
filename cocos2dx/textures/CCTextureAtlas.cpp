@@ -58,10 +58,10 @@ CCTextureAtlas::~CCTextureAtlas()
     CC_SAFE_FREE(m_pQuads);
     CC_SAFE_FREE(m_pIndices);
 
-    glDeleteBuffers(2, m_pBuffersVBO);
+//cjh gl function here.;
 
 #if CC_TEXTURE_ATLAS_USE_VAO
-    glDeleteVertexArrays(1, &m_uVAOname);
+//cjh gl function here.;
 #endif
     CC_SAFE_RELEASE(m_pTexture);
     
@@ -244,42 +244,42 @@ void CCTextureAtlas::setupIndices()
 #if CC_TEXTURE_ATLAS_USE_VAO
 void CCTextureAtlas::setupVBOandVAO()
 {
-    glGenVertexArrays(1, &m_uVAOname);
+//cjh gl function here.;
     ccGLBindVAO(m_uVAOname);
 
 #define kQuadSize sizeof(m_pQuads[0].bl)
 
-    glGenBuffers(2, &m_pBuffersVBO[0]);
+//cjh gl function here.;
 
-    glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0]) * m_uCapacity, m_pQuads, GL_DYNAMIC_DRAW);
+//cjh gl function here.;
+//cjh gl function here.;
 
     // vertices
-    glEnableVertexAttribArray(kCCVertexAttrib_Position);
-    glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, vertices));
+//cjh gl function here.;
+//cjh gl function here.;
 
     // colors
-    glEnableVertexAttribArray(kCCVertexAttrib_Color);
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, colors));
+//cjh gl function here.;
+//cjh gl function here.;
 
     // tex coords
-    glEnableVertexAttribArray(kCCVertexAttrib_TexCoords);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( ccV3F_C4B_T2F, texCoords));
+//cjh gl function here.;
+//cjh gl function here.;
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_pIndices[0]) * m_uCapacity * 6, m_pIndices, GL_STATIC_DRAW);
+//cjh gl function here.;
+//cjh gl function here.;
 
     // Must unbind the VAO before changing the element buffer.
     ccGLBindVAO(0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//cjh gl function here.;
+//cjh gl function here.;
 
     CHECK_GL_ERROR_DEBUG();
 }
 #else // CC_TEXTURE_ATLAS_USE_VAO
 void CCTextureAtlas::setupVBO()
 {
-    glGenBuffers(2, &m_pBuffersVBO[0]);
+//cjh gl function here.;
 
     mapBuffers();
 }
@@ -290,13 +290,13 @@ void CCTextureAtlas::mapBuffers()
     // Avoid changing the element buffer for whatever VAO might be bound.
 	ccGLBindVAO(0);
     
-    glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0]) * m_uCapacity, m_pQuads, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(m_pIndices[0]) * m_uCapacity * 6, m_pIndices, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 
     CHECK_GL_ERROR_DEBUG();
 }
@@ -601,20 +601,20 @@ void CCTextureAtlas::drawNumberOfQuads(unsigned int n, unsigned int start)
     // XXX: update is done in draw... perhaps it should be done in a timer
     if (m_bDirty) 
     {
-        glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
+//cjh gl function here.;
         // option 1: subdata
-        //glBufferSubData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0])*start, sizeof(m_pQuads[0]) * n , &m_pQuads[start] );
+//cjh gl function here.;
 		
 		// option 2: data
-        //		glBufferData(GL_ARRAY_BUFFER, sizeof(quads_[0]) * (n-start), &quads_[start], GL_DYNAMIC_DRAW);
+//cjh gl function here.;
 		
 		// option 3: orphaning + glMapBuffer
-		glBufferData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0]) * (n-start), NULL, GL_DYNAMIC_DRAW);
-		void *buf = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+//cjh gl function here.;
+//cjh gl function here.;
 		memcpy(buf, m_pQuads, sizeof(m_pQuads[0])* (n-start));
-		glUnmapBuffer(GL_ARRAY_BUFFER);
+//cjh gl function here.;
 		
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+//cjh gl function here.;
 
         m_bDirty = false;
     }
@@ -622,20 +622,20 @@ void CCTextureAtlas::drawNumberOfQuads(unsigned int n, unsigned int start)
     ccGLBindVAO(m_uVAOname);
 
 #if CC_REBIND_INDICES_BUFFER
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
+//cjh gl function here.;
 #endif
 
 #if CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
-    glDrawElements(GL_TRIANGLE_STRIP, (GLsizei) n*6, GL_UNSIGNED_SHORT, (GLvoid*) (start*6*sizeof(m_pIndices[0])) );
+//cjh gl function here.;
 #else
-    glDrawElements(GL_TRIANGLES, (GLsizei) n*6, GL_UNSIGNED_SHORT, (GLvoid*) (start*6*sizeof(m_pIndices[0])) );
+//cjh gl function here.;
 #endif // CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
 
 #if CC_REBIND_INDICES_BUFFER
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//cjh gl function here.;
 #endif
 
-//    glBindVertexArray(0);
+//cjh gl function here.;
 
 #else // ! CC_TEXTURE_ATLAS_USE_VAO
 
@@ -644,36 +644,36 @@ void CCTextureAtlas::drawNumberOfQuads(unsigned int n, unsigned int start)
     //
 
 #define kQuadSize sizeof(m_pQuads[0].bl)
-    glBindBuffer(GL_ARRAY_BUFFER, m_pBuffersVBO[0]);
+//cjh gl function here.;
 
     // XXX: update is done in draw... perhaps it should be done in a timer
     if (m_bDirty) 
     {
-        glBufferSubData(GL_ARRAY_BUFFER, sizeof(m_pQuads[0])*start, sizeof(m_pQuads[0]) * n , &m_pQuads[start] );
+//cjh gl function here.;
         m_bDirty = false;
     }
 
     ccGLEnableVertexAttribs(kCCVertexAttribFlag_PosColorTex);
 
     // vertices
-    glVertexAttribPointer(kCCVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof(ccV3F_C4B_T2F, vertices));
+//cjh gl function here.;
 
     // colors
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof(ccV3F_C4B_T2F, colors));
+//cjh gl function here.;
 
     // tex coords
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof(ccV3F_C4B_T2F, texCoords));
+//cjh gl function here.;
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_pBuffersVBO[1]);
+//cjh gl function here.;
 
 #if CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
-    glDrawElements(GL_TRIANGLE_STRIP, (GLsizei)n*6, GL_UNSIGNED_SHORT, (GLvoid*) (start*6*sizeof(m_pIndices[0])));
+//cjh gl function here.;
 #else
-    glDrawElements(GL_TRIANGLES, (GLsizei)n*6, GL_UNSIGNED_SHORT, (GLvoid*) (start*6*sizeof(m_pIndices[0])));
+//cjh gl function here.;
 #endif // CC_TEXTURE_ATLAS_USE_TRIANGLE_STRIP
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+//cjh gl function here.;
+//cjh gl function here.;
 
 #endif // CC_TEXTURE_ATLAS_USE_VAO
 

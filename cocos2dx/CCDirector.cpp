@@ -202,7 +202,7 @@ void CCDirector::setGLDefaultValues(void)
     setProjection(m_eProjection);
 
     // set other opengl default values
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//cjh gl function here.;
 }
 
 // Draw the Scene
@@ -217,7 +217,7 @@ void CCDirector::drawScene(void)
         m_pScheduler->update(m_fDeltaTime);
     }
 
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//cjh gl function here.;
 
     /* to avoid flickr, nextScene MUST be here: after tick and before draw.
      XXX: Which bug is this one. It seems that it can't be reproduced with v0.9 */
@@ -433,14 +433,14 @@ void CCDirector::setDepthTest(bool bOn)
 {
     if (bOn)
     {
-        glClearDepth(1.0f);
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LEQUAL);
-//        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
     }
     else
     {
-        glDisable(GL_DEPTH_TEST);
+//cjh gl function here.;
     }
     CHECK_GL_ERROR_DEBUG();
 }

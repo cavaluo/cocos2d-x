@@ -543,24 +543,24 @@ bool CCTexturePVR::createGLTexture()
         }
         
         // From PVR sources: "PVR files are never row aligned."
-        glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+//cjh gl function here.;
         
-        glGenTextures(1, &m_uName);
-        glBindTexture(GL_TEXTURE_2D, m_uName);
+//cjh gl function here.;
+//cjh gl function here.;
         
         // Default: Anti alias.
 		if (m_uNumberOfMipmaps == 1)
         {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//cjh gl function here.;
         }
 		else
         {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+//cjh gl function here.;
         }
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//cjh gl function here.;
 		
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//cjh gl function here.;
+//cjh gl function here.;
     }
     
     CHECK_GL_ERROR_DEBUG(); // clean possible GL error
@@ -584,11 +584,11 @@ bool CCTexturePVR::createGLTexture()
         
 		if (compressed)
         {
-			glCompressedTexImage2D(GL_TEXTURE_2D, i, internalFormat, width, height, 0, datalen, data);
+//cjh gl function here.;
         }
 		else
         {
-			glTexImage2D(GL_TEXTURE_2D, i, internalFormat, width, height, 0, format, type, data);
+//cjh gl function here.;
         }
         
 		if (i > 0 && (width != height || ccNextPOT(width) != width ))
@@ -596,7 +596,7 @@ bool CCTexturePVR::createGLTexture()
 			CCLOG("cocos2d: TexturePVR. WARNING. Mipmap level %u is not squared. Texture won't render correctly. width=%u != height=%u", i, width, height);
         }
         
-		err = glGetError();
+//cjh gl function here.;
 		if (err != GL_NO_ERROR)
 		{
 			CCLOG("cocos2d: TexturePVR: Error uploading compressed texture level: %u . glError: 0x%04X", i, err);

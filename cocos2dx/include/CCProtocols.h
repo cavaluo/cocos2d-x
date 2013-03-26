@@ -89,14 +89,14 @@ public:
      * If thie property is set to true, then the rendered color will be affected by opacity.
      * Normally, r = r * opacity/255, g = g * opacity/255, b = b * opacity/255.
      *
-     * @param   bValue  true then the opacity will be applied as: glColor(R,G,B,opacity);
-     *                  false then the opacity will be applied as: glColor(opacity, opacity, opacity, opacity);
+//cjh gl function here.;
+//cjh gl function here.;
      */
     virtual void setOpacityModifyRGB(bool bValue) = 0;
 
     /**
-     * Returns whether or not the opacity will be applied using glColor(R,G,B,opacity) 
-     * or glColor(opacity, opacity, opacity, opacity)
+//cjh gl function here. 
+//cjh gl function here.
      *
      * @return  Returns opacity modify flag.
      */

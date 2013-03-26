@@ -79,10 +79,10 @@ CCRenderTexture::~CCRenderTexture()
     CC_SAFE_RELEASE(m_pSprite);
     CC_SAFE_RELEASE(m_pTextureCopy);
     
-    glDeleteFramebuffers(1, &m_uFBO);
+//cjh gl function here.;
     if (m_uDepthRenderBufffer)
     {
-        glDeleteRenderbuffers(1, &m_uDepthRenderBufffer);
+//cjh gl function here.;
     }
     CC_SAFE_DELETE(m_pUITextureImage);
 
@@ -115,7 +115,7 @@ void CCRenderTexture::listenToBackground(cocos2d::CCObject *obj)
         CCLOG("Cache rendertexture failed!");
     }
     
-    glDeleteFramebuffers(1, &m_uFBO);
+//cjh gl function here.;
     m_uFBO = 0;
 #endif
 }
@@ -124,10 +124,10 @@ void CCRenderTexture::listenToForeground(cocos2d::CCObject *obj)
 {
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     // -- regenerate frame buffer object and attach the texture
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &m_nOldFBO);
+//cjh gl function here.;
     
-    glGenFramebuffers(1, &m_uFBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_uFBO);
+//cjh gl function here.;
+//cjh gl function here.;
     
     m_pTexture->setAliasTexParameters();
     
@@ -136,8 +136,8 @@ void CCRenderTexture::listenToForeground(cocos2d::CCObject *obj)
         m_pTextureCopy->setAliasTexParameters();
     }
     
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_pTexture->getName(), 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_nOldFBO);
+//cjh gl function here.;
+//cjh gl function here.;
 #endif
 }
 
@@ -258,7 +258,7 @@ bool CCRenderTexture::initWithWidthAndHeight(int w, int h, CCTexture2DPixelForma
         w = (int)(w * CC_CONTENT_SCALE_FACTOR());
         h = (int)(h * CC_CONTENT_SCALE_FACTOR());
 
-        glGetIntegerv(GL_FRAMEBUFFER_BINDING, &m_nOldFBO);
+//cjh gl function here.;
 
         // textures must be power of two squared
         unsigned int powW = 0;
@@ -291,7 +291,7 @@ bool CCRenderTexture::initWithWidthAndHeight(int w, int h, CCTexture2DPixelForma
             break;
         }
         GLint oldRBO;
-        glGetIntegerv(GL_RENDERBUFFER_BINDING, &oldRBO);
+//cjh gl function here.;
         
         if (CCConfiguration::sharedConfiguration()->checkForGLExtension("GL_QCOM"))
         {
@@ -307,29 +307,29 @@ bool CCRenderTexture::initWithWidthAndHeight(int w, int h, CCTexture2DPixelForma
         }
 
         // generate FBO
-        glGenFramebuffers(1, &m_uFBO);
-        glBindFramebuffer(GL_FRAMEBUFFER, m_uFBO);
+//cjh gl function here.;
+//cjh gl function here.;
 
         // associate texture with FBO
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_pTexture->getName(), 0);
+//cjh gl function here.;
 
         if (uDepthStencilFormat != 0)
         {
             //create and attach depth buffer
-            glGenRenderbuffers(1, &m_uDepthRenderBufffer);
-            glBindRenderbuffer(GL_RENDERBUFFER, m_uDepthRenderBufffer);
-            glRenderbufferStorage(GL_RENDERBUFFER, uDepthStencilFormat, (GLsizei)powW, (GLsizei)powH);
-            glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_uDepthRenderBufffer);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 
             // if depth format is the one with stencil part, bind same render buffer as stencil attachment
             if (uDepthStencilFormat == GL_DEPTH24_STENCIL8)
             {
-                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_RENDERBUFFER, m_uDepthRenderBufffer);
+//cjh gl function here.;
             }
         }
 
         // check if it worked (probably worth doing :) )
-        CCAssert(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Could not attach texture to framebuffer");
+//cjh gl function here.;
 
         m_pTexture->setAliasTexParameters();
 
@@ -342,8 +342,8 @@ bool CCRenderTexture::initWithWidthAndHeight(int w, int h, CCTexture2DPixelForma
         ccBlendFunc tBlendFunc = {GL_ONE, GL_ONE_MINUS_SRC_ALPHA };
         m_pSprite->setBlendFunc(tBlendFunc);
 
-        glBindRenderbuffer(GL_RENDERBUFFER, oldRBO);
-        glBindFramebuffer(GL_FRAMEBUFFER, m_nOldFBO);
+//cjh gl function here.;
+//cjh gl function here.;
         
         // Diabled by default.
         m_bAutoDraw = false;
@@ -377,7 +377,7 @@ void CCRenderTexture::begin()
     float heightRatio = size.height / texSize.height;
 
     // Adjust the orthographic projection and viewport
-    glViewport(0, 0, (GLsizei)texSize.width, (GLsizei)texSize.height);
+//cjh gl function here.;
 
 
     kmMat4 orthoMatrix;
@@ -385,18 +385,18 @@ void CCRenderTexture::begin()
         (float)-1.0 / heightRatio, (float)1.0 / heightRatio, -1,1 );
     kmGLMultMatrix(&orthoMatrix);
 
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &m_nOldFBO);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_uFBO);
+//cjh gl function here.;
+//cjh gl function here.;
     
     /*  Certain Qualcomm Andreno gpu's will retain data in memory after a frame buffer switch which corrupts the render to the texture. The solution is to clear the frame buffer before rendering to the texture. However, calling glClear has the unintended result of clearing the current texture. Create a temporary texture to overcome this. At the end of CCRenderTexture::begin(), switch the attached texture to the second one, call glClear, and then switch back to the original texture. This solution is unnecessary for other devices as they don't have the same issue with switching frame buffers.
      */
     if (CCConfiguration::sharedConfiguration()->checkForGLExtension("GL_QCOM"))
     {
         // -- bind a temporary texture so we can clear the render buffer without losing our texture
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_pTextureCopy->getName(), 0);
+//cjh gl function here.;
         CHECK_GL_ERROR_DEBUG();
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_pTexture->getName(), 0);
+//cjh gl function here.;
+//cjh gl function here.;
     }
 }
 
@@ -426,36 +426,36 @@ void CCRenderTexture::beginWithClear(float r, float g, float b, float a, float d
     
     if (flags & GL_COLOR_BUFFER_BIT)
     {
-        glGetFloatv(GL_COLOR_CLEAR_VALUE,clearColor);
-        glClearColor(r, g, b, a);
+//cjh gl function here.;
+//cjh gl function here.;
     }
     
     if (flags & GL_DEPTH_BUFFER_BIT)
     {
-        glGetFloatv(GL_DEPTH_CLEAR_VALUE, &depthClearValue);
-        glClearDepth(depthValue);
+//cjh gl function here.;
+//cjh gl function here.;
     }
 
     if (flags & GL_STENCIL_BUFFER_BIT)
     {
-        glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &stencilClearValue);
-        glClearStencil(stencilValue);
+//cjh gl function here.;
+//cjh gl function here.;
     }
     
-    glClear(flags);
+//cjh gl function here.;
 
     // restore
     if (flags & GL_COLOR_BUFFER_BIT)
     {
-        glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
+//cjh gl function here.;
     }
     if (flags & GL_DEPTH_BUFFER_BIT)
     {
-        glClearDepth(depthClearValue);
+//cjh gl function here.;
     }
     if (flags & GL_STENCIL_BUFFER_BIT)
     {
-        glClearStencil(stencilClearValue);
+//cjh gl function here.;
     }
 }
 
@@ -463,7 +463,7 @@ void CCRenderTexture::end()
 {
     CCDirector *director = CCDirector::sharedDirector();
     
-    glBindFramebuffer(GL_FRAMEBUFFER, m_nOldFBO);
+//cjh gl function here.;
 
     // restore viewport
     director->setViewport();
@@ -485,13 +485,13 @@ void CCRenderTexture::clearDepth(float depthValue)
     this->begin();
     //! save old depth value
     GLfloat depthClearValue;
-    glGetFloatv(GL_DEPTH_CLEAR_VALUE, &depthClearValue);
+//cjh gl function here.;
 
-    glClearDepth(depthValue);
-    glClear(GL_DEPTH_BUFFER_BIT);
+//cjh gl function here.;
+//cjh gl function here.;
 
     // restore clear color
-    glClearDepth(depthClearValue);
+//cjh gl function here.;
     this->end();
 }
 
@@ -499,13 +499,13 @@ void CCRenderTexture::clearStencil(int stencilValue)
 {
     // save old stencil value
     int stencilClearValue;
-    glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &stencilClearValue);
+//cjh gl function here.;
 
-    glClearStencil(stencilValue);
-    glClear(GL_STENCIL_BUFFER_BIT);
+//cjh gl function here.;
+//cjh gl function here.;
 
     // restore clear color
-    glClearStencil(stencilClearValue);
+//cjh gl function here.;
 }
 
 void CCRenderTexture::visit()
@@ -554,37 +554,37 @@ void CCRenderTexture::draw()
 			// backup and set
 			if (m_uClearFlags & GL_COLOR_BUFFER_BIT)
             {
-				glGetFloatv(GL_COLOR_CLEAR_VALUE, oldClearColor);
-				glClearColor(m_sClearColor.r, m_sClearColor.g, m_sClearColor.b, m_sClearColor.a);
+//cjh gl function here.;
+//cjh gl function here.;
 			}
 			
 			if (m_uClearFlags & GL_DEPTH_BUFFER_BIT)
             {
-				glGetFloatv(GL_DEPTH_CLEAR_VALUE, &oldDepthClearValue);
-				glClearDepth(m_fClearDepth);
+//cjh gl function here.;
+//cjh gl function here.;
 			}
 			
 			if (m_uClearFlags & GL_STENCIL_BUFFER_BIT)
             {
-				glGetIntegerv(GL_STENCIL_CLEAR_VALUE, &oldStencilClearValue);
-				glClearStencil(m_nClearStencil);
+//cjh gl function here.;
+//cjh gl function here.;
 			}
 			
 			// clear
-			glClear(m_uClearFlags);
+//cjh gl function here.;
 			
 			// restore
 			if (m_uClearFlags & GL_COLOR_BUFFER_BIT)
             {
-				glClearColor(oldClearColor[0], oldClearColor[1], oldClearColor[2], oldClearColor[3]);
+//cjh gl function here.;
             }
 			if (m_uClearFlags & GL_DEPTH_BUFFER_BIT)
             {
-				glClearDepth(oldDepthClearValue);
+//cjh gl function here.;
             }
 			if (m_uClearFlags & GL_STENCIL_BUFFER_BIT)
             {
-				glClearStencil(oldStencilClearValue);
+//cjh gl function here.;
             }
 		}
 		
@@ -672,8 +672,8 @@ CCImage* CCRenderTexture::newCCImage(bool flipImage)
         }
 
         this->begin();
-        glPixelStorei(GL_PACK_ALIGNMENT, 1);
-        glReadPixels(0,0,nSavedBufferWidth, nSavedBufferHeight,GL_RGBA,GL_UNSIGNED_BYTE, pTempData);
+//cjh gl function here.;
+//cjh gl function here.;
         this->end();
 
         if ( flipImage ) // -- flip is only required when saving image to file

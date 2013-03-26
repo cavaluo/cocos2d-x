@@ -111,11 +111,11 @@ CCDrawNode::~CCDrawNode()
     free(m_pBuffer);
     m_pBuffer = NULL;
     
-    glDeleteBuffers(1, &m_uVbo);
+//cjh gl function here.;
     m_uVbo = 0;
     
 #if CC_TEXTURE_ATLAS_USE_VAO      
-    glDeleteVertexArrays(1, &m_uVao);
+//cjh gl function here.;
     m_uVao = 0;
 #endif
 }
@@ -154,24 +154,24 @@ bool CCDrawNode::init()
     ensureCapacity(512);
     
 #if CC_TEXTURE_ATLAS_USE_VAO    
-    glGenVertexArrays(1, &m_uVao);
+//cjh gl function here.;
     ccGLBindVAO(m_uVao);
 #endif
     
-    glGenBuffers(1, &m_uVbo);
-    glBindBuffer(GL_ARRAY_BUFFER, m_uVbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(ccV2F_C4B_T2F)* m_uBufferCapacity, m_pBuffer, GL_STREAM_DRAW);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
     
-    glEnableVertexAttribArray(kCCVertexAttrib_Position);
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, vertices));
+//cjh gl function here.;
+//cjh gl function here.;
     
-    glEnableVertexAttribArray(kCCVertexAttrib_Color);
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, colors));
+//cjh gl function here.;
+//cjh gl function here.;
     
-    glEnableVertexAttribArray(kCCVertexAttrib_TexCoords);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, texCoords));
+//cjh gl function here.;
+//cjh gl function here.;
     
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//cjh gl function here.;
     
 #if CC_TEXTURE_ATLAS_USE_VAO 
     ccGLBindVAO(0);
@@ -188,27 +188,27 @@ void CCDrawNode::render()
 {
     if (m_bDirty)
     {
-        glBindBuffer(GL_ARRAY_BUFFER, m_uVbo);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(ccV2F_C4B_T2F)*m_uBufferCapacity, m_pBuffer, GL_STREAM_DRAW);
+//cjh gl function here.;
+//cjh gl function here.;
         m_bDirty = false;
     }
 #if CC_TEXTURE_ATLAS_USE_VAO     
     ccGLBindVAO(m_uVao);
 #else
     ccGLEnableVertexAttribs(kCCVertexAttribFlag_PosColorTex);
-    glBindBuffer(GL_ARRAY_BUFFER, m_uVbo);
+//cjh gl function here.;
     // vertex
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, vertices));
+//cjh gl function here.;
     
     // color
-    glVertexAttribPointer(kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, colors));
+//cjh gl function here.;
     
     // texcood
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(ccV2F_C4B_T2F), (GLvoid *)offsetof(ccV2F_C4B_T2F, texCoords));
+//cjh gl function here.;
 #endif
 
-    glDrawArrays(GL_TRIANGLES, 0, m_nBufferCount);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//cjh gl function here.;
+//cjh gl function here.;
     
     CC_INCREMENT_GL_DRAWS(1);
     CHECK_GL_ERROR_DEBUG();

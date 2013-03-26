@@ -499,24 +499,24 @@ void CCProgressTimer::draw(void)
 
     ccGLBindTexture2D( m_pSprite->getTexture()->getName() );
 
-    glVertexAttribPointer( kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(m_pVertexData[0]) , &m_pVertexData[0].vertices);
-    glVertexAttribPointer( kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(m_pVertexData[0]), &m_pVertexData[0].texCoords);
-    glVertexAttribPointer( kCCVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(m_pVertexData[0]), &m_pVertexData[0].colors);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 
     if(m_eType == kCCProgressTimerTypeRadial)
     {
-        glDrawArrays(GL_TRIANGLE_FAN, 0, m_nVertexDataCount);
+//cjh gl function here.;
     } 
     else if (m_eType == kCCProgressTimerTypeBar)
     {
         if (!m_bReverseDirection) 
         {
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, m_nVertexDataCount);
+//cjh gl function here.;
         } 
         else 
         {
-            glDrawArrays(GL_TRIANGLE_STRIP, 0, m_nVertexDataCount/2);
-            glDrawArrays(GL_TRIANGLE_STRIP, 4, m_nVertexDataCount/2);
+//cjh gl function here.;
+//cjh gl function here.;
             // 2 draw calls
             CC_INCREMENT_GL_DRAWS(1);
         }

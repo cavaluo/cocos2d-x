@@ -177,48 +177,48 @@ bool CCTexture2D::initWithData(const void *data, CCTexture2DPixelFormat pixelFor
     // XXX: 32 bits or POT textures uses UNPACK of 4 (is this correct ??? )
     if( pixelFormat == kCCTexture2DPixelFormat_RGBA8888 || ( ccNextPOT(pixelsWide)==pixelsWide && ccNextPOT(pixelsHigh)==pixelsHigh) )
     {
-        glPixelStorei(GL_UNPACK_ALIGNMENT,4);
+//cjh gl function here.;
     }
     else
     {
-        glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+//cjh gl function here.;
     }
 
-    glGenTextures(1, &m_uName);
+//cjh gl function here.;
     ccGLBindTexture2D(m_uName);
 
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 
     // Specify OpenGL texture image
 
     switch(pixelFormat)
     {
     case kCCTexture2DPixelFormat_RGBA8888:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+//cjh gl function here.;
         break;
     case kCCTexture2DPixelFormat_RGB888:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+//cjh gl function here.;
         break;
     case kCCTexture2DPixelFormat_RGBA4444:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, data);
+//cjh gl function here.;
         break;
     case kCCTexture2DPixelFormat_RGB5A1:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, data);
+//cjh gl function here.;
         break;
     case kCCTexture2DPixelFormat_RGB565:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
+//cjh gl function here.;
         break;
     case kCCTexture2DPixelFormat_AI88:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, data);
+//cjh gl function here.;
         break;
     case kCCTexture2DPixelFormat_A8:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+//cjh gl function here.;
         break;
     case kCCTexture2DPixelFormat_I8:
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, (GLsizei)pixelsWide, (GLsizei)pixelsHigh, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, data);
+//cjh gl function here.;
         break;
     default:
         CCAssert(0, "NSInternalInconsistencyException");
@@ -488,10 +488,10 @@ void CCTexture2D::drawAtPoint(const CCPoint& point)
     ccGLBindTexture2D( m_uName );
 
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
+//cjh gl function here.;
+//cjh gl function here.;
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+//cjh gl function here.;
 }
 
 void CCTexture2D::drawInRect(const CCRect& rect)
@@ -513,9 +513,9 @@ void CCTexture2D::drawInRect(const CCRect& rect)
 
     ccGLBindTexture2D( m_uName );
 
-    glVertexAttribPointer(kCCVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-    glVertexAttribPointer(kCCVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, 0, coordinates);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 }
 
 bool CCTexture2D::initWithPVRFile(const char* file)
@@ -565,7 +565,7 @@ void CCTexture2D::generateMipmap()
 {
     CCAssert( m_uPixelsWide == ccNextPOT(m_uPixelsWide) && m_uPixelsHigh == ccNextPOT(m_uPixelsHigh), "Mipmap texture only works in POT textures");
     ccGLBindTexture2D( m_uName );
-    glGenerateMipmap(GL_TEXTURE_2D);
+//cjh gl function here.;
     m_bHasMipmaps = true;
 }
 
@@ -581,10 +581,10 @@ void CCTexture2D::setTexParameters(ccTexParams *texParams)
         "GL_CLAMP_TO_EDGE should be used in NPOT dimensions");
 
     ccGLBindTexture2D( m_uName );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, texParams->minFilter );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, texParams->magFilter );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texParams->wrapS );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texParams->wrapT );
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
 
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     VolatileTexture::setTexParameters(this, texParams);
@@ -597,14 +597,14 @@ void CCTexture2D::setAliasTexParameters()
 
     if( ! m_bHasMipmaps )
     {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+//cjh gl function here.;
     }
     else
     {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST );
+//cjh gl function here.;
     }
 
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+//cjh gl function here.;
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     ccTexParams texParams = {m_bHasMipmaps?GL_NEAREST_MIPMAP_NEAREST:GL_NEAREST,GL_NEAREST,GL_NONE,GL_NONE};
     VolatileTexture::setTexParameters(this, &texParams);
@@ -617,14 +617,14 @@ void CCTexture2D::setAntiAliasTexParameters()
 
     if( ! m_bHasMipmaps )
     {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+//cjh gl function here.;
     }
     else
     {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST );
+//cjh gl function here.;
     }
 
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+//cjh gl function here.;
 #if CC_ENABLE_CACHE_TEXTURE_DATA
     ccTexParams texParams = {m_bHasMipmaps?GL_LINEAR_MIPMAP_NEAREST:GL_LINEAR,GL_LINEAR,GL_NONE,GL_NONE};
     VolatileTexture::setTexParameters(this, &texParams);

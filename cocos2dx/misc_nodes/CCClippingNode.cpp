@@ -107,7 +107,7 @@ bool CCClippingNode::init(CCNode *pStencil)
     static bool once = true;
     if (once)
     {
-        glGetIntegerv(GL_STENCIL_BITS, &g_sStencilBits);
+//cjh gl function here.;
         if (g_sStencilBits <= 0)
         {
             CCLOG("Stencil buffer is not enabled.");
@@ -210,37 +210,37 @@ void CCClippingNode::visit()
     GLenum currentStencilFail = GL_KEEP;
     GLenum currentStencilPassDepthFail = GL_KEEP;
     GLenum currentStencilPassDepthPass = GL_KEEP;
-    currentStencilEnabled = glIsEnabled(GL_STENCIL_TEST);
-    glGetIntegerv(GL_STENCIL_WRITEMASK, (GLint *)&currentStencilWriteMask);
-    glGetIntegerv(GL_STENCIL_FUNC, (GLint *)&currentStencilFunc);
-    glGetIntegerv(GL_STENCIL_REF, &currentStencilRef);
-    glGetIntegerv(GL_STENCIL_VALUE_MASK, (GLint *)&currentStencilValueMask);
-    glGetIntegerv(GL_STENCIL_FAIL, (GLint *)&currentStencilFail);
-    glGetIntegerv(GL_STENCIL_PASS_DEPTH_FAIL, (GLint *)&currentStencilPassDepthFail);
-    glGetIntegerv(GL_STENCIL_PASS_DEPTH_PASS, (GLint *)&currentStencilPassDepthPass);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
     
     // enable stencil use
-    glEnable(GL_STENCIL_TEST);
+//cjh gl function here.;
     // check for OpenGL error while enabling stencil test
     CHECK_GL_ERROR_DEBUG();
     
     // all bits on the stencil buffer are readonly, except the current layer bit,
     // this means that operation like glClear or glStencilOp will be masked with this value
-    glStencilMask(mask_layer);
+//cjh gl function here.;
     
     // manually save the depth test state
     //GLboolean currentDepthTestEnabled = GL_TRUE;
     GLboolean currentDepthWriteMask = GL_TRUE;
-    //currentDepthTestEnabled = glIsEnabled(GL_DEPTH_TEST);
-    glGetBooleanv(GL_DEPTH_WRITEMASK, &currentDepthWriteMask);
+//cjh gl function here.;
+//cjh gl function here.;
     
     // disable depth test while drawing the stencil
-    //glDisable(GL_DEPTH_TEST);
+//cjh gl function here.;
     // disable update to the depth buffer while drawing the stencil,
     // as the stencil is not meant to be rendered in the real scene,
     // it should never prevent something else to be drawn,
     // only disabling depth buffer update should do
-    glDepthMask(GL_FALSE);
+//cjh gl function here.;
     
     ///////////////////////////////////
     // CLEAR STENCIL BUFFER
@@ -251,8 +251,8 @@ void CCClippingNode::visit()
     //     never draw it into the frame buffer
     //     if not in inverted mode: set the current layer value to 0 in the stencil buffer
     //     if in inverted mode: set the current layer value to 1 in the stencil buffer
-    glStencilFunc(GL_NEVER, mask_layer, mask_layer);
-    glStencilOp(!m_bInverted ? GL_ZERO : GL_REPLACE, GL_KEEP, GL_KEEP);
+//cjh gl function here.;
+//cjh gl function here.;
     
     // draw a fullscreen solid rectangle to clear the stencil buffer
     //ccDrawSolidRect(CCPointZero, ccpFromSize([[CCDirector sharedDirector] winSize]), ccc4f(1, 1, 1, 1));
@@ -266,8 +266,8 @@ void CCClippingNode::visit()
     //     never draw it into the frame buffer
     //     if not in inverted mode: set the current layer value to 1 in the stencil buffer
     //     if in inverted mode: set the current layer value to 0 in the stencil buffer
-    glStencilFunc(GL_NEVER, mask_layer, mask_layer);
-    glStencilOp(!m_bInverted ? GL_REPLACE : GL_ZERO, GL_KEEP, GL_KEEP);
+//cjh gl function here.;
+//cjh gl function here.;
     
     // enable alpha test only if the alpha threshold < 1,
     // indeed if alpha threshold == 1, every pixel will be drawn anyways
@@ -279,22 +279,22 @@ void CCClippingNode::visit()
     if (m_fAlphaThreshold < 1) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WINDOWS || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
         // manually save the alpha test state
-        currentAlphaTestEnabled = glIsEnabled(GL_ALPHA_TEST);
-        glGetIntegerv(GL_ALPHA_TEST_FUNC, (GLint *)&currentAlphaTestFunc);
-        glGetFloatv(GL_ALPHA_TEST_REF, &currentAlphaTestRef);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
         // enable alpha testing
-        glEnable(GL_ALPHA_TEST);
+//cjh gl function here.;
         // check for OpenGL error while enabling alpha test
         CHECK_GL_ERROR_DEBUG();
         // pixel will be drawn only if greater than an alpha threshold
-        glAlphaFunc(GL_GREATER, m_fAlphaThreshold);
+//cjh gl function here.;
 #else
         // since glAlphaTest do not exists in OES, use a shader that writes
         // pixel only if greater than an alpha threshold
         CCGLProgram *program = CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTextureColorAlphaTest);
-        GLint alphaValueLocation = glGetUniformLocation(program->getProgram(), kCCUniformAlphaTestValue);
+//cjh gl function here.;
         // set our alphaThreshold
-        program->setUniformLocationWith1f(alphaValueLocation, m_fAlphaThreshold);
+//        program->setUniformLocationWith1f(alphaValueLocation, m_fAlphaThreshold);
         // we need to recursively apply this shader to all the nodes in the stencil node
         // XXX: we should have a way to apply shader to all nodes without having to do this
         setProgram(m_pStencil, program);
@@ -314,10 +314,10 @@ void CCClippingNode::visit()
     {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC || CC_TARGET_PLATFORM == CC_PLATFORM_WINDOWS || CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
         // manually restore the alpha test state
-        glAlphaFunc(currentAlphaTestFunc, currentAlphaTestRef);
+//cjh gl function here.;
         if (!currentAlphaTestEnabled)
         {
-            glDisable(GL_ALPHA_TEST);
+//cjh gl function here.;
         }
 #else
 // XXX: we need to find a way to restore the shaders of the stencil node and its childs
@@ -325,9 +325,9 @@ void CCClippingNode::visit()
     }
     
     // restore the depth test state
-    glDepthMask(currentDepthWriteMask);
+//cjh gl function here.;
     //if (currentDepthTestEnabled) {
-    //    glEnable(GL_DEPTH_TEST);
+//cjh gl function here.;
     //}
     
     ///////////////////////////////////
@@ -339,8 +339,8 @@ void CCClippingNode::visit()
     //         draw the pixel and keep the current layer in the stencil buffer
     //     else
     //         do not draw the pixel but keep the current layer in the stencil buffer
-    glStencilFunc(GL_EQUAL, mask_layer_le, mask_layer_le);
-    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+//cjh gl function here.;
+//cjh gl function here.;
     
     // draw (according to the stencil test func) this node and its childs
     CCNode::visit();
@@ -349,12 +349,12 @@ void CCClippingNode::visit()
     // CLEANUP
     
     // manually restore the stencil state
-    glStencilFunc(currentStencilFunc, currentStencilRef, currentStencilValueMask);
-    glStencilOp(currentStencilFail, currentStencilPassDepthFail, currentStencilPassDepthPass);
-    glStencilMask(currentStencilWriteMask);
+//cjh gl function here.;
+//cjh gl function here.;
+//cjh gl function here.;
     if (!currentStencilEnabled)
     {
-        glDisable(GL_STENCIL_TEST);
+//cjh gl function here.;
     }
     
     // we are done using this layer, decrement
