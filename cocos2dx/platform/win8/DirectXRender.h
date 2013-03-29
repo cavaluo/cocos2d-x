@@ -18,7 +18,6 @@
 
 #pragma once
 
-#include "pch.h"
 #include <wrl.h>
 #include <agile.h>
 #include <d3d11_1.h>

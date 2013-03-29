@@ -16,9 +16,9 @@
 * See the License for the specific language governing permissions and limitations under the License.
 */
 
-#include "pch.h"
-#include "CCAccelerometer_win8_metro.h"
-#include "CCAccelerometerDelegate.h"
+#include "CCAccelerometer.h"
+#include "platform'/CCAccelerometerDelegate.h"
+
 using namespace Windows::Foundation;
 using namespace Windows::Devices::Sensors;
 

@@ -24,8 +24,8 @@
 //#include <d2d1.h>
 #include <directxmath.h>
 #include <d3dcompiler.h>
-#include "CCCommon.h"
-#include "CCGeometry.h"
+#include "platform/CCCommon.h"
+#include "cocoa/CCGeometry.h"
 #include <stack>
 #include <vector>
 #include <map>

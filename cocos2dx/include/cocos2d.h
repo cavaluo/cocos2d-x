@@ -199,6 +199,14 @@ THE SOFTWARE.
     #include "platform/nacl/CCStdC.h"
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN8)
+#include "platform/win8/CCAccelerometer.h"
+#include "platform/win8/CCApplication.h"
+#include "platform/win8/CCEGLView.h"
+#include "platform/win8/CCGL.h"
+#include "platform/win8/CCStdC.h"
+#endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN8
+
 // script_support
 #include "script_support/CCScriptSupport.h"
 

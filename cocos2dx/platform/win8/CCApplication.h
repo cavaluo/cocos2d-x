@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "CCCommon.h"  
+#include "platform/CCCommon.h"  
 
 NS_CC_BEGIN;
 

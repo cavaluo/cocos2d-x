@@ -16,9 +16,10 @@
 * See the License for the specific language governing permissions and limitations under the License.
 */
 
-#include "CCAccelerometerDelegate.h"
 #ifndef __PLATFORM_WIN32_UIACCELEROMETER_H__
 #define __PLATFORM_WIN32_UIACCELEROMETER_H__
+
+#include "platform/CCAccelerometerDelegate.h"
 
 NS_CC_BEGIN
 

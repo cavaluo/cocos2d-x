@@ -16,25 +16,24 @@
 * See the License for the specific language governing permissions and limitations under the License.
 */
 
-#include "pch.h"
 #include "DirectXRender.h"
 
 #include "CCEGLView.h"
 
-#include "CCSet.h"
+#include "cocoa/CCSet.h"
 #include "ccMacros.h"
 #include "CCDirector.h"
-#include "CCTouch.h"
-#include "CCTouchDispatcher.h"
-#include "CCIMEDispatcher.h"
-#include "CCKeypadDispatcher.h"
+#include "touch_dispatcher/CCTouch.h"
+#include "touch_dispatcher/CCTouchDispatcher.h"
+#include "text_input_node/CCIMEDispatcher.h"
+#include "keypad_dispatcher/CCKeypadDispatcher.h"
 #include "CCApplication.h"
 
 using namespace DirectX;
 
 NS_CC_BEGIN;
 
-static CCEGLView * s_pMainWindow;
+static CCEGLView * s_pMainWindow = NULL;
 
 CCEGLView::CCEGLView()
 : m_pDelegate(NULL)

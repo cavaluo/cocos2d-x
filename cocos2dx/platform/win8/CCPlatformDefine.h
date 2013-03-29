@@ -7,7 +7,7 @@
 #else         /* use a DLL library */
     #define CC_DLL     __declspec(dllimport)
 #endif
-
+#include <SDKDDKVer.h>
 #include <assert.h>
 
 #if CC_DISABLE_ASSERT > 0

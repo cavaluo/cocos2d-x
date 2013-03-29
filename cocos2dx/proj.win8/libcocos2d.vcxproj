@@ -64,9 +64,10 @@
       <PreprocessorDefinitions>_USRDLL;CC_WIN8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <CompileAsWinRT>false</CompileAsWinRT>
+      <CompileAsWinRT>true</CompileAsWinRT>
       <AdditionalUsingDirectories>$(WindowsSDK_MetadataPath);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalIncludeDirectories>$(ProjectDir)..;..\include;$(ProjectDir)..\kazmath\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..;..\include;$(ProjectDir)..\kazmath\include;$(ProjectDir)..\platform\win8;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -198,6 +199,23 @@
     <ClCompile Include="..\particle_nodes\CCParticleExamples.cpp" />
     <ClCompile Include="..\particle_nodes\CCParticleSystem.cpp" />
     <ClCompile Include="..\particle_nodes\CCParticleSystemQuad.cpp" />
+    <ClCompile Include="..\platform\CCEGLViewProtocol.cpp" />
+    <ClCompile Include="..\platform\CCFileUtils.cpp" />
+    <ClCompile Include="..\platform\CCImageCommonWebp.cpp" />
+    <ClCompile Include="..\platform\CCSAXParser.cpp" />
+    <ClCompile Include="..\platform\CCThread.cpp" />
+    <ClCompile Include="..\platform\platform.cpp" />
+    <ClCompile Include="..\platform\win8\BasicLoader.cpp" />
+    <ClCompile Include="..\platform\win8\BasicReaderWriter.cpp" />
+    <ClCompile Include="..\platform\win8\CCAccelerometer.cpp" />
+    <ClCompile Include="..\platform\win8\CCApplication.cpp" />
+    <ClCompile Include="..\platform\win8\CCEGLView.cpp" />
+    <ClCompile Include="..\platform\win8\CCFileUtilsWin8.cpp" />
+    <ClCompile Include="..\platform\win8\CCImage.cpp" />
+    <ClCompile Include="..\platform\win8\CCStdC.cpp" />
+    <ClCompile Include="..\platform\win8\DirectXRender.cpp" />
+    <ClCompile Include="..\platform\win8\DXTextPainter.cpp" />
+    <ClCompile Include="..\platform\win8\FTTextPainter.cpp" />
     <ClCompile Include="..\sprite_nodes\CCAnimation.cpp" />
     <ClCompile Include="..\sprite_nodes\CCAnimationCache.cpp" />
     <ClCompile Include="..\sprite_nodes\CCSprite.cpp" />
@@ -317,6 +335,34 @@
     <ClInclude Include="..\particle_nodes\CCParticleSystem.h" />
     <ClInclude Include="..\particle_nodes\CCParticleSystemQuad.h" />
     <ClInclude Include="..\particle_nodes\firePngData.h" />
+    <ClInclude Include="..\platform\CCAccelerometerDelegate.h" />
+    <ClInclude Include="..\platform\CCApplicationProtocol.h" />
+    <ClInclude Include="..\platform\CCCommon.h" />
+    <ClInclude Include="..\platform\CCDevice.h" />
+    <ClInclude Include="..\platform\CCEGLViewProtocol.h" />
+    <ClInclude Include="..\platform\CCFileUtils.h" />
+    <ClInclude Include="..\platform\CCImage.h" />
+    <ClInclude Include="..\platform\CCImageCommon_cpp.h" />
+    <ClInclude Include="..\platform\CCPlatformConfig.h" />
+    <ClInclude Include="..\platform\CCPlatformMacros.h" />
+    <ClInclude Include="..\platform\CCSAXParser.h" />
+    <ClInclude Include="..\platform\CCThread.h" />
+    <ClInclude Include="..\platform\platform.h" />
+    <ClInclude Include="..\platform\win8\BasicLoader.h" />
+    <ClInclude Include="..\platform\win8\BasicReaderWriter.h" />
+    <ClInclude Include="..\platform\win8\CCAccelerometer.h" />
+    <ClInclude Include="..\platform\win8\CCApplication.h" />
+    <ClInclude Include="..\platform\win8\CCEGLView.h" />
+    <ClInclude Include="..\platform\win8\CCFileUtilsWin8.h" />
+    <ClInclude Include="..\platform\win8\CCGL.h" />
+    <ClInclude Include="..\platform\win8\CCPlatformDefine.h" />
+    <ClInclude Include="..\platform\win8\CCStdC.h" />
+    <ClInclude Include="..\platform\win8\d3d11shader.h" />
+    <ClInclude Include="..\platform\win8\d3dcompiler.h" />
+    <ClInclude Include="..\platform\win8\DirectXHelper.h" />
+    <ClInclude Include="..\platform\win8\DirectXRender.h" />
+    <ClInclude Include="..\platform\win8\DXTextPainter.h" />
+    <ClInclude Include="..\platform\win8\FTTextPainter.h" />
     <ClInclude Include="..\sprite_nodes\CCAnimation.h" />
     <ClInclude Include="..\sprite_nodes\CCAnimationCache.h" />
     <ClInclude Include="..\sprite_nodes\CCSprite.h" />

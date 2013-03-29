@@ -101,6 +101,9 @@
     <Filter Include="support\zip_support">
       <UniqueIdentifier>{11537942-76f1-423d-98dc-d2f283575a52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="platform\win8">
+      <UniqueIdentifier>{b606f577-055b-4c57-977f-5cc9ffeae9a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\CCCamera.cpp" />
@@ -405,6 +408,57 @@
     </ClCompile>
     <ClCompile Include="..\support\zip_support\ZipUtils.cpp">
       <Filter>support\zip_support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\BasicLoader.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\BasicReaderWriter.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCAccelerometer.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCApplication.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCEGLView.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCFileUtilsWin8.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCImage.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCStdC.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\DirectXRender.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\DXTextPainter.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\FTTextPainter.cpp">
+      <Filter>platform\win8</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\CCEGLViewProtocol.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\CCFileUtils.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\CCImageCommonWebp.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\CCSAXParser.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\CCThread.cpp">
+      <Filter>platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\platform\platform.cpp">
+      <Filter>platform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -757,6 +811,90 @@
     </ClInclude>
     <ClInclude Include="..\support\zip_support\ZipUtils.h">
       <Filter>support\zip_support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\BasicLoader.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\BasicReaderWriter.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\CCAccelerometer.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\CCApplication.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\CCEGLView.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\CCFileUtilsWin8.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\CCGL.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\CCPlatformDefine.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\CCStdC.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\d3d11shader.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\d3dcompiler.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\DirectXHelper.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\DirectXRender.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\DXTextPainter.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\win8\FTTextPainter.h">
+      <Filter>platform\win8</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCEGLViewProtocol.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCFileUtils.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCImage.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCImageCommon_cpp.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCPlatformConfig.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCPlatformMacros.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCSAXParser.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCThread.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\platform.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCAccelerometerDelegate.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCApplicationProtocol.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCCommon.h">
+      <Filter>platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\platform\CCDevice.h">
+      <Filter>platform</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
