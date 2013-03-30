@@ -19,39 +19,15 @@
 #pragma once
 
 #include "platform/CCCommon.h"  
+#include "platform/CCApplicationProtocol.h"
 
-NS_CC_BEGIN;
+NS_CC_BEGIN
 
-/** 屏幕分辨率 */
-enum DeviceResolutionInPixels
+class CC_DLL CCApplication : public CCApplicationProtocol
 {
-	DeviceResolutionInPixels_WVGA = 1, //480*800
-	DeviceResolutionInPixels_WXGA = 2, //768*1280
-	DeviceResolutionInPixels_720p = 3, //720*1280
-
-	DeviceResolutionInPixels_Invalid = -1//无效值
-};
-typedef DeviceResolutionInPixels DeviceResolutionInPixels;
-
-class CCRect;
-
-class CC_DLL CCApplication
-{
-private:
-	CC_PROPERTY_READONLY(DeviceResolutionInPixels, m_deviceResolutionInPixels, deviceResolutionInPixels);
-
-public:
-	//(interal) just call once, you can't call in by self
-	void setDeviceResolutionInPixels(DeviceResolutionInPixels res);
-
 public:
     CCApplication();
     virtual ~CCApplication();
-
-    /**
-    @brief	Implement for initialize OpenGL instance, set source path, etc...
-    */
-    virtual bool initInstance() = 0;
 
     /**
     @brief	Implement CCDirector and CCScene init code here.
@@ -80,43 +56,19 @@ public:
     */
     void setAnimationInterval(double interval);
 
-    typedef enum
-    {
-        /// Device oriented vertically, home button on the bottom
-        kOrientationPortrait = 0,
-        /// Device oriented vertically, home button on the top
-        kOrientationPortraitUpsideDown = 1,
-        /// Device oriented horizontally, home button on the right
-        kOrientationLandscapeLeft = 2,
-        /// Device oriented horizontally, home button on the left
-        kOrientationLandscapeRight = 3,
-    } Orientation;
-
     /**
-    @brief	Callback by CCDirector for change device orientation.
-    @orientation    The defination of orientation which CCDirector want change to.
-    @return         The actual orientation of the application.
-    */
-    Orientation setOrientation(Orientation orientation);
-
-    /**
-    @brief	Get status bar rectangle in EGLView window.
-    */
-    void    statusBarFrame(CCRect * rect);
-
-    /**
-    @brief	Get current applicaiton instance.
+    @brief	Get current applicaition instance.
     @return Current application instance pointer.
     */
-    static CCApplication& sharedApplication();
+    static CCApplication* sharedApplication();
 
     /**
     @brief Get current language config
     @return Current language config
     */
-    static ccLanguageType getCurrentLanguage();
+    ccLanguageType getCurrentLanguage();
 };
 
-CC_DLL Windows::ApplicationModel::Core::IFrameworkView^ getSharedCCApplicationFrameworkView();
+//CC_DLL Windows::ApplicationModel::Core::IFrameworkView^ getSharedCCApplicationFrameworkView();
 
-NS_CC_END;
+NS_CC_END

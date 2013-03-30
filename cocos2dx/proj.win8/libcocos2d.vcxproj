@@ -64,9 +64,9 @@
       <PreprocessorDefinitions>_USRDLL;CC_WIN8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <CompileAsWinRT>true</CompileAsWinRT>
+      <CompileAsWinRT>false</CompileAsWinRT>
       <AdditionalUsingDirectories>$(WindowsSDK_MetadataPath);$(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <AdditionalIncludeDirectories>$(ProjectDir)..;..\include;$(ProjectDir)..\kazmath\include;$(ProjectDir)..\platform\win8;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..;..\include;$(ProjectDir)..\kazmath\include;$(ProjectDir)..\platform\win8;$(ProjectDir)..\platform\third_party\win8;$(ProjectDir)..\platform\third_party\win8\freetype;$(ProjectDir)..\platform\third_party\win8\libjpeg;$(ProjectDir)..\platform\third_party\win8\libpng;$(ProjectDir)..\platform\third_party\win8\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
@@ -74,6 +74,8 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>msvcrt.lib;ole32.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <AdditionalDependencies>d3d11.lib;$(ProjectDir)..\platform\third_party\win8\libraries\x86\zlib.lib;$(ProjectDir)..\platform\third_party\win8\libraries\x86\libpng.lib;$(ProjectDir)..\platform\third_party\win8\libraries\x86\libjpeg.lib;$(ProjectDir)..\platform\third_party\win8\libraries\x86\freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -149,7 +151,6 @@
     <ClCompile Include="..\CCCamera.cpp" />
     <ClCompile Include="..\CCConfiguration.cpp" />
     <ClCompile Include="..\CCDirector.cpp" />
-    <ClCompile Include="..\ccFPSImages.c" />
     <ClCompile Include="..\CCScheduler.cpp" />
     <ClCompile Include="..\cocoa\CCAffineTransform.cpp" />
     <ClCompile Include="..\cocoa\CCArray.cpp" />
@@ -205,17 +206,45 @@
     <ClCompile Include="..\platform\CCSAXParser.cpp" />
     <ClCompile Include="..\platform\CCThread.cpp" />
     <ClCompile Include="..\platform\platform.cpp" />
-    <ClCompile Include="..\platform\win8\BasicLoader.cpp" />
-    <ClCompile Include="..\platform\win8\BasicReaderWriter.cpp" />
-    <ClCompile Include="..\platform\win8\CCAccelerometer.cpp" />
-    <ClCompile Include="..\platform\win8\CCApplication.cpp" />
-    <ClCompile Include="..\platform\win8\CCEGLView.cpp" />
-    <ClCompile Include="..\platform\win8\CCFileUtilsWin8.cpp" />
-    <ClCompile Include="..\platform\win8\CCImage.cpp" />
+    <ClCompile Include="..\platform\win8\BasicLoader.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\BasicReaderWriter.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCAccelerometer.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCApplication.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCCommon.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCEGLView.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCFileUtilsWin8.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\CCImage.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
     <ClCompile Include="..\platform\win8\CCStdC.cpp" />
-    <ClCompile Include="..\platform\win8\DirectXRender.cpp" />
-    <ClCompile Include="..\platform\win8\DXTextPainter.cpp" />
-    <ClCompile Include="..\platform\win8\FTTextPainter.cpp" />
+    <ClCompile Include="..\platform\win8\DirectXRender.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\DXTextPainter.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\platform\win8\FTTextPainter.cpp">
+      <CompileAsWinRT Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsWinRT>
+    </ClCompile>
+    <ClCompile Include="..\script_support\CCScriptSupport.cpp" />
+    <ClCompile Include="..\shaders\CCGLProgram.cpp" />
+    <ClCompile Include="..\shaders\ccGLStateCache.cpp" />
+    <ClCompile Include="..\shaders\CCShaderCache.cpp" />
+    <ClCompile Include="..\shaders\ccShaders.cpp" />
     <ClCompile Include="..\sprite_nodes\CCAnimation.cpp" />
     <ClCompile Include="..\sprite_nodes\CCAnimationCache.cpp" />
     <ClCompile Include="..\sprite_nodes\CCSprite.cpp" />
@@ -273,7 +302,6 @@
     <ClInclude Include="..\CCCamera.h" />
     <ClInclude Include="..\CCConfiguration.h" />
     <ClInclude Include="..\CCDirector.h" />
-    <ClInclude Include="..\ccFPSImages.h" />
     <ClInclude Include="..\CCScheduler.h" />
     <ClInclude Include="..\cocoa\CCAffineTransform.h" />
     <ClInclude Include="..\cocoa\CCArray.h" />
@@ -363,6 +391,11 @@
     <ClInclude Include="..\platform\win8\DirectXRender.h" />
     <ClInclude Include="..\platform\win8\DXTextPainter.h" />
     <ClInclude Include="..\platform\win8\FTTextPainter.h" />
+    <ClInclude Include="..\script_support\CCScriptSupport.h" />
+    <ClInclude Include="..\shaders\CCGLProgram.h" />
+    <ClInclude Include="..\shaders\ccGLStateCache.h" />
+    <ClInclude Include="..\shaders\CCShaderCache.h" />
+    <ClInclude Include="..\shaders\ccShaders.h" />
     <ClInclude Include="..\sprite_nodes\CCAnimation.h" />
     <ClInclude Include="..\sprite_nodes\CCAnimationCache.h" />
     <ClInclude Include="..\sprite_nodes\CCSprite.h" />

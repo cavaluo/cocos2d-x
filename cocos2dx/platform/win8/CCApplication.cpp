@@ -113,37 +113,37 @@ void CCFrameworkView::SetWindow(
 	m_window = window;
     //window->PointerCursor = ref new CoreCursor(CoreCursorType::Arrow, 0);
 	//这时需要将设备的分辨率读出保存
-	DeviceResolutionInPixels res;
-	switch (DisplayProperties::ResolutionScale) 
-	{
-		case ResolutionScale::Scale100Percent: 
-			{
-				res = DeviceResolutionInPixels_WVGA;
-				break;
-			}
-		case ResolutionScale::Scale150Percent: 
-			{
-				res = DeviceResolutionInPixels_720p;
-				break;
-			}
-		case ResolutionScale::Scale160Percent: 
-			{
-				res = DeviceResolutionInPixels_WXGA;
-				break;
-			}
-		default:
-			{
-				res = DeviceResolutionInPixels_WVGA;
-				break;
-			}
-	}
-	CCApplication::sharedApplication().setDeviceResolutionInPixels(res);
-
+// 	DeviceResolutionInPixels res;
+// 	switch (DisplayProperties::ResolutionScale) 
+// 	{
+// 		case ResolutionScale::Scale100Percent: 
+// 			{
+// 				res = DeviceResolutionInPixels_WVGA;
+// 				break;
+// 			}
+// 		case ResolutionScale::Scale150Percent: 
+// 			{
+// 				res = DeviceResolutionInPixels_720p;
+// 				break;
+// 			}
+// 		case ResolutionScale::Scale160Percent: 
+// 			{
+// 				res = DeviceResolutionInPixels_WXGA;
+// 				break;
+// 			}
+// 		default:
+// 			{
+// 				res = DeviceResolutionInPixels_WVGA;
+// 				break;
+// 			}
+// 	}
+// 	CCApplication::sharedApplication()->setDeviceResolutionInPixels(res);
+// 
     DisplayProperties::LogicalDpiChanged +=
         ref new DisplayPropertiesEventHandler(this, &CCFrameworkView::OnLogicalDpiChanged);
 
     m_renderer->Initialize(window, DisplayProperties::LogicalDpi);
-    CCApplication::sharedApplication().initInstance();
+//     CCApplication::sharedApplication()->initInstance();
     CCLog("CCFrameworkView::-SetWindow()");
 }
 
@@ -172,7 +172,7 @@ void CCFrameworkView::Run()
 
 		if (false == inited)
 		{
-			inited = (CCApplication::sharedApplication().applicationDidFinishLaunching());
+			inited = (CCApplication::sharedApplication()->applicationDidFinishLaunching());
 			if (false == inited)
 			{
 				// init falied
@@ -222,12 +222,12 @@ void CCFrameworkView::OnWindowActivationChanged(
     if (args->WindowActivationState == CoreWindowActivationState::Deactivated)
     {
         //m_renderer->OnFocusChange(false);
-        // CCApplication::sharedApplication().applicationDidEnterBackground();
+        // CCApplication::sharedApplication()->applicationDidEnterBackground();
     }
     else if (args->WindowActivationState == CoreWindowActivationState::CodeActivated 
         || args->WindowActivationState == CoreWindowActivationState::PointerActivated)
     {
-        // CCApplication::sharedApplication().applicationWillEnterForeground();
+        // CCApplication::sharedApplication()->applicationWillEnterForeground();
         //m_renderer->OnFocusChange(true);
     }
     CCLog("CCFrameworkView::-OnWindowActivationChanged()");
@@ -281,8 +281,7 @@ Windows::ApplicationModel::Core::IFrameworkView^ getSharedCCApplicationFramework
 // sharedApplication pointer
 CCApplication * s_pSharedApplication = 0;
 
-CCApplication::CCApplication():
-	m_deviceResolutionInPixels(DeviceResolutionInPixels_Invalid)
+CCApplication::CCApplication()
 {
     CC_ASSERT(! s_pSharedApplication);
     s_pSharedApplication = this;
@@ -294,43 +293,18 @@ CCApplication::~CCApplication()
     s_pSharedApplication = NULL;
 }
 
-void CCApplication::setDeviceResolutionInPixels(DeviceResolutionInPixels res)
-{
-	CC_ASSERT(m_deviceResolutionInPixels == DeviceResolutionInPixels_Invalid);
-	m_deviceResolutionInPixels = res;
-}
-
-DeviceResolutionInPixels CCApplication::getdeviceResolutionInPixels()
-{
-	return m_deviceResolutionInPixels;
-}
-
 void CCApplication::setAnimationInterval(double interval)
 {
     // app need do nothing on metro. frame control in run.
 }
 
-CCApplication::Orientation CCApplication::setOrientation(Orientation orientation)
-{
-    return orientation;
-}
-
-void CCApplication::statusBarFrame(CCRect * rect)
-{
-    if (rect)
-    {
-        // Windows doesn't have status bar.
-        *rect = CCRectMake(0, 0, 0, 0);
-    }
-}
-
 //////////////////////////////////////////////////////////////////////////
 // static member function
 //////////////////////////////////////////////////////////////////////////
-CCApplication& CCApplication::sharedApplication()
+CCApplication* CCApplication::sharedApplication()
 {
     CC_ASSERT(s_pSharedApplication);
-    return *s_pSharedApplication;
+    return s_pSharedApplication;
 }
 
 ccLanguageType CCApplication::getCurrentLanguage()
@@ -354,11 +328,11 @@ ccLanguageType CCApplication::getCurrentLanguage()
                 wcscmp(sub, L"HK") == 0 ||
                 wcscmp(sub, L"MO") == 0)
             {
-                ret = kLanguageChinese_Traditional;
+                ret = kLanguageChinese;
             }
             else
             {
-                ret = kLanguageChinese_Simplified;
+                ret = kLanguageChinese;
             }
         }
         else if (wcscmp(primary, L"ja") == 0)

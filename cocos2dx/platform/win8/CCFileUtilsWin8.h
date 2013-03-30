@@ -21,8 +21,8 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-#ifndef __CC_FILEUTILS_WIN32_H__
-#define __CC_FILEUTILS_WIN32_H__
+#ifndef __CC_FILEUTILS_WIN8_H__
+#define __CC_FILEUTILS_WIN8_H__
 
 #include "platform/CCFileUtils.h"
 #include "platform/CCPlatformMacros.h"
@@ -39,10 +39,10 @@ NS_CC_BEGIN
  */
 
 //! @brief  Helper class to handle file operations
-class CC_DLL CCFileUtilsWin32 : public CCFileUtils
+class CC_DLL CCFileUtilsWin8 : public CCFileUtils
 {
     friend class CCFileUtils;
-    CCFileUtilsWin32();
+    CCFileUtilsWin8();
 public:
     /* override funtions */
     bool init();

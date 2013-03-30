@@ -16,9 +16,8 @@
 * See the License for the specific language governing permissions and limitations under the License.
 */
 
-#include "pch.h"
 #include "FTTextPainter.h"
-
+#include "support/ccUTF8.h"
 
 using namespace Microsoft::WRL;
 using namespace Windows::UI::Core;
@@ -132,19 +131,24 @@ bool FTTextPainter::SetFont(Platform::String^ fontName , UINT nSize)
 	{
 		m_fontName = fontName;
 		Platform::String^ fontFile = itr->second;
-		error = FT_New_Face( m_textLibrary, cocos2d::CCUnicodeToUtf8(fontFile->Data()).c_str(), 0, &m_fontFace );
+        char* utf8str = cc_utf16_to_utf8((unsigned short*)fontFile->Data(), -1, NULL, NULL);
+		error = FT_New_Face( m_textLibrary, utf8str, 0, &m_fontFace );
+        CC_SAFE_DELETE_ARRAY(utf8str);
 	}else
 	{
 		// try to load new font		
-		const char* fullPath = CCFileUtils::fullPathFromRelativePath(CCUnicodeToUtf8(fontName->Data()).c_str());
-		Platform::String^ fullPathRefStr = ref new Platform::String(CCUtf8ToUnicode(fullPath).c_str());
-
+        char* utf8str = cc_utf16_to_utf8((unsigned short*)fontName->Data(), -1, NULL, NULL);
+		std::string fullPath = CCFileUtils::sharedFileUtils()->fullPathForFilename(utf8str);
+        CC_SAFE_DELETE_ARRAY(utf8str);
+        wchar_t* utf16path = (wchar_t*)cc_utf8_to_utf16(fullPath.c_str());
+        Platform::String^ fullPathRefStr = ref new Platform::String(utf16path);
+        CC_SAFE_DELETE_ARRAY(utf16path);
 		if(fontName->Length() > 0)
 		{
 			m_fontMap.insert(std::pair<Platform::String^, Platform::String^>(fontName, fullPathRefStr));
 			m_fontName = fontName;
 		}
-		error = FT_New_Face( m_textLibrary, fullPath, 0, &m_fontFace );
+		error = FT_New_Face( m_textLibrary, fullPath.c_str(), 0, &m_fontFace );
 	}
 
 	// set default font
@@ -288,7 +292,9 @@ Platform::String^ FTTextPainter::GetFontNameFromFile(Platform::String^ filePath)
 					if(strnlen_s(lpszNameBuf, tabRecord.uStringLength) > 0)
 						//if(wcslen(lpszNameBuf) > 0)
 					{
-						fontName = ref new Platform::String(cocos2d::CCUtf8ToUnicode(lpszNameBuf).c_str());
+                        wchar_t* utf16str = (wchar_t*)cc_utf8_to_utf16(lpszNameBuf);
+						fontName = ref new Platform::String(utf16str);
+                        CC_SAFE_DELETE_ARRAY(utf16str);
 						//fontName = ref new Platform::String(lpszNameBuf);
 						CC_SAFE_DELETE_ARRAY(lpszNameBuf);
 						bValid = true;

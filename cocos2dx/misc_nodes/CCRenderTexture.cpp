@@ -322,7 +322,7 @@ bool CCRenderTexture::initWithWidthAndHeight(int w, int h, CCTexture2DPixelForma
 //cjh gl function here.;
 
             // if depth format is the one with stencil part, bind same render buffer as stencil attachment
-            if (uDepthStencilFormat == GL_DEPTH24_STENCIL8)
+//            if (uDepthStencilFormat == GL_DEPTH24_STENCIL8)
             {
 //cjh gl function here.;
             }
@@ -402,17 +402,17 @@ void CCRenderTexture::begin()
 
 void CCRenderTexture::beginWithClear(float r, float g, float b, float a)
 {
-    beginWithClear(r, g, b, a, 0, 0, GL_COLOR_BUFFER_BIT);
+ //   beginWithClear(r, g, b, a, 0, 0, GL_COLOR_BUFFER_BIT);
 }
 
 void CCRenderTexture::beginWithClear(float r, float g, float b, float a, float depthValue)
 {
-    beginWithClear(r, g, b, a, depthValue, 0, GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+//    beginWithClear(r, g, b, a, depthValue, 0, GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
 }
 
 void CCRenderTexture::beginWithClear(float r, float g, float b, float a, float depthValue, int stencilValue)
 {
-    beginWithClear(r, g, b, a, depthValue, stencilValue, GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+ //   beginWithClear(r, g, b, a, depthValue, stencilValue, GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
 }
 
 void CCRenderTexture::beginWithClear(float r, float g, float b, float a, float depthValue, int stencilValue, GLbitfield flags)
@@ -420,43 +420,43 @@ void CCRenderTexture::beginWithClear(float r, float g, float b, float a, float d
     this->begin();
 
     // save clear color
-    GLfloat	clearColor[4] = {0.0f};
-    GLfloat depthClearValue = 0.0f;
-    int stencilClearValue = 0;
-    
-    if (flags & GL_COLOR_BUFFER_BIT)
-    {
-//cjh gl function here.;
-//cjh gl function here.;
-    }
-    
-    if (flags & GL_DEPTH_BUFFER_BIT)
-    {
-//cjh gl function here.;
-//cjh gl function here.;
-    }
-
-    if (flags & GL_STENCIL_BUFFER_BIT)
-    {
-//cjh gl function here.;
-//cjh gl function here.;
-    }
-    
-//cjh gl function here.;
-
-    // restore
-    if (flags & GL_COLOR_BUFFER_BIT)
-    {
-//cjh gl function here.;
-    }
-    if (flags & GL_DEPTH_BUFFER_BIT)
-    {
-//cjh gl function here.;
-    }
-    if (flags & GL_STENCIL_BUFFER_BIT)
-    {
-//cjh gl function here.;
-    }
+//     GLfloat	clearColor[4] = {0.0f};
+//     GLfloat depthClearValue = 0.0f;
+//     int stencilClearValue = 0;
+//     
+//     if (flags & GL_COLOR_BUFFER_BIT)
+//     {
+// //cjh gl function here.;
+// //cjh gl function here.;
+//     }
+//     
+//     if (flags & GL_DEPTH_BUFFER_BIT)
+//     {
+// //cjh gl function here.;
+// //cjh gl function here.;
+//     }
+// 
+//     if (flags & GL_STENCIL_BUFFER_BIT)
+//     {
+// //cjh gl function here.;
+// //cjh gl function here.;
+//     }
+//     
+// //cjh gl function here.;
+// 
+//     // restore
+//     if (flags & GL_COLOR_BUFFER_BIT)
+//     {
+// //cjh gl function here.;
+//     }
+//     if (flags & GL_DEPTH_BUFFER_BIT)
+//     {
+// //cjh gl function here.;
+//     }
+//     if (flags & GL_STENCIL_BUFFER_BIT)
+//     {
+// //cjh gl function here.;
+//     }
 }
 
 void CCRenderTexture::end()
@@ -552,40 +552,40 @@ void CCRenderTexture::draw()
 			GLint oldStencilClearValue = 0;
 			
 			// backup and set
-			if (m_uClearFlags & GL_COLOR_BUFFER_BIT)
-            {
-//cjh gl function here.;
-//cjh gl function here.;
-			}
-			
-			if (m_uClearFlags & GL_DEPTH_BUFFER_BIT)
-            {
-//cjh gl function here.;
-//cjh gl function here.;
-			}
-			
-			if (m_uClearFlags & GL_STENCIL_BUFFER_BIT)
-            {
-//cjh gl function here.;
-//cjh gl function here.;
-			}
-			
-			// clear
-//cjh gl function here.;
-			
-			// restore
-			if (m_uClearFlags & GL_COLOR_BUFFER_BIT)
-            {
-//cjh gl function here.;
-            }
-			if (m_uClearFlags & GL_DEPTH_BUFFER_BIT)
-            {
-//cjh gl function here.;
-            }
-			if (m_uClearFlags & GL_STENCIL_BUFFER_BIT)
-            {
-//cjh gl function here.;
-            }
+// 			if (m_uClearFlags & GL_COLOR_BUFFER_BIT)
+//             {
+// //cjh gl function here.;
+// //cjh gl function here.;
+// 			}
+// 			
+// 			if (m_uClearFlags & GL_DEPTH_BUFFER_BIT)
+//             {
+// //cjh gl function here.;
+// //cjh gl function here.;
+// 			}
+// 			
+// 			if (m_uClearFlags & GL_STENCIL_BUFFER_BIT)
+//             {
+// //cjh gl function here.;
+// //cjh gl function here.;
+// 			}
+// 			
+// 			// clear
+// //cjh gl function here.;
+// 			
+// 			// restore
+// 			if (m_uClearFlags & GL_COLOR_BUFFER_BIT)
+//             {
+// //cjh gl function here.;
+//             }
+// 			if (m_uClearFlags & GL_DEPTH_BUFFER_BIT)
+//             {
+// //cjh gl function here.;
+//             }
+// 			if (m_uClearFlags & GL_STENCIL_BUFFER_BIT)
+//             {
+// //cjh gl function here.;
+//             }
 		}
 		
 		//! make sure all children are drawn

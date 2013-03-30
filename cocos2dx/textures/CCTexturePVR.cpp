@@ -44,25 +44,25 @@ NS_CC_BEGIN
 // XXX DO NO ALTER THE ORDER IN THIS LIST XXX
 //
 static const ccPVRTexturePixelFormatInfo PVRTableFormats[] = {
-	
+	0
 	// 0: BGRA_8888
-	{GL_RGBA, GL_BGRA, GL_UNSIGNED_BYTE, 32, false, true, kCCTexture2DPixelFormat_RGBA8888},
-	// 1: RGBA_8888
-	{GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, 32, false, true, kCCTexture2DPixelFormat_RGBA8888},
-	// 2: RGBA_4444
-	{GL_RGBA, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, 16, false, true, kCCTexture2DPixelFormat_RGBA4444},
-	// 3: RGBA_5551
-	{GL_RGBA, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, 16, false, true, kCCTexture2DPixelFormat_RGB5A1},
-	// 4: RGB_565
-	{GL_RGB, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, 16, false, false, kCCTexture2DPixelFormat_RGB565},
-	// 5: RGB_888
-	{GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, 24, false, false, kCCTexture2DPixelFormat_RGB888},
-	// 6: A_8
-	{GL_ALPHA, GL_ALPHA, GL_UNSIGNED_BYTE, 8, false, false, kCCTexture2DPixelFormat_A8},
-	// 7: L_8
-	{GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, 8, false, false, kCCTexture2DPixelFormat_I8},
-	// 8: LA_88
-	{GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, 16, false, true, kCCTexture2DPixelFormat_AI88},
+// 	{GL_RGBA, GL_BGRA, GL_UNSIGNED_BYTE, 32, false, true, kCCTexture2DPixelFormat_RGBA8888},
+// 	// 1: RGBA_8888
+// 	{GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, 32, false, true, kCCTexture2DPixelFormat_RGBA8888},
+// 	// 2: RGBA_4444
+// 	{GL_RGBA, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, 16, false, true, kCCTexture2DPixelFormat_RGBA4444},
+// 	// 3: RGBA_5551
+// 	{GL_RGBA, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, 16, false, true, kCCTexture2DPixelFormat_RGB5A1},
+// 	// 4: RGB_565
+// 	{GL_RGB, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, 16, false, false, kCCTexture2DPixelFormat_RGB565},
+// 	// 5: RGB_888
+// 	{GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, 24, false, false, kCCTexture2DPixelFormat_RGB888},
+// 	// 6: A_8
+// 	{GL_ALPHA, GL_ALPHA, GL_UNSIGNED_BYTE, 8, false, false, kCCTexture2DPixelFormat_A8},
+// 	// 7: L_8
+// 	{GL_LUMINANCE, GL_LUMINANCE, GL_UNSIGNED_BYTE, 8, false, false, kCCTexture2DPixelFormat_I8},
+// 	// 8: LA_88
+// 	{GL_LUMINANCE_ALPHA, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, 16, false, true, kCCTexture2DPixelFormat_AI88},
 
 // Not all platforms include GLES/gl2ext.h so these PVRTC enums are not always
 // available.
@@ -597,7 +597,7 @@ bool CCTexturePVR::createGLTexture()
         }
         
 //cjh gl function here.;
-		if (err != GL_NO_ERROR)
+//		if (err != GL_NO_ERROR)
 		{
 			CCLOG("cocos2d: TexturePVR: Error uploading compressed texture level: %u . glError: 0x%04X", i, err);
 			return false;

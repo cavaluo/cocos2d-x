@@ -16,12 +16,11 @@
 * See the License for the specific language governing permissions and limitations under the License.
 */
 
-#include "pch.h"
-
-#include "CCImage.h"
-
+#include "platform/CCImage.h"
+#include "support/ccUTF8.h"
 #include "DirectXRender.h"
-
+#define __CC_PLATFORM_IMAGE_CPP__
+#include "platform/CCImageCommon_cpp.h"
 
 NS_CC_BEGIN;
 
@@ -46,8 +45,10 @@ bool CCImage::initWithString(
 		CC_BREAK_IF(! pText);  
 
 		TextPainter^ painter = DirectXRender::SharedDXRender()->m_textPainter;
+        wchar_t* utf16str = (wchar_t*)cc_utf8_to_utf16(pFontName);
+		std::wstring wStrFontName = utf16str;
+        CC_SAFE_DELETE_ARRAY(utf16str);
 
-		std::wstring wStrFontName = CCUtf8ToUnicode(pFontName);
 		bool isSuccess = painter->SetFont(ref new Platform::String(wStrFontName.c_str()), nSize);
 		
 		if (!isSuccess)
@@ -74,7 +75,10 @@ bool CCImage::initWithString(
 		}
 
 		Platform::Array<byte>^ pixelData;
-		std::wstring wStrText = CCUtf8ToUnicode(pText);
+        utf16str = (wchar_t*)cc_utf8_to_utf16(pText);
+        std::wstring wStrText = utf16str;
+        CC_SAFE_DELETE_ARRAY(utf16str);
+
 		pixelData = painter->DrawTextToImage(ref new Platform::String(wStrText.c_str()), &size, alignment);
 
 		if(pixelData == nullptr)

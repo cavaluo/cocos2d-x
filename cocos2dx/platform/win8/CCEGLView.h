@@ -29,6 +29,7 @@
 #include <stack>
 #include <vector>
 #include <map>
+#include "platform/CCEGLViewProtocol.h"
 
 NS_CC_BEGIN;
 
@@ -117,14 +118,7 @@ public:
 	}
 };
 
-//class CC_DLL CCEGLViewProtocol
-//{
-//public:
-//    CCEGLViewProtocol();
-//    virtual ~CCEGLViewProtocol();
-//};
-
-class CC_DLL CCEGLView
+class CC_DLL CCEGLView : public CCEGLViewProtocol
 {
 public:
 
@@ -135,31 +129,17 @@ public:
 	ID3D11DeviceContext* GetDeviceContext();
 	ID3D11DepthStencilView* GetDepthStencilView();
 
-    CCSize  getSize();
-    CCSize  getSizeInPixel();
-    bool    isOpenGLReady();
-    void    release();
-    void    setTouchDelegate(EGLTouchDelegate * pDelegate);
+    virtual bool    isOpenGLReady();
+    virtual void    end();
 	void	render();
-    void    swapBuffers();
-    bool    canSetContentScaleFactor();
-    void    setContentScaleFactor(float contentScaleFactor);
-
-
-
-
-
-    void    setDesignResolution(int dx, int dy);
+    virtual void    swapBuffers();
 
 	virtual bool Create();
 
-    void setViewPortInPoints(float x, float y, float w, float h);
-    void setScissorInPoints(float x, float y, float w, float h);
-
+    virtual void setViewPortInPoints(float x, float y, float w, float h);
+    virtual void setScissorInPoints(float x, float y, float w, float h);
+    
     void setIMEKeyboardState(bool bOpen);
-
-    void getScreenRectInView(CCRect& rect);
-    void setScreenScale(float factor);
 
     void SetBackBufferRenderTarget();
 	void clearRender(ID3D11RenderTargetView* renderTargetView);	
@@ -200,16 +180,6 @@ public:
     void OnPointerReleased(int id, const CCPoint& point);
     void OnPointerMoved(int id, const CCPoint& point);
 
-	    /**
-     * Get scale factor of the horizontal direction.
-     */
-    float getScaleX() const;
-
-    /**
-     * Get scale factor of the vertical direction.
-     */
-    float getScaleY() const;
-
 protected:
 
 private:
@@ -219,19 +189,6 @@ private:
     ID3D11RenderTargetView*  m_renderTargetView;
     ID3D11DepthStencilView*  m_depthStencilView;
 
-    typedef std::map<int, CCSet*> SetMap;
-    SetMap              m_pSets;
-    typedef std::map<int, CCTouch*> TouchMap;
-    TouchMap            m_pTouches;
-
-    EGLTouchDelegate*   m_pDelegate;
-	
-    CCSize              m_sizeInPoints;
-    float               m_fScreenScaleFactor;
-    RECT                m_rcViewPort;
-
-    float               m_fWinScaleX;
-    float               m_fWinScaleY;
     int                 m_initWinWidth;
     int                 m_initWinHeight;
 

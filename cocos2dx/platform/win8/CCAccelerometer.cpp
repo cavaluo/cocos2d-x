@@ -17,7 +17,7 @@
 */
 
 #include "CCAccelerometer.h"
-#include "platform'/CCAccelerometerDelegate.h"
+#include "platform/CCAccelerometerDelegate.h"
 
 using namespace Windows::Foundation;
 using namespace Windows::Devices::Sensors;

@@ -16,14 +16,13 @@
 * See the License for the specific language governing permissions and limitations under the License.
 */
 
-#include "pch.h"
 #include "DirectXRender.h" 
 #include "DXGI.h"
-#include "exception\CCException.h"
+#include "exception/CCException.h"
 #include "CCEGLView.h"
 #include "CCApplication.h"
 
-#include "CCDrawingPrimitives.h"
+#include "draw_nodes/CCDrawingPrimitives.h"
 
 //#include "Classes\HelloWorldScene.h"
 #include "d3d10.h"
@@ -46,8 +45,6 @@ USING_NS_CC;
 
 static CCPoint getCCPointFromScreen(Point point)
 {
-	CCSize viewSize = cocos2d::CCEGLView::sharedOpenGLView()->getSize();
-
 	CCPoint ccPoint;
 	ccPoint.x = ceilf(point.X);
 	ccPoint.y = ceilf(point.Y);
@@ -648,11 +645,11 @@ void DirectXRender::OnWindowVisibilityChanged(
 {
 	if (args->Visible)
 	{
-		CCApplication::sharedApplication().applicationWillEnterForeground();
+		CCApplication::sharedApplication()->applicationWillEnterForeground();
 	} 
 	else
 	{
-		CCApplication::sharedApplication().applicationDidEnterBackground();
+		CCApplication::sharedApplication()->applicationDidEnterBackground();
 	}
 }
 

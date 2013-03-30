@@ -18,14 +18,13 @@
 
 #pragma once
 
-#include "pch.h"
 #include <d3d11_1.h>
-#include <shcore.h>
+#include "shcore.h"
 #include <map>
-#include "CCCommon.h"
-#include "CCDrawingPrimitives.h"
+#include "platform/CCCommon.h"
+#include "draw_nodes/CCDrawingPrimitives.h"
 #include "DirectXHelper.h"
-#include "CCFileUtils.h"
+#include "platform/CCFileUtils.h"
 #include "./freetype/ft2build.h"
 #include FT_FREETYPE_H
 

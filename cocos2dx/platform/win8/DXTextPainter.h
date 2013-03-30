@@ -18,8 +18,6 @@
 
 #pragma once
 
-#include "pch.h"
-
 #if WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
 #else
 #include <d2d1_1.h>
